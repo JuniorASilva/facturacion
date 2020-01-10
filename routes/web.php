@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('layout/layout');
+    return view('layout/login');
 });
+
+
+Route::post('/login','HomeController@validarUsuario')->name('login');
+Route::get('/home','HomeController@index')->name('home');
+Route::get('/salir','HomeController@salir')->name('salir');
+
