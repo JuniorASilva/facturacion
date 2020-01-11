@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use App\models\Usuario;
+
 class HomeController extends Controller
 {
     //
@@ -22,7 +24,8 @@ class HomeController extends Controller
     	if(!$request->isMethod('post'))
     		return redirect('/');
     	$inputs = $request->all();
-    	$user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['password'])))->first();
+    	$user = (new Usuario())->getUsuarioWhere(['usuario'=>$inputs['usuario'],'pass'=>md5(sha1($inputs['password']))]);
+    	//$user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['password'])))->first();
     	if(!is_null($user)){
     		$data = [
     			'id'			=> $user->id,
