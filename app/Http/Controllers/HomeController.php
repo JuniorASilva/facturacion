@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 /*para la base de datos hay q usar esto*/ 
 use Illuminate\Support\Facades\DB;
+use App\Models\Usuario; // llamo a la calse usuario
 
 class HomeController extends Controller
 {
@@ -19,7 +20,8 @@ class HomeController extends Controller
     public function index(Request $request){
         if(!$request->session()->has('user'))
         return redirect('/');
-        return view('body/body');
+        $option = 'home';
+        return view('layout/home',compact('option'));
 
         echo 'Bienvenido';
         exit();
@@ -30,7 +32,11 @@ class HomeController extends Controller
             return redirect('/');
 
         $inputs = $request->all();
-        $user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['pass'])))->first();
+        //$user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['pass'])))->first();
+        $user = (new Usuario())->getUsuarioWhere([
+            'usuario'          =>   $inputs['usuario'],
+            'pass'             =>   md5(sha1($inputs['pass']))                
+        ]);
         
         if(!is_null($user)){
             $data = [
