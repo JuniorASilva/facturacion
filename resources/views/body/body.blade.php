@@ -55,15 +55,15 @@
 						<h6 class="nav-header">General</h6>
 					</li>
 					<li class="nav-item">
-                                            <a class="nav-link active" href="principal.php">
+						<a class="nav-link {{ $option == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
 							<i class="batch-icon batch-icon-terminal"></i>
 							Principal <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="noticias.php">
+						<a class="nav-link {{ $option == 'usuarios' ? 'active' : '' }}" href="{{ route('usuarios') }}">
 							<i class="batch-icon batch-icon-book-alt-lines"></i>
-							Noticias <span class="sr-only">(current)</span>
+							Usuario <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
@@ -138,27 +138,18 @@
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}">
                                         <i class="batch-icon batch-icon-outgoing"></i>&nbsp;&nbsp; Cerrar Sesión</a>
-                                        </li>
+									</li>
 								</ul>
 							</li>
 						</ul>
 					</div>
 				</nav>
-				<main class="main-content p-5" role="main">
-					<div class="row">
-						<div class="col-md-6 col-lg-6 col-xl-12 mb-5" style="margin-left: 20%; margin-right: 20%">
-							<img src="assets/img/feliz.png" title="Feliz año 2020!" height="550px" width="60%">
-						</div>
-						
-					</div>
-					
-					
-					
-				</main>
+
+				@yield('contenido')
+
 			</div>
 		</div>
 	</div>
-
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Bootstrap core JavaScript -->

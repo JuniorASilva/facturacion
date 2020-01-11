@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +13,8 @@ class HomeController extends Controller
         if (!$request->session()->has('user'))
             return redirect('/');
 
-        return view('body.body');
+        $option = 'home';
+        return view('layout.home', compact('option'));
     }
 
     public function salir(Request $request)
@@ -28,12 +30,13 @@ class HomeController extends Controller
             return redirect('/');
 
         $inputs = $request->all();
-        $encrypt = md5(sha1($inputs['pass']));
 
-        $user = DB::table('tusuario')
-                  ->where('usuario', $inputs['usuario'])
-                  ->where('pass', $encrypt)
-                  ->first();
+        $inputs['pass'] = md5(sha1($inputs['pass']));
+
+        $user = (new Usuario())->getUsuarioWhere([
+            'usuario' => $inputs['usuario'],
+            'pass'    => $inputs['pass']
+        ]);
 
         if (!is_null($user)) {
             $data = [

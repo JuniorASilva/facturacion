@@ -64,7 +64,6 @@
 						<div class="profile-picture profile-picture-lg bg-gradient bg-primary">
 							<img src="assets/img/usuario.png" width="44" height="44">
 						</div>
-                                     
 						<form class="pt-3" action="{{ route('login') }}" method="POST">
                             @csrf
                             @if(session()->get('message_login'))
