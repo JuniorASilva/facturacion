@@ -29,14 +29,25 @@ class UsuarioController extends Controller
         }
         if($request->isMethod('post')){
             $p=new Persona();
-            $p->nombres = $request->input('nombres');
-            $p->apellidos = $request->input('apellidos');
-            $p->direccion = '';
-            $p->fch_nac = date('Y-m-d');
-            $p->telefono = '123456789';
-            $p->genero = 1;
-            $p->estado = 1;
-            $p->save();
+            $res = $p->getPersonaWhereLike([
+                'nombres'       => $request->input('nombres'),
+                'apellidos'       => $request->input('apellidos')
+            ]);
+            //var_dump($res->toArray());
+            if (count($res->toArray())!=0)
+                $id_persona = $res->id;
+            else
+            {
+                $p->nombres = $request->input('nombres');
+                $p->apellidos = $request->input('apellidos');
+                $p->direccion = '';
+                $p->fch_nac = date('Y-m-d');
+                $p->telefono = '123456789';
+                $p->genero = 1;
+                $p->estado = 1;
+                $p->save();
+                $id_persona = $res->id;
+            }
             var_dump($p);
             exit();
 
@@ -45,6 +56,22 @@ class UsuarioController extends Controller
         $option = 'usuario';
         $roles = (new Utils())->getRoles();
         return view('usuarios/nuevo',compact('option','roles'));
+    }
+
+    public function consultaUsuario(Request $request){
+        if(!$request->session()->has('user'))
+            return redirect('/');
+        if(!$request->session()->has('user'))
+            return redirect('/');
+        
+        $u = new Usuario();
+        $res = $u->getUsuarioWhere(['usuario'=>$request->input('usuario')]);
+        if(is_null($res))
+            return response()->json(['status'=>200,'data'=>[],'message'=>'No existe Usuario']);
+        else    
+            return response()->json(['status'=>202,'data'=>[],'message'=>'El Usuario ya existe']);
+
+        //var_dump($res);
     }
 
 }

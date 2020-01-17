@@ -11,4 +11,10 @@ class Persona extends Model
     protected $table = 'persona';
     public $timestamps = false;
 
+    public function getPersonaWhereLike() {
+        return $this->join('nombres','like','%'.$where['nombre'].'%')
+                    ->join('apellidos','like','%'.$where['apellidos'].'%')
+                    ->first();
+    }
+
 }

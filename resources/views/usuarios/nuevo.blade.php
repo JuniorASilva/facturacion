@@ -68,4 +68,33 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        $(function(){
+            $('#usuario').on('blur',function(){
+                if($('#usuario').val()=='')
+                    return false
+                $.ajax({
+                    url:'{{ route("consulta-usuario") }}',
+                    method:'POST',
+                    dataType:'JSON',
+                    data: {
+                        usuario: $('#usuario').val(),
+                        _token: '{{ Csrf_token() }}'
+                    }
+                }).done(function(response){
+                    if(response.status==202)
+                        {
+                            $('#registrar').attr('disabled','disabled')
+                            $('#usuario').addClass('border-danger').removeClass('border-success')
+                        }
+                    else
+                        {
+                            $('#registrar').removeAttr('disabled')
+                            $('#usuario').addClass('border-success').removeClass('border-danger')
+                        }
+                    console.log(response)
+                }).fail(function(){})
+            })
+        })
+    </script>
 @endsection
