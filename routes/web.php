@@ -16,6 +16,8 @@ Route::get('/', function () {
 });
 
 Route::post('/login','HomeController@validarUsuario')->name('login');
+
+Route::post('/consulta-usuario','UsuarioController@consultaUsuario')->name('consulta-usuario');
 Route::get('/home','HomeController@index')->name('home');
 Route::get('/salir','HomeController@salir')->name('salir');
 

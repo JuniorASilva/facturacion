@@ -46,7 +46,7 @@
                             </fieldset>
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Registrar</button>
+                                    <button type="submit" id="registrar" class="btn btn-primary">Registrar</button>
                                 </div>
                             </div>
                             @csrf
@@ -56,4 +56,36 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        $(function(){
+            $('#usuario').on('blur',function(){
+                if($('#usuario').val() == '')
+                    return false;
+                $.ajax({
+                    url: '{{ route("consulta-usuario") }}',
+                    method: 'POST',
+                    dataType: 'JSON ',
+                    data: {
+                        usuario: $('#usuario').val(),
+                        _token: '{{ csrf_token() }}'
+                    }
+                }).done(function(response){
+                    if(response.status == 202){
+                        $('#registrar').attr('disabled','disabled');
+                        $('#usuario').addClass('border-danger').removeClass('border-success');
+                    }else{
+                        $('#registrar').removeAttr('disabled');
+                        $('#usuario').addClass('border-success').removeClass('border-danger');
+                    }
+                    console.log(response);
+                }).fail(function(error){
+                    console.log(error)
+                });
+            });
+        });
+    </script>
+    <!--
+        terminar el registro del usuario
+        agregarle 3 segundos de espera de color verde
+    -->
 @endsection
