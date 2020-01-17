@@ -28,13 +28,24 @@ class UsuarioController extends Controller
 
         if ($request->isMethod('post')) {
             $p = new Persona();
-            $p->nombres = $request->input('nombres');
-            $p->apellidos = $request->input('apellidos');
-            $p->direccion = '';
-            $p->fch_nac = date('Y-m-d');
-            $p->telefono = '123456789';
-            $p->genero = 1;
-            $p->save();
+
+            $res = $p->getPersonaWhereLike([
+                'nombres' => $request->input('nombres'),
+                'apellidos' => $request->input('apellidos')
+            ]);
+
+            if (count($res->toArray()) != 0) {
+                $id_persona = $res->id;
+            } else {
+                $p->nombres = $request->input('nombres');
+                $p->apellidos = $request->input('apellidos');
+                $p->direccion = '';
+                $p->fch_nac = date('Y-m-d');
+                $p->telefono = '123456789';
+                $p->genero = 1;
+                $p->save();
+                $ip_persona = $res->id;
+            }
             
             \Session::flash('message_signup', 'Usuario creado correctamente');
             return redirect('/nuevo-usuario');
@@ -44,5 +55,35 @@ class UsuarioController extends Controller
         $roles = (new Utils())->getRoles();
 
         return view('usuarios.nuevos', compact('option', 'roles'));
+    }
+
+    public function consultaUsuario(Request $request)
+    {
+        if (!$request->session()->has('user')) {
+            return redirect('/');
+        }
+
+        if (!$request->isMethod('post')) {
+            return redirect('/');
+        }
+
+        $u = new Usuario();
+        $res = $u->getUsuarioWhere([
+            'usuario' => $request->input('usuario')
+        ]);
+
+        if (is_null($res)) {
+            return response()->json([
+                'status'  => 200,
+                'data'    => [],
+                'message' => 'No existe usuario'
+            ], 200);
+        } else {
+            return response()->json([
+                'status'  => 202,
+                'data'    => [],
+                'message' => 'El usuario ya existe'
+            ], 202);
+        }
     }
 }

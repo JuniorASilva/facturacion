@@ -57,7 +57,7 @@
                             
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <button type="submit" class="btn btn-primary">Sign in</button>
+                                    <button type="submit" id="registrar" class="btn btn-primary">Sign in</button>
                                 </div>
                             </div>
                         </form>
@@ -66,4 +66,36 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        $(function () {
+            $('#usuario').on('blur', function () {
+                if ($('#usuario').val() == '')
+                    return false
+
+                $.ajax({
+                    url: "{{ route('consulta-usuario') }}",
+                    method: 'POST',
+                    dataType: 'JSON',
+                    data: {
+                        usuario: $("#usuario").val(),
+                        _token: '{{ csrf_token() }}'
+                    }
+                })
+                    .done(function (response) {
+                        if (response.status == 202) {
+                            $('#registrar').attr('disabled', 'disabled')
+                            $('#usuario').addClass('border-danger').removeClass('border-success')
+                        } else {
+                            $('#registrar').removeAttr('disabled')
+                            $('#usuario').addClass('border-success').removeClass('border-danger')
+                        }
+
+                        console.log(response)
+                    })
+                    .fail(function (error) {
+                        console.log(error)
+                    })
+            })
+        })
+    </script>
 @endsection
