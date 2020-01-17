@@ -16,4 +16,5 @@ class Usuario extends Model
     	            ->join('trol  AS tr','tusuario.rol_id','=','tr.id')
     	            ->get();
     }
+    
 }

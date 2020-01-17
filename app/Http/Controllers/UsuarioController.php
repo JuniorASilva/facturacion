@@ -25,19 +25,39 @@ class UsuarioController extends Controller
 			return redirect('/');
         if($request->isMethod('post')){
         	$p = new Persona();
-        	$p->nombres = $request->input('nombres');
-        	$p->apellidos = $request->input('apellidos');
-        	$p->direccion = '';
-        	$p->fch_nac = date('Y-m-d');
-        	$p->telefono = '123456789';
-        	$p->genero =1;
-        	$p->estado=1;
-        	$p->save();
-        	var_dump($p);
-        	exit();
+            $res = $p->getPersonaWhereLike([
+                'nombres' => $request->input('nombres'),
+                'apellidos' => $request->input('apellidos')
+            ]);
+            if (count($res->toArray()) != 0)
+                $id_persona = $res ->id;
+            else{
+            
+            	$p->nombres = $request->input('nombres');
+            	$p->apellidos = $request->input('apellidos');
+            	$p->direccion = '';
+            	$p->fch_nac = date('Y-m-d');
+            	$p->telefono = '123456789';
+            	$p->genero =1;
+            	$p->estado=1;
+            	$p->save();
+                $id_persona = $res ->id;
+        	}
         }
         $option='usuarios';
         $roles = (new Utils())->getRoles();
 		return view('usuarios/nuevos',compact('option','roles'));
 	}
+    public function consultaUsuario(Request $request){
+        if(!$request ->session()->has('user'))
+            return redirect('/');
+        if(!$request->isMethod('post'))
+            return redirect('/');
+        $u = new Usuario();
+        $res = $u->getUsuarioWhere(['usuario' => $request-> input('usuario')]);
+        if(is_null($res))
+            echo json_encode(['status' => 200, 'data' =>[],'message'=> 'No existe usuario']);
+        else
+            echo json_encode(['status' => 202, 'data' =>[],'message' => 'El usuario ya existe']);
+    }
 }
