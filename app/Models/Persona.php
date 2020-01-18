@@ -10,7 +10,7 @@ class Persona extends Model
 
     public $timestamps = false;
 
-    
+
     public function getPersonaWhereLike($where = array())
     {
         return $this->where('nombres', 'like', '%' . $where['nombres'] . '%')

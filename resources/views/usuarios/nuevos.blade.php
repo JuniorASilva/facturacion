@@ -7,13 +7,13 @@
                 <div class="card">
                     <div class="card-body">
                         @if(session()->get('message_signup'))
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+							<div class="alert alert-warning alert-dismissible fade show" role="alert">
 								{{ session()->get('message_signup') }}
 								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-						@endif      
+						@endif
                         <form method="POST">
                             @csrf
                             <div class="form-group row">
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                             </fieldset>
-                            
+
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <button type="submit" id="registrar" class="btn btn-primary">Sign in</button>
@@ -88,6 +88,10 @@
                         } else {
                             $('#registrar').removeAttr('disabled')
                             $('#usuario').addClass('border-success').removeClass('border-danger')
+
+                            setTimeout(() => {
+                                $('#usuario').removeClass('border-success')
+                            }, 3000)
                         }
 
                         console.log(response)

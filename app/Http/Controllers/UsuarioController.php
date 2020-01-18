@@ -13,8 +13,8 @@ class UsuarioController extends Controller
     {
         if (!$request->session()->has('user'))
             return redirect('/');
-        
-            
+
+
         $usuarios = (new Usuario())->getAllUsuarios();
         $option = 'usuarios';
 
@@ -34,7 +34,7 @@ class UsuarioController extends Controller
                 'apellidos' => $request->input('apellidos')
             ]);
 
-            if (count($res->toArray()) != 0) {
+            if ($res != null && count($res->toArray()) != 0) {
                 $id_persona = $res->id;
             } else {
                 $p->nombres = $request->input('nombres');
@@ -44,11 +44,20 @@ class UsuarioController extends Controller
                 $p->telefono = '123456789';
                 $p->genero = 1;
                 $p->save();
-                $ip_persona = $res->id;
             }
-            
-            \Session::flash('message_signup', 'Usuario creado correctamente');
-            return redirect('/nuevo-usuario');
+
+            $is_save_user = Usuario::saveUser([
+                'usuario' => $request->input('usuario'),
+                'pass' => md5(sha1($request->input('pass'))),
+                'persona' => $p->id,
+                'rol' => $request->input('roles'),
+            ]);
+
+            if ($is_save_user) {
+                \Session::flash('message_signup', 'Usuario creado correctamente');
+            } else {
+                \Session::flash('message_signup', 'Ingrese datos correctamente');
+            }
         }
 
         $option = 'usuarios';
