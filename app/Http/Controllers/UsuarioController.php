@@ -34,7 +34,7 @@ class UsuarioController extends Controller
                 'apellidos'       => $request->input('apellidos')
             ]);
             //var_dump($res->toArray());
-            if (count($res->toArray())!=0)
+            if ($res != null && count($res->toArray())!=0)
                 $id_persona = $res->id;
             else
             {
@@ -46,10 +46,26 @@ class UsuarioController extends Controller
                 $p->genero = 1;
                 $p->estado = 1;
                 $p->save();
-                $id_persona = $res->id;
+                $id_persona = $p->id;
+                
             }
-            var_dump($p);
-            exit();
+            $is_save_user = Usuario::saveUser(array(
+                'usuario' => $request->input('usuario'),
+                'clave' => md5(sha1($request->input('pass'))),
+                'persona_id' => $id_persona,
+                'rol' => $request->input('roles')
+            ));
+            if ($is_save_user){
+                //return response()->json(["mensaje"=>"Exito"]);
+                \Session::flash('message_insert','¡OK!, Operacion realizada con exito');
+            }
+            else{
+                //return response()->json(["mensaje"=>"Error"]);
+                \Session::flash('message_insert','¡OK!, Operacion realizada con exito');
+            }
+
+            /*var_dump($p);
+            exit();*/
 
 
         }

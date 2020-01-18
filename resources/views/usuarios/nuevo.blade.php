@@ -5,6 +5,14 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        @if (session()->get('message_insert'))
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                {{ session()->get('message_insert') }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                        @endif
                         <form method="POST">
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres*</label>
@@ -93,8 +101,16 @@
                             $('#usuario').addClass('border-success').removeClass('border-danger')
                         }
                     console.log(response)
+                    setTimeout(function(){
+                        $('#usuario').removeClass('border-success')
+                    },3000);
                 }).fail(function(){})
             })
         })
     </script>
+    <script type=”text/javascript”>
+        setInterval(function(){
+              document.getElementById('').innerHTML = new Date();
+        },1000);
+  </script>
 @endsection
