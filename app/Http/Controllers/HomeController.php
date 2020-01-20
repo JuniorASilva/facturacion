@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
-use App\models\Usuario;
+use App\Models\Usuario;
 
 class HomeController extends Controller
 {
@@ -14,8 +14,9 @@ class HomeController extends Controller
 
     public function index(Request $request){
     	if(!$request->session()->has('user'))
-    		return redirect('/');
-    	return view('body/body');
+			return redirect('/');
+		$option = 'home';
+    	return view('layout/home',compact('option'));
     	echo 'Bienvenido';
     	exit();
     }
@@ -24,8 +25,11 @@ class HomeController extends Controller
     	if(!$request->isMethod('post'))
     		return redirect('/');
     	$inputs = $request->all();
-    	$user = (new Usuario())->getUsuarioWhere(['usuario'=>$inputs['usuario'],'pass'=>md5(sha1($inputs['password']))]);
-    	//$user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['password'])))->first();
+		//$user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['password'])))->first();
+		$user = (new Usuario())->getUsuarioWhere([
+			'usuario' 		=> $inputs['usuario'],
+			'pass'			=> md5(sha1($inputs['password']))
+		]);
     	if(!is_null($user)){
     		$data = [
     			'id'			=> $user->id,
