@@ -13,17 +13,38 @@
                                 <th scope="col">Nombres</th>
                                 <th scope="col">Usuario</th>
                                 <th scope="col">Estado</th>
+                                <th scope="col">&nbsp;</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($usuarios as $usuario)
+                            @foreach ($usuarios as $key=>$usuario)
+                            
                                 <tr>
-                                    <td>{{ $usuario->id }}</td>
+                                    <td>{{ ($key+1) }}</td>
                                     <td>{{ $usuario->nombres }}</td>
                                     <td>{{ $usuario->usuario }}</td>
-                                    <td>{{ $usuario->estado }}</td>
+                                    @switch( $usuario->estado)
+                                        @case(0)
+                                            <td>Deshabilidado</td>        
+                                            @break
+                                        @case(1)
+                                            <td>Habilitado</td>
+                                            @break
+                                        @case(2)
+                                            <td>Designado</td>
+                                            @break
+                                        @default
+                                            <td>Por Definir</td>
+                                            @break
+                                    @endswitch
+                                    <td>
+                                        <div class="row">
+                                            <a class="btn btn-outline-primary" href="{{ route('editar-usuario',['id'=>$usuario->id]) }}" title="editar"><i class="fa fa-edit"></i></a>
+                                        </div>
+                                    </td>               
                                 </tr>
-                            @endforeach                     
+                            @endforeach              
+                            
                         </tbody>
                     </table>
                     <div class="row">

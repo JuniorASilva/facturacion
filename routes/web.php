@@ -22,4 +22,6 @@ Route::get('/home','HomeController@index')->name('home');
 Route::get('/salir','HomeController@salir')->name('salir');
 Route::get('/usuarios','UsuarioController@index')->name('usuarios');
 Route::match(['get','post'],'/nuevo-usuario','UsuarioController@nuevoUsuario')->name('nuevo-usuario');
+Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsuario')->name('editar-usuario');
+
 

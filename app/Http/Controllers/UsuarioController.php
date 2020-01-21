@@ -90,4 +90,13 @@ class UsuarioController extends Controller
         //var_dump($res);
     }
 
+     public function editarUsuario(Request $request,$id)
+    {
+        $option = 'usuario';
+        $roles = (new Utils())->getRoles();
+        $usuario = (new Usuario())->getUsuariosById($id);
+        return view('usuarios/nuevo',compact('option','roles','usuario'));
+
+    }
+
 }
