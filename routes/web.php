@@ -13,5 +13,11 @@ Route::post('/consulta-usuario','UsuarioController@consultaUsuario')->name('cons
 Route::get('/home','HomeController@index')->name('home');
 Route::get('/salir','HomeController@salir')->name('salir');
 
+/*
+ *Rutas para el usuario
+ */
+
 Route::get('/usuarios','UsuarioController@index')->name('usuarios');
 Route::match(['get','post'],'/nuevo-usuario','UsuarioController@nuevoUsuario')->name('nuevo-usuario');
+Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsuario')->name('editar-usuario');
+

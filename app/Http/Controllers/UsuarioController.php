@@ -67,6 +67,13 @@ class UsuarioController extends Controller
         return view('usuarios.nuevos', compact('option', 'roles'));
     }
 
+    public function editarUsuario(Request $request, $id){
+        $option = 'usuarios';
+        $roles = (new Utils())->getRoles();
+        $usuario = (new Usuario())->getAllUsuariosById($id);
+        return view('usuarios.nuevos', compact('option', 'roles','usuario'));
+    }
+
     public function consultaUsuario(Request $request)
     {
         if (!$request->session()->has('user')) {
@@ -97,3 +104,6 @@ class UsuarioController extends Controller
         }
     }
 }
+//agregar la actualizacion del usuario
+//validar el usuario
+//validar si es metodo post

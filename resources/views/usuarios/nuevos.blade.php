@@ -5,6 +5,9 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="col-md-12 pb-5">
+                            <h2>{{ isset($usuario) ? 'Actualización de ' : 'Registro de '}} usuario</h2>
+                        </div>
                         @if(session()->get('message_signup'))
 							<div class="alert alert-warning alert-dismissible fade show" role="alert">
 								{{ session()->get('message_signup') }}
@@ -18,17 +21,17 @@
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="Email">
+                                    <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="nombres" value="<?= !isset($usuario) ? '' : $usuario->nombres ?>">
                                 </div>
                                 <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="Email">
+                                    <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="apellidos" value="<?= !isset($usuario) ? '' : $usuario->apellidos ?>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="usuario" class="col-sm-2 col-form-label">Usuario*</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="usuario" required name="usuario" placeholder="Usuario">
+                                    <input type="text" class="form-control" id="usuario" required name="usuario" placeholder="Usuario" value="<?= !isset($usuario) ? '' : $usuario->apellidos ?>">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -47,7 +50,7 @@
                                     <div class="col-sm-4">
                                         <select class="form-control" id="roles" required name="roles">
                                             @foreach ($roles as $rol)
-                                                <option value="{{ $rol->id }}"> {{ $rol->nombre }}</option>
+                                                <option value="{{ $rol->id }}" {{ (isset($usuario) && ($rol->id == $usuario->rol_id)) ? '' : 'selected' }}> {{ $rol->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>

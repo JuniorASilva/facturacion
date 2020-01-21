@@ -20,7 +20,16 @@ class Usuario extends Model
     {
         return $this->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
                     ->join('trol as tr', 'tusuario.rol_id', '=', 'tr.id')
+                    ->select('tusuario.*','tp.nombres','tp.apellidos','tr.nombre as rol')
                     ->get();
+    }
+
+    public function getAllUsuariosById($id = 0){
+        return $this->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
+                    ->join('trol as tr', 'tusuario.rol_id', '=', 'tr.id')
+                    ->select('tusuario.*','tp.nombres','tp.apellidos','tr.nombre as rol')
+                    ->where('tusuario.id',$id)
+                    ->first();
     }
 
     public static function saveUser($datos)

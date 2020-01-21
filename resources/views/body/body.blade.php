@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-
-=======
->>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 <html lang="es">
 <head>
 	<meta charset="utf-8">
@@ -11,82 +7,75 @@
 	<meta name="author" content="">
 	<link rel="icon" href="assets/img/favicon.png">
 
-<<<<<<< HEAD
 	<title>Backend | Facturación</title>
-=======
-	<title>Backend | Trab 1</title>
->>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
 
 	<!-- CSS - REQUIRED - START -->
 	<!-- Batch Icons -->
-	<link rel="stylesheet" href="assets/fonts/batch-icons/css/batch-icons.css">
+	<link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
 	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" href="assets/css/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
 	<!-- Material Design Bootstrap -->
-	<link rel="stylesheet" href="assets/css/bootstrap/mdb.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
 	<!-- Custom Scrollbar -->
-	<link rel="stylesheet" href="assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
 	<!-- Hamburger Menu -->
-	<link rel="stylesheet" href="assets/css/hamburgers/hamburgers.css">
+	<link rel="stylesheet" href="{{ asset('assets/css/hamburgers/hamburgers.css') }}">
 
 	<!-- CSS - REQUIRED - END -->
 
 	<!-- CSS - OPTIONAL - START -->
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="assets/fonts/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="assets/fonts/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- JVMaps -->
-	<link rel="stylesheet" href="assets/plugins/jvmaps/jqvmap.min.css">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
-	<link rel="stylesheet" href="assets/css/quillpro/quillpro.css">
-<<<<<<< HEAD
+	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 	
 
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Bootstrap core JavaScript -->
 	<!-- JQuery -->
-	<script type="text/javascript" src="assets/js/jquery/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/jquery/jquery-3.1.1.min.js') }}"></script>
 	<!-- Popper.js - Bootstrap tooltips -->
-	<script type="text/javascript" src="assets/js/bootstrap/popper.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
-	<script type="text/javascript" src="assets/js/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
 	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="assets/js/bootstrap/mdb.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
 	<!-- Velocity -->
-	<script type="text/javascript" src="assets/plugins/velocity/velocity.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/velocity/velocity.ui.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
 	<!-- Custom Scrollbar -->
-	<script type="text/javascript" src="assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
 	<!-- jQuery Visible -->
-	<script type="text/javascript" src="assets/plugins/jquery_visible/jquery.visible.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
 	<!-- jQuery Visible -->
-	<script type="text/javascript" src="assets/plugins/jquery_visible/jquery.visible.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	<script type="text/javascript" src="assets/js/misc/ie10-viewport-bug-workaround.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
 
 	<!-- SCRIPTS - REQUIRED END -->
 
 	<!-- SCRIPTS - OPTIONAL START -->
 	<!-- ChartJS -->
-	<script type="text/javascript" src="assets/plugins/chartjs/chart.bundle.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
 	<!-- JVMaps -->
-	<script type="text/javascript" src="assets/plugins/jvmaps/jquery.vmap.min.js"></script>
-	<script type="text/javascript" src="assets/plugins/jvmaps/maps/jquery.vmap.usa.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/jquery.vmap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/maps/jquery.vmap.usa.js') }}"></script>
 	<!-- Image Placeholder -->
-	<script type="text/javascript" src="assets/js/misc/holder.min.js"></script>
+	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
 
 	<!-- QuillPro Scripts -->
-	<script type="text/javascript" src="assets/js/scripts.js"></script>
-=======
->>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
+	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 </head>
 
 <body>
@@ -97,32 +86,22 @@
 				<ul class="nav nav-pills flex-column">
 					<li class="logo-nav-item">
 						<a class="navbar-brand" href="#">
-							<img src="assets/img/logo-dark.png" width="145" height="40" alt="CodiGO">
+							<img src="{{ asset('assets/img/logo-dark.png') }}" width="145" height="40" alt="CodiGO">
 						</a>
 					</li>
 					<li>
 						<h6 class="nav-header">General</h6>
 					</li>
 					<li class="nav-item">
-<<<<<<< HEAD
                         <a class="nav-link {{ $option == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
-=======
-                                            <a class="nav-link active" href="principal.php">
->>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 							<i class="batch-icon batch-icon-terminal"></i>
 							Principal <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
-<<<<<<< HEAD
 						<a class="nav-link {{ $option == 'usuarios' ? 'active' : '' }}" href="{{ route('usuarios') }}">
 							<i class="batch-icon batch-icon-book-alt-lines"></i>
 							Usuarios <span class="sr-only">(current)</span>
-=======
-						<a class="nav-link" href="noticias.php">
-							<i class="batch-icon batch-icon-book-alt-lines"></i>
-							Noticias <span class="sr-only">(current)</span>
->>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 						</a>
 					</li>
 					<li class="nav-item">
@@ -139,7 +118,7 @@
 			<div class="right-column">
 				<nav class="navbar navbar-expand-lg navbar-light bg-white">
 					<a class="navbar-brand d-block d-sm-block d-md-block d-lg-none" href="#">
-						<img src="assets/img/logo-dark.png" width="145" height="32.3" alt="QuillPro">
+						<img src="{{ asset('assets/img/logo-dark.png') }}" width="145" height="32.3" alt="QuillPro">
 					</a>
 					<button class="hamburger hamburger--slider" type="button" data-target=".sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle Sidebar">
 						<span class="hamburger-box">
@@ -188,7 +167,7 @@
 									    <b style="color: #142961">Hola!&nbsp;</b> {{  session('user')['usuario'] }}
 								    </div>
 									<div class="profile-picture bg-gradient bg-primary has-message float-right">
-										<img src="assets/img/usuario.png" width="44" height="44">
+										<img src="{{ asset('assets/img/usuario.png') }}" width="44" height="44">
 									</div>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-navbar-profile">
