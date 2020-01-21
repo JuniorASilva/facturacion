@@ -6,6 +6,8 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <h2>{{ isset($usuario) ? 'Actualizacion' : 'Registro' }} de usuario</h2>
+                        <br>
                         @if(session()->get('message_signup'))
 							<div class="alert alert-warning alert-dismissible fade show" role="alert">
 								{{ session()->get('message_signup') }}
@@ -19,17 +21,17 @@
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="Email">
+                                    <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="Nombres" value="{{ $usuario->nombres }}">
                                 </div>
                                 <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="Email">
+                                    <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="Apellidos" value="{{ $usuario->apellidos }}">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="usuario" required name="usuario" placeholder="Usuario">
+                                    <input type="text" class="form-control" id="usuario" required name="usuario" placeholder="Usuario" value="{{ $usuario->usuario }}">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -48,7 +50,7 @@
                                     <div class="col-sm-4">
                                         <select required name="roles" class="form-control">
                                             @foreach ($roles as $rol)
-                                                <option value="{{ $rol->id }}">{{ $rol->nombre }}</option>
+                                                <option value="{{ $rol->id }}" {{ $usuario->nombre == $rol->nombre ? 'selected' : '' }}>{{ $rol->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>

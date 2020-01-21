@@ -18,9 +18,19 @@ class Usuario extends Model
 
     public function getAllUsuarios()
     {
-        return $this->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
+        return $this->select('tusuario.*', 'tp.nombres', 'tp.apellidos', 'tr.nombre as rol')
+                    ->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
                     ->join('trol as tr', 'tusuario.rol_id', '=', 'tr.id')
                     ->get();
+    }
+
+    public static function getUsuarioById($id)
+    {
+        return self::select('tusuario.*', 'tp.nombres', 'tp.apellidos', 'tr.nombre as rol')
+                    ->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
+                    ->join('trol as tr', 'tusuario.rol_id', '=', 'tr.id')
+                    ->where('tusuario.id', $id)
+                    ->first();
     }
 
     public static function saveUser($datos)

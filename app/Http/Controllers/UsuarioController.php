@@ -95,4 +95,14 @@ class UsuarioController extends Controller
             ], 202);
         }
     }
+
+    public function editarUsuario($id, Request $request)
+    {
+        $option = 'usuarios';
+        $roles = (new Utils())->getRoles();
+
+        $usuario = Usuario::getUsuarioById($id);
+
+        return view('usuarios.nuevos', compact('option', 'roles', 'usuario'));
+    }
 }
