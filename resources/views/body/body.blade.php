@@ -1,5 +1,8 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 
+=======
+>>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 <html lang="es">
 <head>
 	<meta charset="utf-8">
@@ -8,7 +11,11 @@
 	<meta name="author" content="">
 	<link rel="icon" href="assets/img/favicon.png">
 
+<<<<<<< HEAD
 	<title>Backend | Facturación</title>
+=======
+	<title>Backend | Trab 1</title>
+>>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
@@ -38,6 +45,7 @@
 
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="assets/css/quillpro/quillpro.css">
+<<<<<<< HEAD
 	
 
 	<!-- SCRIPTS - REQUIRED START -->
@@ -77,6 +85,8 @@
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="assets/js/scripts.js"></script>
+=======
+>>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 </head>
 
 <body>
@@ -94,15 +104,25 @@
 						<h6 class="nav-header">General</h6>
 					</li>
 					<li class="nav-item">
+<<<<<<< HEAD
                         <a class="nav-link {{ $option == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
+=======
+                                            <a class="nav-link active" href="principal.php">
+>>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 							<i class="batch-icon batch-icon-terminal"></i>
 							Principal <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
+<<<<<<< HEAD
 						<a class="nav-link {{ $option == 'usuarios' ? 'active' : '' }}" href="{{ route('usuarios') }}">
 							<i class="batch-icon batch-icon-book-alt-lines"></i>
 							Usuarios <span class="sr-only">(current)</span>
+=======
+						<a class="nav-link" href="noticias.php">
+							<i class="batch-icon batch-icon-book-alt-lines"></i>
+							Noticias <span class="sr-only">(current)</span>
+>>>>>>> f355afc37b4eb3ba5e1ff312d71f0db8b82ae245
 						</a>
 					</li>
 					<li class="nav-item">
