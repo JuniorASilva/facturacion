@@ -76,8 +76,10 @@
                     }else{
                         $('#registrar').removeAttr('disabled');
                         $('#usuario').addClass('border-success').removeClass('border-danger');
+                        setTimeout(()=>{
+                            $('#usuario').removeClass('border-success');
+                        }, 3000);
                     }
-                    console.log(response);
                 }).fail(function(error){
                     console.log(error)
                 });

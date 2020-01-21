@@ -25,12 +25,12 @@ class UsuarioController extends Controller
         if($request->isMethod('post')){
             $p = new Persona();
             $res = $p->getPersonaWhereLike([
-                "nombres" => $request->input("nombres"),
-                "apellidos" => $request->input("apellidos")
+                'nombres'           => $request->input('nombres'),
+                'apellidos'         => $request->input('apellidos')
             ]);
-            if(count($res->toArray()) != 0){
+            if(count($res->toArray()) != 0)
                 $id_persona = $res->id;
-            }else{
+            else{
                 $p->nombres = $request->input('nombres');
                 $p->apellidos = $request->input('apellidos');
                 $p->direccion = '';
@@ -41,7 +41,7 @@ class UsuarioController extends Controller
                 $p->save();
                 $id_persona = $res->id;
             }
-            var_dump($p);
+            var_dump($res->toArray());
             exit();
         }
         $option = 'usuarios';
@@ -55,12 +55,10 @@ class UsuarioController extends Controller
         if(!$request->isMethod('post'))
             return redirect('/');
         $u = new Usuario();
-        $res = $u->getUsuarioWhere(['usuario' => $request->input('usuario')]);
-        if($res == null){
-            return response()->json(['status' => 200, 'data' => [], 'message' => "No existe usuario"]);
-        }else{
-            return response()->json(['status' => 202, 'data' => [], 'message' => "El usuario ya existe"]);
-        }
-        //var_dump($res);
+        $res = $u->getUsuarioWhere(['usuario'=>$request->input('usuario')]);
+        if(is_null($res))
+            return response()->json(['status'=>200,'data'=>[],'message'=>'No existe usuario']);
+        else
+            return response()->json(['status'=>202,'data'=>[],'message'=>'El usuario ya existe']);
     }
 }

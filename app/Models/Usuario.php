@@ -18,4 +18,8 @@ class Usuario extends Model
                     ->join('trol as tr','tusuario.rol_id','=','tr.id')
                     ->get();
     }
+
+    public function saveUser($data){
+
+    }
 }

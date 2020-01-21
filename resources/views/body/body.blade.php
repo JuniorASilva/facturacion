@@ -38,8 +38,8 @@
 
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="assets/css/quillpro/quillpro.css">
-
 	
+
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Bootstrap core JavaScript -->
@@ -182,7 +182,5 @@
 			</div>
 		</div>
 	</div>
-
-	
 </body>
 </html>
