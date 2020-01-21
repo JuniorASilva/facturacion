@@ -5,13 +5,22 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form method="post">
+                        @if(session()->get('message_signup'))
+							<div class="alert alert-warning alert-dismissible fade show" role="alert">
+								{{ session()->get('message_signup') }}
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						@endif
+                        <form method="POST">
+                            @csrf
                             <div class="form-group row">
-                                <label for="nombres" class="col-sm-2 col-form-label">Nombres*</label>
+                                <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="Email">
                                 </div>
-                                <label for="apellidos" class="col-sm-2 col-form-label">Apellidos*</label>
+                                <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                 <div class="col-sm-4">
                                     <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="Email">
                                 </div>
@@ -49,7 +58,6 @@
                                     <button type="submit" id="registrar" class="btn btn-primary">Registrar</button>
                                 </div>
                             </div>
-                            @csrf
                         </form>
                     </div>
                 </div>
