@@ -12,6 +12,7 @@
                             		<th scope="col">Nombres</th>
                             		<th scope="col">Usuario</th>
                             		<th scope="col">Estado</th>
+                                    <th scope="col">&nbsp;</th>
                             	</tr>
                             </thead>
                             <tbody>
@@ -20,7 +21,21 @@
                             		<td>{{ $usuario->id }}</td>
                             		<td>{{ $usuario->nombres }}</td>
                             		<td>{{ $usuario->usuario }}</td>
-                            		<td>{{ $usuario->estado }}</td>
+                                    @switch($usuario->estado)
+                                        @case(0)
+                                            <td>Deshabilitado</td>
+                                            @break
+                                        @case(1)
+                                            <td>Habilitado</td>
+                                            @break
+                                        @case(2)
+                                            <td>Designado</td>
+                                            @break
+                                        @default
+                                            <td>Por definir</td>
+                                            @break
+                                    @endswitch
+                                    <td><div class="btn-group"><a class="btn btn-outline-success" href="{{ route('editar-usuario',['id' => $usuario->id]) }}" title="Editar"><i class="fa fa-edit"></i></a></div></td>
                             	</tr>
                             	@endforeach
                             </tbody>

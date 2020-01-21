@@ -5,21 +5,29 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
+                        <div><h2>{{ isset($usuario)? 'Actualizacion de ' : 'Registro de '}}Usuario</h2></div>
+                        <br>
+                        @if (session()->get('message_insert'))
+                        <div class="alert alert-primary alert-dismissible fade show">{{ session()->get('message_insert') }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button></div>
+                        @endif
                         <form method="post">
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" required id="nombres" name="nombres" placeholder="Nombres">
+                                    <input type="text" class="form-control" required id="nombres" name="nombres" placeholder="Nombres" value="<?= is_null($usuario)? '' : $usuario->nombres?>">
                                 </div>
                                 <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" required id="apellidos" name="apellidos" placeholder="Apellidos">
+                                    <input type="text" class="form-control" required id="apellidos" name="apellidos" placeholder="Apellidos" value="<?= is_null($usuario)? '' : $usuario->apellidos?>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" required id="usuario" name="usuario" placeholder="Usuario">
+                                    <input type="text" class="form-control" required id="usuario" name="usuario" placeholder="Usuario" value="<?= is_null($usuario)? '' : $usuario->usuario?>">
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -38,7 +46,7 @@
                                     <div class="col-sm-4">
                                         <select class="form-control" id="roles" name="roles" required>
                                             @foreach ($roles as $rol)
-                                                <option value="{{ $rol->id }}"> {{ $rol->nombre }}</option>
+                                                <option value="{{ $rol->id }}" {{ isset($usuario) && $usuario->rol_id == $rol->id ? '' : 'selected' }}> {{ $rol->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -73,10 +81,14 @@
                 }).done(function(response){
                     if(response.status == 202){
                         $('#registrar').attr('disabled','disabled')
-                        $('#usuario').addClass('border-success').removeClass('border-danger')
+                        $('#usuario').addClass('border-danger').removeClass('border-success')
+                        
                     }else{
                         $('#registrar').removeAttr('disabled')
-                        $('#usuario').addClass('border-danger').removeClass('border-success')
+                        $('#usuario').addClass('border-success').removeClass('border-danger')
+                        setTimeout(()=>{
+                            $('#usuario').removeClass('border-success')
+                        },3000);
                     }
                     console.log(response)
                 }).fail(function(){})

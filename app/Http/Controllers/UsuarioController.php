@@ -29,8 +29,8 @@ class UsuarioController extends Controller
                 'nombres' => $request->input('nombres'),
                 'apellidos' => $request->input('apellidos')
             ]);
-            if (count($res->toArray()) != 0)
-                $id_persona = $res ->id;
+            if ($res != null && count($res->toArray()) != 0)
+                $id_persona = $res->id;
             else{
             
             	$p->nombres = $request->input('nombres');
@@ -41,8 +41,20 @@ class UsuarioController extends Controller
             	$p->genero =1;
             	$p->estado=1;
             	$p->save();
-                $id_persona = $res ->id;
+                $id_persona = $p->id;
+                
         	}
+            $is_save_user = Usuario::saveUser(array(
+                "usuario" => $request->input("usuario"),
+                "clave" => md5(sha1($request->input("pass"))),
+                "persona" => $id_persona,
+                "rol" =>  $request->input("roles")
+            ));
+            if($is_save_user){
+                \Session::flash('message_insert','¡Ok!, Operación realizada con éxito');
+            }else{
+                \Session::flash('message_insert','Error');
+            }
         }
         $option='usuarios';
         $roles = (new Utils())->getRoles();
@@ -59,5 +71,12 @@ class UsuarioController extends Controller
             echo json_encode(['status' => 200, 'data' =>[],'message'=> 'No existe usuario']);
         else
             echo json_encode(['status' => 202, 'data' =>[],'message' => 'El usuario ya existe']);
+    }
+    public function editarUsuario(Request $request, $id){
+        $option='usuarios';
+        $roles = (new Utils())->getRoles();
+        $usuario = (new Usuario())->getUsuarioById($id);
+        return view('usuarios/nuevos',compact('option','roles','usuario'));
+    
     }
 }
