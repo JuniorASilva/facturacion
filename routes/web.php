@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-
+Route::get('/','HomeController@login');
+/*
 Route::get('/', function () {
     return view('layout/login');
-});
+});*/
 
 Route::post('/login','HomeController@validarUsuario')->name('login');
 
@@ -13,6 +14,7 @@ Route::post('/consulta-usuario','UsuarioController@consultaUsuario')->name('cons
 Route::get('/home','HomeController@index')->name('home');
 Route::get('/salir','HomeController@salir')->name('salir');
 
+Route::get('/ventas','VentasController@index')->name('ventas');
 /*
  *Rutas para el usuario
  */

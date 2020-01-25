@@ -30,9 +30,7 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
-	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	<!-- JVMaps -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
+
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
@@ -41,6 +39,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr-master/toastr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jquery-confirm-v3.3.4/jquery-confirm.min.css') }}">
 	
+	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -51,8 +50,6 @@
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
 	<!-- Velocity -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
@@ -69,10 +66,10 @@
 
 	<!-- SCRIPTS - OPTIONAL START -->
 	<!-- ChartJS -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
+	
 	<!-- JVMaps -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/jquery.vmap.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/maps/jquery.vmap.usa.js') }}"></script>
+	
+	
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
@@ -81,6 +78,8 @@
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/toastr.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-confirm-v3.3.4/jquery-confirm.min.js') }}"></script>
+
+	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
 
 	<script type="text/javascript">
 		$(function(){
@@ -110,20 +109,20 @@
 					</li>
 					<li class="nav-item">
                         <a class="nav-link {{ $option == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
-							<i class="batch-icon batch-icon-terminal"></i>
+							<i class="fa fa-tachometer"></i>
 							Principal <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ $option == 'usuarios' ? 'active' : '' }}" href="{{ route('usuarios') }}">
-							<i class="batch-icon batch-icon-book-alt-lines"></i>
+							<i class="fa fa-users"></i>
 							Usuarios <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="calculadora.php">
-							<i class="batch-icon batch-icon-marquee-plus"></i>
-							Calculadora <span class="sr-only">(current)</span>
+						<a class="nav-link {{ $option == 'venta' ? 'active' : '' }}" href="{{ route('ventas') }}">
+							<i class="batch-icon batch-icon-store"></i>
+							Ventas
 						</a>
 					</li>
 					

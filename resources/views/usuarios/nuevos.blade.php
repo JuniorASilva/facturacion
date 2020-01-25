@@ -59,6 +59,7 @@
                             <div class="form-group row">
                                 <div class="col-sm-10">
                                     <button type="submit" id="registrar" class="btn btn-primary">Registrar</button>
+                                    <a href=javascript:history.back(1) class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                                 </div>
                             </div>
                         </form>
@@ -76,7 +77,7 @@
                     content: function(){
                         let self = this;
                         return $.ajax({
-                            url: "{{ route('editar-usuario', ['id' => isset($usuario) ? $usuario->id : 0]) }}",
+                            url: "{{ isset($usuario) ? route('editar-usuario', ['id' => $usuario->id]) : route('nuevo-usuario') }}",
                             method: 'POST',
                             dataType: 'JSON',
                             data: $('#registro-usuario').serialize()
@@ -103,15 +104,18 @@
                     dataType: 'JSON ',
                     data: {
                         usuario: $('#usuario').val(),
+                        id: {{ isset($usuario) ? $usuario->id : 0 }},
                         _token: '{{ csrf_token() }}'
                     }
                 }).done(function(response){
                     if(response.status == 202){
                         $('#registrar').attr('disabled','disabled');
                         $('#usuario').addClass('border-danger').removeClass('border-success');
+                        toastr.error(response.message);
                     }else{
                         $('#registrar').removeAttr('disabled');
                         $('#usuario').addClass('border-success').removeClass('border-danger');
+                        toastr.success(response.message);
                         setTimeout(()=>{
                             $('#usuario').removeClass('border-success');
                         }, 3000);

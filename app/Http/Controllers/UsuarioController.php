@@ -56,9 +56,9 @@ class UsuarioController extends Controller
             ]);
 
             if ($is_save_user) {
-                \Session::flash('message_signup', 'Usuario creado correctamente');
+                return response()->json(['status' => 200, 'data' => [], 'message' => 'Usuario creado correctamente']);
             } else {
-                \Session::flash('message_signup', 'Ingrese datos correctamente');
+                return response()->json(['status' => 202, 'data' => [], 'message' => 'Error, consulte con su administrador' ]);
             }
         }
 
@@ -72,6 +72,9 @@ class UsuarioController extends Controller
         $usuario = (new Usuario())->getAllUsuariosById($id);
         
         if($request->isMethod('post')){
+            if(is_null($usuario)){
+                return response()->json(['status' => 202, 'data' => [], 'message' => 'Error, consulte con su administrador' ]);
+            }
             $p = new Persona();
             $p->updatePersona([
                 'nombres' => $request->input('nombres'),
@@ -104,15 +107,27 @@ class UsuarioController extends Controller
         }
 
         $u = new Usuario();
-        $res = $u->getUsuarioWhere([
-            'usuario' => $request->input('usuario')
-        ]);
+        $res = null;
+        if($request->input('id') != 0){
+            $usuario_id = $u->getUsuarioWhere([
+                'id' => $request->input('id')
+            ]);
+            if(!is_null($usuario_id) && $usuario_id->usuario != $request->input('usuario')){
+                $res = $u->getUsuarioWhere([
+                    'usuario' => $request->input('usuario')
+                ]);        
+            }
+        }else{
+            $res = $u->getUsuarioWhere([
+                'usuario' => $request->input('usuario')
+            ]);
+        }
 
         if (is_null($res)) {
             return response()->json([
                 'status'  => 200,
                 'data'    => [],
-                'message' => 'No existe usuario'
+                'message' => 'Usuario disponible'
             ], 200);
         } else {
             return response()->json([
