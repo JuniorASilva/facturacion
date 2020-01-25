@@ -33,6 +33,9 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- JVMaps -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
+	
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
@@ -59,6 +62,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
 
 	<!-- SCRIPTS - REQUIRED END -->
 
@@ -74,6 +79,16 @@
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+	<script type="text/javascript">
+		if(function () {
+			toastr.option = {
+				closeButton: true,
+				progressBar:true,
+				showMethod:'slideDown',
+				timeOut: 4000
+			}
+		})
+	</script>
 </head>
 
 <body>

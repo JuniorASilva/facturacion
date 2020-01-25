@@ -70,9 +70,9 @@
                                 <p>Por favor ingresar su usuario y contraseña para iniciar sesión</p>
                                 <div class="form-group">
                                     <label for="nombre">Usuario</label>
-                                    <input type="text" class="form-control" name="usuario" value="jsilvap22">
+                                    <input type="text" class="form-control" name="usuario" value="jlee">
                                     <label for="password">Contraseña</label>
-                                    <input type="password" class="form-control" name="password">
+                                    <input type="password" class="form-control" name="password" value="123456789">
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-gradient btn-block">
                                     <i class="batch-icon batch-icon-key"></i>&nbsp;&nbsp;

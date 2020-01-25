@@ -92,9 +92,29 @@ class UsuarioController extends Controller
 
      public function editarUsuario(Request $request,$id)
     {
+        $usuario = (new Usuario())->getUsuariosById($id);
+        if($request->isMethod('post')){
+            $p= new Persona();
+            $p->updatePersona([
+                'nombres'    => $request->input('nombres'),
+                'apellidos'  => $request->input('apellidos')
+            ],[
+                'id'=>$usuario->persona_id
+            ]);
+
+            $data = [
+                'usuario'   => $request->input('usuario')
+            ];
+            if(!is_null($request->input('pass')))
+            {
+                $data['pass'] = md5(sha1($request->input('pass')));
+            }
+            Usuario::updateUsuario($data,['id'=>$usuario->id]);
+            return response()->json(['status'=>200,'data'=>[],'message'=>'Actualizacion satisfactoria']);
+        }
+
         $option = 'usuario';
         $roles = (new Utils())->getRoles();
-        $usuario = (new Usuario())->getUsuariosById($id);
         return view('usuarios/nuevo',compact('option','roles','usuario'));
 
     }

@@ -17,4 +17,12 @@ class Persona extends Model
                     ->first();
     }
 
+     public function updatePersona($data = array(), $where = array())
+    {
+        return $this->where('id',$where['id'])
+                    ->update($data);
+    }
+
+    
+
 }
