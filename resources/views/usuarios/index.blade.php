@@ -6,7 +6,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-hover">
+                        <table id="table-usuarios" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -56,4 +56,34 @@
             </div>
         </div>
     </main>
+    <script type="text/javascript">
+        $(function () {
+            $('#table-usuarios').DataTable({
+                "pageLength": 15,
+                "language": {
+                    "paginate": {
+                        "first": "Primera página",
+                        "last": "Ultima página",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    },
+                    "infoEmpty": "Observando 0 de 0 registros",
+                    "info": "Observando pagina _PAGE_ de _PAGE_",
+                    "lengthMenu": "Desplegando _MENU_ registros",
+                    "sSearch": "Buscador"
+                },
+                "columns": [
+                    {"width": "10%"},
+                    {"width": "40%"},
+                    {"width": "15%"},
+                    {"width": "15%"},
+                    {"width": "20%"}
+                ],
+                "lengthMenu": [
+                    [-1, 10, 15, 20, 30],
+                    ["All", 10, 15, 20, 30]
+                ]
+            })
+        })
+    </script>
 @endsection

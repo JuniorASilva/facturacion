@@ -18,8 +18,6 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/batch-icons/css/batch-icons.css') }}">
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/bootstrap.min.css') }}">
-	<!-- Material Design Bootstrap -->
-	<link rel="stylesheet" href="{{ asset('assets/css/bootstrap/mdb.min.css') }}">
 	<!-- Custom Scrollbar -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.min.css') }}">
 	<!-- Hamburger Menu -->
@@ -32,11 +30,11 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	<!-- JVMaps -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
 
+	<!-- PLUGINS -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/confirm/jquery-confirm.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
@@ -51,8 +49,6 @@
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
 	<!-- Velocity -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
@@ -68,11 +64,6 @@
 	<!-- SCRIPTS - REQUIRED END -->
 
 	<!-- SCRIPTS - OPTIONAL START -->
-	<!-- ChartJS -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
-	<!-- JVMaps -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/jquery.vmap.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/maps/jquery.vmap.usa.js') }}"></script>
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
@@ -80,8 +71,10 @@
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 
+	<!-- PLUGINS -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/confirm/jquery-confirm.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
 
 	<script type="text/javascript">
 		$(function () {
@@ -122,9 +115,9 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="calculadora.php">
-							<i class="batch-icon batch-icon-marquee-plus"></i>
-							Calculadora <span class="sr-only">(current)</span>
+						<a class="nav-link {{ $option == 'ventas' ? 'active' : '' }}" href="{{ route('ventas') }}">
+							<i class="batch-icon batch-icon-store"></i>
+							Ventas <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					
@@ -165,11 +158,6 @@
 						</li>
 					</ul>
 
-					<!--  DEPRECATED CODE:
-						<div class="navbar-collapse" id="navbarSupportedContent">
-					-->
-					<!-- USE THIS CODE Instead of the Commented Code Above -->
-					<!-- .collapse added to the element -->
 					<div class="collapse navbar-collapse" id="navbar-header-content">
 						<ul class="navbar-nav navbar-language-translation mr-auto">
 						   
@@ -179,12 +167,10 @@
 						</ul>
 						<ul class="navbar-nav ml-5 navbar-profile">
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
-									<!--<?php //if(isset($_SESSION['usuario'])): ?>
-                                        <div class="profile-name">
-										     <b style="color: #142961">Hola!&nbsp;</b>
-									    </div>
-                                    <?php //endif;?>-->
+								<a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">									
+									<div class="profile-name">
+										<b style="color: #142961">Hola!&nbsp; {{ Session::get('user')['usuario'] }}</b>
+									</div>                                    
 									<div class="profile-picture bg-gradient bg-primary has-message float-right">
 										<img src="{{ asset('assets/img/usuario.png') }}" width="44" height="44">
 									</div>
