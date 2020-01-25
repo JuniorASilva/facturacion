@@ -56,12 +56,10 @@ class UsuarioController extends Controller
                 'rol' => $request->input('roles')
             ));
             if ($is_save_user){
-                //return response()->json(["mensaje"=>"Exito"]);
-                \Session::flash('message_insert','¡OK!, Operacion realizada con exito');
+                return response()->json(['status'=>200,'data'=>[],'message'=>'Registro satisfactorio']);
             }
             else{
-                //return response()->json(["mensaje"=>"Error"]);
-                \Session::flash('message_insert','¡OK!, Operacion realizada con exito');
+                return response()->json(['status'=>202,'data'=>[],'message'=>'Ingrese los datos correctamente']);
             }
 
             /*var_dump($p);
@@ -81,9 +79,18 @@ class UsuarioController extends Controller
             return redirect('/');
         
         $u = new Usuario();
-        $res = $u->getUsuarioWhere(['usuario'=>$request->input('usuario')]);
+        $res = null;
+        if ($request->input('id')!=0)
+        {
+            $usuarioid = $u->getUsuarioWhere(['id'=>$request->input('id')]);
+            if($is_null($usuarioid) && $usuarioid->usuario != $request->input('usuario')){
+                $res = $u->getUsuarioWhere(['usuario'=>$request->input('usuario')]);        
+            }
+        }else{
+            $res = $u->getUsuarioWhere(['usuario'=>$request->input('usuario')]);
+        }
         if(is_null($res))
-            return response()->json(['status'=>200,'data'=>[],'message'=>'No existe Usuario']);
+            return response()->json(['status'=>200,'data'=>[],'message'=>'Usuario Disponible']);
         else    
             return response()->json(['status'=>202,'data'=>[],'message'=>'El Usuario ya existe']);
 
@@ -94,6 +101,10 @@ class UsuarioController extends Controller
     {
         $usuario = (new Usuario())->getUsuariosById($id);
         if($request->isMethod('post')){
+            if(is_null($usuario))
+            {
+                return response()->json(['status'=>202,'data'=>[],'message'=>'Error, consulte con su administrador']);
+            }
             $p= new Persona();
             $p->updatePersona([
                 'nombres'    => $request->input('nombres'),

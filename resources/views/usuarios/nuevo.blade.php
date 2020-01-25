@@ -66,7 +66,9 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-10">
+                                    <a href=javascript:history.back(1) class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
                                     <button type="submit" class="btn btn-primary"><?= !isset($usuario)?'Registrar':'Actualizar' ?> </button>
+                                    
                                 </div>
                             </div>
                             @csrf
@@ -87,7 +89,7 @@
                     content: function(){
                         var self = this
                         return $.ajax({
-                            url:"{{ route('editar-usuario',['id'=>isset($usuario)?$usuario->id:0]) }}",
+                            url:"{{ isset($usuario) ? route('editar-usuario',['id'=>$usuario->id]):route('nuevo-usuario') }}",
                             method : 'POST',
                             dataType: 'JSON',
                             data: $('#registro-usuario').serialize()
@@ -120,17 +122,22 @@
                         {
                             $('#registrar').attr('disabled','disabled')
                             $('#usuario').addClass('border-danger').removeClass('border-success')
+                            toastr.error(response.message)
                         }
                     else
                         {
                             $('#registrar').removeAttr('disabled')
                             $('#usuario').addClass('border-success').removeClass('border-danger')
-                        }
+                        
+                        toastr.success(response.message)
+                        setTimeout(function(){
+                            $('#usuario').removeClass('border-success')
+                        },3000);
+                    }
                     console.log(response)
-                    setTimeout(function(){
-                        $('#usuario').removeClass('border-success')
-                    },3000);
-                }).fail(function(){})
+                }).fail(function(error){
+                    console.log(error)
+                })
             })
         })
     </script>

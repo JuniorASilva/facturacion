@@ -10,6 +10,18 @@ class HomeController extends Controller
 {
     //
 
+    public function login(Request $request)
+    {
+        if (!$request->session()->has('user'))
+        {
+            return view('layout/login');
+        }
+        else{
+            return redirect()->route('home');
+        }
+        
+    }
+
     public function index(Request $request)
     {
         if (!$request->session()->has('user'))

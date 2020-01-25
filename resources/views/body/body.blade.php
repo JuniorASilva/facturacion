@@ -31,10 +31,10 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	<!-- JVMaps -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
+	
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 	
 	<!-- CSS - OPTIONAL - END -->
 
@@ -49,8 +49,7 @@
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
+	
 	<!-- Velocity -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
@@ -64,6 +63,7 @@
 	<script type="text/javascript" src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
 
 	<!-- SCRIPTS - REQUIRED END -->
 
@@ -113,14 +113,14 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link {{ $option == 'usuario' ? 'active':'' }}" href="{{ route('usuarios') }}">
-							<i class="batch-icon batch-icon-book-alt-lines"></i>
+							<i class="batch-icon batch-icon-user"></i>
 							Usuarios <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="calculadora.php">
-							<i class="batch-icon batch-icon-marquee-plus"></i>
-							Calculadora <span class="sr-only">(current)</span>
+						<a class="nav-link {{ $option == 'ventas' ? 'active':'' }}" href="{{ route('ventas') }}">
+							<i class="batch-icon batch-icon-bullhorn"></i>
+							Ventas
 						</a>
 					</li>
 					

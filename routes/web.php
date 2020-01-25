@@ -10,11 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/',"HomeController@login");
+/*
 Route::get('/', function () {
     return view('layout/login');
 });
-
+*/
 
 Route::post('/login','HomeController@validarUsuario')->name('login');
 Route::post('/consulta-usuario','UsuarioController@consultaUsuario')->name('consulta-usuario');
@@ -23,5 +24,6 @@ Route::get('/salir','HomeController@salir')->name('salir');
 Route::get('/usuarios','UsuarioController@index')->name('usuarios');
 Route::match(['get','post'],'/nuevo-usuario','UsuarioController@nuevoUsuario')->name('nuevo-usuario');
 Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsuario')->name('editar-usuario');
+Route::get('/ventas','VentasController@index')->name('ventas');
 
 
