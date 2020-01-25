@@ -16,32 +16,32 @@
 								</button>
 							</div>
 						@endif
-                        <form method="POST">
+                        <form method="POST" id="registro-usuario">
                             @csrf
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="Nombres" value="{{ $usuario->nombres }}">
+                                    <input type="text" class="form-control" id="nombres" required name="nombres" placeholder="Nombres" value="{{ isset($usuario) ? $usuario->nombres : ''}}">
                                 </div>
                                 <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="Apellidos" value="{{ $usuario->apellidos }}">
+                                    <input type="text" class="form-control" id="apellidos" required name="apellidos" placeholder="Apellidos" value="{{ isset($usuario) ? $usuario->apellidos : '' }}">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="usuario" required name="usuario" placeholder="Usuario" value="{{ $usuario->usuario }}">
+                                    <input type="text" class="form-control" id="usuario" required name="usuario" placeholder="Usuario" value="{{ isset($usuario) ? $usuario->usuario : '' }}">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="pass" class="col-sm-2 col-form-label">Contraseña</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="pass" required name="pass" placeholder="Contraseña">
+                                    <input type="text" class="form-control" id="pass" {{ !isset($usuario) ? 'required' : ''}} name="pass" placeholder="Contraseña">
                                 </div>
                                 <label for="repeat-pass" class="col-sm-2 col-form-label">Repetir Contraseña</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" id="repeat-pass" required name="repeat-pass" placeholder="Repetir Contraseña">
+                                    <input type="text" class="form-control" id="repeat-pass" {{ !isset($usuario) ? 'required' : ''}} name="repeat-pass" placeholder="Repetir Contraseña">
                                 </div>
                             </div>
                             <fieldset class="form-group">
@@ -50,7 +50,7 @@
                                     <div class="col-sm-4">
                                         <select required name="roles" class="form-control">
                                             @foreach ($roles as $rol)
-                                                <option value="{{ $rol->id }}" {{ $usuario->nombre == $rol->nombre ? 'selected' : '' }}>{{ $rol->nombre }}</option>
+                                                <option value="{{ $rol->id }}" {{ isset($usuario) && $usuario->nombre == $rol->nombre ? 'selected' : '' }}>{{ $rol->nombre }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -70,6 +70,31 @@
     </main>
     <script type="text/javascript">
         $(function () {
+            $('#registro-usuario').on('submit', function (event) {
+                event.preventDefault()
+
+                $.confirm({
+                    content: function () {
+                        let self = this
+                        return $.ajax({
+                            url: "{{ route('editar-usuario', ['id' => isset($usuario) ? $usuario->id : 0]) }}",
+                            method: 'POST',
+                            dataType: 'JSON',
+                            data: $('#registro-usuario').serialize()
+                        }).done(function (response) {
+                            self.close()
+                            toastr.success(response.message)
+                            setTimeout(() => {
+                                location.href = "{{ route('usuarios') }}"
+                            }, 4000)
+                        }).fail(function () {
+                            self.close()
+                            toastr.error('Error consulte a su administrador')
+                        })
+                    }
+                })
+            })
+
             $('#usuario').on('blur', function () {
                 if ($('#usuario').val() == '')
                     return false

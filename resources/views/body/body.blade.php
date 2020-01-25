@@ -34,6 +34,9 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- JVMaps -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
+
+	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/confirm/jquery-confirm.min.css') }}">
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
@@ -76,6 +79,20 @@
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/confirm/jquery-confirm.min.js') }}"></script>
+
+	<script type="text/javascript">
+		$(function () {
+			toastr.options = {
+				closeButton: true,
+				progressBar: true,
+				showMethod: 'slideDown',
+				timeOut: 4000,
+			}
+		})
+	</script>
 </head>
 
 <body>

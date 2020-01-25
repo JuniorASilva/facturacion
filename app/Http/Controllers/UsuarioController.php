@@ -103,6 +103,31 @@ class UsuarioController extends Controller
 
         $usuario = Usuario::getUsuarioById($id);
 
+        if ($request->isMethod('post')) {
+            Persona::updatePersona([
+                'nombres' => $request->input('nombres'),
+                'apellidos' => $request->input('apellidos'),
+            ], [
+                'id' => $usuario->persona_id
+            ]);
+            
+            $data = [
+                'usuario' => $request->input('usuario'),
+            ];
+
+            if (!is_null($request->input('pass'))) {
+                $data['pass'] = md5(sha1($request->input('pass')));
+            }
+
+            Usuario::updateUser($data, ['id' => $id,]);
+
+            return response()->json([
+                'status'  => 200,
+                'data'    => [],
+                'message' => 'Actualizacion satisfactoria'
+            ], 200);
+        }
+
         return view('usuarios.nuevos', compact('option', 'roles', 'usuario'));
     }
 }

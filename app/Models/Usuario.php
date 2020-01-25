@@ -48,4 +48,10 @@ class Usuario extends Model
             return false;
         }
     }
+
+    public static function updateUser($data = array(), $where = array())
+    {
+        return self::where('id', $where['id'])
+                    ->update($data);
+    }
 }

@@ -17,4 +17,10 @@ class Persona extends Model
                     ->where('apellidos', 'like', '%' . $where['apellidos'] . '%')
                     ->first();
     }
+
+    public static function updatePersona($data = array(), $where = array())
+    {
+        return self::where('id', $where['id'])
+                    ->update($data);
+    }
 }
