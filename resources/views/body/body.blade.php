@@ -32,10 +32,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	<!-- JVMaps -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/jvmaps/jqvmap.min.css') }}">
-	<!-- CSS - OPTIONAL - END -->
-
+	
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 
@@ -48,8 +45,6 @@
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/mdb.min.js') }}"></script>
 	<!-- Velocity -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
@@ -65,17 +60,33 @@
 	<!-- SCRIPTS - REQUIRED END -->
 
 	<!-- SCRIPTS - OPTIONAL START -->
-	<!-- ChartJS -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
-	<!-- JVMaps -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/jquery.vmap.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/maps/jquery.vmap.usa.js') }}"></script>
+		
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/toastr.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr-master/toastr.min.css') }}">
+
+	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
+
+	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
+
+	<script type="text/javascript">
+		$(function(){
+			toastr.options = {
+				closeButton: true,
+				progressBar: true,
+				showMethod: 'slideDown',
+				timeOut:4000
+			}
+		})
+	</script>
 </head>
 
 <body>
@@ -105,9 +116,9 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="calculadora.php">
-							<i class="batch-icon batch-icon-marquee-plus"></i>
-							Calculadora <span class="sr-only">(current)</span>
+						<a class="nav-link {{ $option == 'ventas' ? 'active' : '' }}" href="{{ route('ventas') }}">
+							<i class="batch-icon batch-icon-store"></i>
+							Ventas 
 						</a>
 					</li>
 					

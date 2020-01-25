@@ -54,9 +54,17 @@ class UsuarioController extends Controller
             ]);
 
             if ($is_save_user) {
-                \Session::flash('message_signup', 'Usuario creado correctamente');
+                return response()->json([
+                    'status'  => 200,
+                    'data'    => [],
+                    'message' => 'Registro satisfactorio'
+                ]);
             } else {
-                \Session::flash('message_signup', 'Ingrese datos correctamente');
+                return response()->json([
+                    'status'  => 200,
+                    'data'    => [],
+                    'message' => 'Ingrese datos correctamente'
+                ]);
             }
         }
 
@@ -77,15 +85,21 @@ class UsuarioController extends Controller
         }
 
         $u = new Usuario();
-        $res = $u->getUsuarioWhere([
-            'usuario' => $request->input('usuario')
-        ]);
+        $res = null;
+        if($request->input('id') !=0){
+            $usuarioId = $u->getUsuarioWhere(['id'=>$request->input('id')]);
+            if(!is_null($usuarioId) && $usuarioId->usuario != $request->input('usuario')){
+                $res = $u->getUsuarioWhere(['usuario' => $request->input('usuario')]);        
+            }
+        }else{
+            $res = $u->getUsuarioWhere(['usuario' => $request->input('usuario')]);
+        }
 
         if (is_null($res)) {
             return response()->json([
                 'status'  => 200,
                 'data'    => [],
-                'message' => 'No existe usuario'
+                'message' => 'Nombre de usuario disponible'
             ], 200);
         } else {
             return response()->json([
@@ -98,6 +112,28 @@ class UsuarioController extends Controller
 
     public function editarUsuario($id, Request $request)
     {
+        $usuario = (new Usuario())->getUsuarioById($id);
+        if ($request->isMethod('post')){
+            if(is_null($usuario)){
+                return response()->json(['status'=>202,'data'=>[],'message'=>'Error, consulte con su administrador']);
+            }
+           $p = new Persona();
+            $p->updatePersona([
+                    'nombres'       => $request->input('nombres'),
+                    'apellidos'      => $request->input('apellidos')
+                    ],
+                    ['id'=>$usuario->persona_id]);
+
+                    $data = [
+                        'usuario'     => $request->input('usuario')
+                    ];
+                    if(!is_null($request->input('pass'))){
+                        $data['pass'] = md5(sha1($request->input('pass')));
+                    }
+                    Usuario::updateUsuario($data,['id'=>$usuario->id]);
+                    return response()->json(['status'=>200,'data'=>[],'message'=>'Actualizacion Satisfactoria']);
+        }
+
         $option = 'usuarios';
         $roles = (new Utils())->getRoles();
 
