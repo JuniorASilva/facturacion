@@ -43,6 +43,7 @@ class UsuarioController extends Controller
                 $p->fch_nac = date('Y-m-d');
                 $p->telefono = '123456789';
                 $p->genero = 1;
+                $p->estado = 1;
                 $p->save();
                 $id_persona = $p->id;
             }
@@ -68,9 +69,27 @@ class UsuarioController extends Controller
     }
 
     public function editarUsuario(Request $request, $id){
+        $usuario = (new Usuario())->getAllUsuariosById($id);
+        
+        if($request->isMethod('post')){
+            $p = new Persona();
+            $p->updatePersona([
+                'nombres' => $request->input('nombres'),
+                'apellidos' => $request->input('apellidos')
+            ], ['id' => $usuario->persona_id]);
+            $data = [
+                'usuario' => $request->input('usuario')
+            ];
+            if(!is_null($request->input('pass'))){
+                $data['pass'] = md5(sha1($request->input('pass')));
+            }
+            Usuario::updateUsuario($data,['id' => $usuario->id]);
+            return response()->json(['status' => 200, 'data' => [], 'message' => 'Actualizacion satisfactoria']);
+        }
+
         $option = 'usuarios';
         $roles = (new Utils())->getRoles();
-        $usuario = (new Usuario())->getAllUsuariosById($id);
+        
         return view('usuarios.nuevos', compact('option', 'roles','usuario'));
     }
 

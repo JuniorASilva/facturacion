@@ -37,6 +37,9 @@
 
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
+
+	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr-master/toastr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/jquery-confirm-v3.3.4/jquery-confirm.min.css') }}">
 	
 
 	<!-- SCRIPTS - REQUIRED START -->
@@ -76,6 +79,19 @@
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/toastr.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-confirm-v3.3.4/jquery-confirm.min.js') }}"></script>
+
+	<script type="text/javascript">
+		$(function(){
+			toastr.options = {
+				closeButton: true,
+				progressBar: true,
+				showMethod: 'slideDown',
+				timeOut: 4000
+			}
+		});
+	</script>
 </head>
 
 <body>

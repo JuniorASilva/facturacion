@@ -16,7 +16,7 @@
 								</button>
 							</div>
 						@endif
-                        <form method="POST">
+                        <form method="POST" id="registro-usuario">
                             @csrf
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
@@ -37,11 +37,11 @@
                             <div class="form-group row">
                                 <label for="pass" class="col-sm-2 col-form-label">Contraseña*</label>
                                 <div class="col-sm-4">
-                                    <input type="password" class="form-control" id="pass" required name="pass" placeholder="Contraseña">
+                                    <input type="password" class="form-control" id="pass" <?= !isset($usuario) ? 'required' : '' ?> name="pass" placeholder="Contraseña">
                                 </div>
                                 <label for="repeat-pass" class="col-sm-2 col-form-label">Repetir Contraseña*</label>
                                 <div class="col-sm-4">
-                                    <input type="password" class="form-control" id="repeat-pass" required name="repeat-pass" placeholder="Repetir Contraseña">
+                                    <input type="password" class="form-control" id="repeat-pass" <?= !isset($usuario) ? 'required' : '' ?> name="repeat-pass" placeholder="Repetir Contraseña">
                                 </div>
                             </div>
                             <fieldset class="form-group">
@@ -69,6 +69,31 @@
     </main>
     <script type="text/javascript">
         $(function(){
+            $('#registro-usuario').on('submit', function(event){
+                event.preventDefault();
+                //toastr.error('Error al tratar de registrar usuario');
+                $.confirm({
+                    content: function(){
+                        let self = this;
+                        return $.ajax({
+                            url: "{{ route('editar-usuario', ['id' => isset($usuario) ? $usuario->id : 0]) }}",
+                            method: 'POST',
+                            dataType: 'JSON',
+                            data: $('#registro-usuario').serialize()
+                        }).done(function(response){
+                            self.close();
+                            toastr.success(response.message);
+                            setTimeout(function(){
+                                window.location.href = '{{ route("usuarios") }}';
+                            },3000);
+                        }).fail(function(){
+                            self.close();
+                            toastr.error('Error, consulte con su administrador');
+                        });
+                    }
+                });
+               
+            });
             $('#usuario').on('blur',function(){
                 if($('#usuario').val() == '')
                     return false;

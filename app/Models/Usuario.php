@@ -47,4 +47,9 @@ class Usuario extends Model
             return false;
         }
     }
+
+    public static function updateUsuario($data = array(), $where = array()){
+        return Usuario::where('id', '=' ,$where['id'])
+                    ->update($data);
+    }
 }
