@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="table-usuario">
                             <thead>
                             	<tr>
                             		<th scope="col">#</th>
@@ -35,12 +35,12 @@
                                             <td>Por definir</td>
                                             @break
                                     @endswitch
-                                    <td><div class="btn-group"><a class="btn btn-outline-success" href="{{ route('editar-usuario',['id' => $usuario->id]) }}" title="Editar"><i class="fa fa-edit"></i></a></div></td>
+                                    <td><div class="btn-group" style="text-align: center;"><a class="btn btn-primary btn-gradient" href="{{ route('editar-usuario',['id' => $usuario->id]) }}" title="Editar" style="border: 0px;margin-left: 70%;"><i class="fa fa-edit" style="color: white"></i></a></div></td>
                             	</tr>
                             	@endforeach
                             </tbody>
                         </table>
-                        <div class="row">
+                        <div class="row" style="margin: auto;margin-top: 50px">
                         	<a class="btn btn-outline-primary" href="{{ route('nuevo-usuario') }}">Crear Usuario</a>
                         </div>
                     </div>
@@ -48,5 +48,31 @@
             </div>
         </div>
     </main>
-
+<script type="text/javascript">
+    $(function(){
+        $('#table-usuario').DataTable({
+            "lengthMenu": [[-1,10,15,20,30],["All",10,15,20,30]],
+            "columns": [
+               {"width": "10%"},
+               {"width": "40%"},
+               {"width": "15%"},
+               {"width": "15%"},
+               {"width": "20%"}
+            ],
+            "pageLength":15,
+            "language":{
+                "paginate":{
+                    "first":"Primera página",
+                    "last": "Ultima página",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "infoEmpty": "Observando 0 a 0 de 0 registros",
+                "info": "Observando página _PAGE_ de _PAGE_",
+                "lengthMenu":"Desplegando _MENU_ registros",
+                "sSearch": "Buscador"
+            }
+        });
+    })
+</script>
 @endsection

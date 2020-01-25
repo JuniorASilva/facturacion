@@ -13,31 +13,31 @@
                                 <span aria-hidden="true">&times;</span>
                             </button></div>
                         @endif
-                        <form method="post">
+                        <form method="post" id="registro-usuario">
                             <div class="form-group row">
                                 <label for="nombres" class="col-sm-2 col-form-label">Nombres</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" required id="nombres" name="nombres" placeholder="Nombres" value="<?= is_null($usuario)? '' : $usuario->nombres?>">
+                                    <input type="text" class="form-control" required id="nombres" name="nombres" placeholder="Nombres" value="<?= !isset($usuario)? '' : $usuario->nombres?>">
                                 </div>
                                 <label for="apellidos" class="col-sm-2 col-form-label">Apellidos</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" required id="apellidos" name="apellidos" placeholder="Apellidos" value="<?= is_null($usuario)? '' : $usuario->apellidos?>">
+                                    <input type="text" class="form-control" required id="apellidos" name="apellidos" placeholder="Apellidos" value="<?= !isset($usuario)? '' : $usuario->apellidos?>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="usuario" class="col-sm-2 col-form-label">Usuario</label>
                                 <div class="col-sm-4">
-                                    <input type="text" class="form-control" required id="usuario" name="usuario" placeholder="Usuario" value="<?= is_null($usuario)? '' : $usuario->usuario?>">
+                                    <input type="text" class="form-control" required id="usuario" name="usuario" placeholder="Usuario" value="<?= !isset($usuario)? '' : $usuario->usuario?>">
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label for="pass" class="col-sm-2 col-form-label">Contraseña</label>
                                 <div class="col-sm-4">
-                                    <input type="password" class="form-control" id="pass" required name="pass" placeholder="Contraseña">
+                                    <input type="password" class="form-control" id="pass" <?= isset($usuario)? '' : 'required'?> name="pass" placeholder="Contraseña">
                                 </div>
                                 <label for="repeat-pass" class="col-sm-2 col-form-label">Repetir Contraseña</label>
                                 <div class="col-sm-4">
-                                    <input type="password" class="form-control" id="repeat-pass" required name="repeat-pass" placeholder="Repetir Contraseña">
+                                    <input type="password" class="form-control" id="repeat-pass" <?= isset($usuario)? '' : 'required'?> name="repeat-pass" placeholder="Repetir Contraseña">
                                 </div>
                             </div>
                             <fieldset class="form-group">
@@ -55,7 +55,8 @@
                             
                             <div class="form-group row">
                                 <div class="col-sm-10">
-                                    <button type="submit" id="registrar" class="btn btn-primary">Sign in</button>
+                                    <a href=javascript:history.back(1) class="btn btn-danger"><i class="fa fa-arrow-circle-left"></i> Volver</a>
+                                    <button type="submit" id="registrar" class="btn btn-primary">{{ isset($usuario)? 'Actualizar ' : 'Guardar'}}</button>
                                 </div>
                             </div>
                             @csrf
@@ -67,6 +68,31 @@
     </main>
     <script type="text/javascript">
         $(function(){
+            $('#registro-usuario').on('submit',function(){
+                event.preventDefault()
+                
+                $.confirm({
+                    content:function(){
+                        var self = this
+                        return $.ajax({
+                            url: "{{ isset($usuario) ? route('editar-usuario',['id'=> $usuario->id]) : route('nuevo-usuario') }}",
+                            method: 'POST',
+                            dataType: 'JSON',
+                            data: $('#registro-usuario').serialize()
+                        }).done(function(response){
+
+                            self.close()
+                            toastr.success(response.message)
+                            setTimeout(function(){
+                                window.location.href='{{ route("usuarios") }}'
+                            },3000)
+                        }).fail(function(){
+                            self.close()
+                            toastr.error('Error, consulte su administrador')
+                        })
+                    }
+                })
+            })
             $('#usuario').on('blur',function(){
                 if($('#usuario').val() == '')
                     return false
@@ -82,10 +108,11 @@
                     if(response.status == 202){
                         $('#registrar').attr('disabled','disabled')
                         $('#usuario').addClass('border-danger').removeClass('border-success')
-                        
+                        toastr.error(response.message)
                     }else{
                         $('#registrar').removeAttr('disabled')
                         $('#usuario').addClass('border-success').removeClass('border-danger')
+                        toastr.success(response.message)
                         setTimeout(()=>{
                             $('#usuario').removeClass('border-success')
                         },3000);

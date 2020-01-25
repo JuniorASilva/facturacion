@@ -26,7 +26,7 @@ class Usuario extends Model
                     ->first();
     }
 
-    static function saveUser($datos){
+    public static function saveUser($datos){
         $user = new Usuario;
         $user->usuario = $datos["usuario"];
         $user->pass = $datos["clave"];
@@ -38,6 +38,10 @@ class Usuario extends Model
         }else{
             return false;
         }
+    }
+    public static function updateUsuario($data = array(),$where = array()){
+        return self::where('id',$where['id'])
+                    ->update($data);
     }
     
 }
