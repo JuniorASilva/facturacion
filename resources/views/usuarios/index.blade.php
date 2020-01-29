@@ -39,7 +39,11 @@
                                     @endswitch
                                     <td>
                                         <div class="row">
-                                            <a class="btn btn-outline-primary" href="{{ route('editar-usuario',['id'=>$usuario->id]) }}" title="editar"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-outline-success btn-sm"  
+                                                data-toggle="tooltip" title="Editar Usuario"
+                                                href="{{ route('editar-usuario',['id'=>$usuario->id]) }}" 
+                                                >
+                                                <i class="fa fa-edit"></i></a>
                                         </div>
                                     </td>               
                                 </tr>
@@ -47,6 +51,7 @@
                             
                         </tbody>
                     </table>
+                    
                     <div class="row">
                         <a class="btn btn-outline-primary" href="{{ route('nuevo-usuario') }} "> Nuevo </a>
                     </div>
@@ -72,7 +77,7 @@
                     "first":"Primera Pagina",
                     "last":"Ultima Pagina",
                     "next":"Siguiente",
-                    "previus":"Anterior",
+                    "previous":"Anterior",
                 },
             "infoEmpty":"Observando 0 a 0 de 0 Registros",
             "info":"Observando Página _PAGE_ de _PAGE_",

@@ -25,5 +25,6 @@ Route::get('/usuarios','UsuarioController@index')->name('usuarios');
 Route::match(['get','post'],'/nuevo-usuario','UsuarioController@nuevoUsuario')->name('nuevo-usuario');
 Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsuario')->name('editar-usuario');
 Route::get('/ventas','VentasController@index')->name('ventas');
+Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
 
 

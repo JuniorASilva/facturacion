@@ -35,7 +35,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
-	
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
@@ -79,6 +79,7 @@
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
 	<script type="text/javascript">
 		if(function () {
 			toastr.option = {
@@ -87,6 +88,25 @@
 				showMethod:'slideDown',
 				timeOut: 4000
 			}
+			$('[data-toggle="tooltip"]').tooltip()
+			$.fn.datepicker.languages['ca-ES'] = {
+            closeText: 'Cerrar',
+            prevText: '<Ant',
+            nextText: 'Sig>',
+            currentText: 'Hoy',
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd-mm-yy',
+            firstDay: 1,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+          };
+          $.datepicker.setDefaults($.datepicker.regional['es']);
 		})
 	</script>
 </head>
