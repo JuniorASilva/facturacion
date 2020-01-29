@@ -35,7 +35,7 @@
                                             <td>Por definir</td>
                                             @break
                                     @endswitch
-                                    <td><div class="btn-group" style="text-align: center;"><a class="btn btn-primary btn-gradient" href="{{ route('editar-usuario',['id' => $usuario->id]) }}" title="Editar" style="border: 0px;margin-left: 70%;"><i class="fa fa-edit" style="color: white"></i></a></div></td>
+                                    <td><div class="btn-group" style="text-align: center;"><a class="btn btn-primary btn-gradient" data-toggle="tooltip" href="{{ route('editar-usuario',['id' => $usuario->id]) }}" title="Editar" style="border: 0px;margin-left: 70%;"><i class="fa fa-edit" style="color: white"></i></a></div></td>
                             	</tr>
                             	@endforeach
                             </tbody>
