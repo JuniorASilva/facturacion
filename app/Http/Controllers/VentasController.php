@@ -15,4 +15,12 @@ class VentasController extends Controller
         $option = 'ventas';
         return view('ventas/index', compact('option'));
     }
+
+    public function nuevaVenta(Request $request){
+        if(!$request->session()->has('user'))
+            return redirect('/');
+        
+        $option = 'ventas';
+        return view('ventas/nueva', compact('option'));
+    }
 }

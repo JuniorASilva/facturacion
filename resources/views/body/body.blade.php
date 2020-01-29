@@ -77,6 +77,9 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+
 	<script type="text/javascript">
 		$(function(){
 			toastr.options = {
@@ -85,6 +88,8 @@
 				showMethod: 'slideDown',
 				timeOut:4000
 			}
+			$('[data-toggle="tooltip"]').tooltip()
+			
 		})
 	</script>
 </head>

@@ -25,3 +25,4 @@ Rutas para Ventas
 */
 
 Route::get('/ventas', 'VentasController@index')->name('ventas');
+Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
