@@ -56,9 +56,17 @@ class UsuarioController extends Controller
             ]);
 
             if ($is_save_user) {
-                return response()->json(['status' => 200, 'data' => [], 'message' => 'Usuario creado correctamente']);
+                return response()->json([
+                    'status'  => 200,
+                    'data'    => [],
+                    'message' => 'Usuario creado correctamente'
+                ], 200);
             } else {
-                return response()->json(['status' => 202, 'data' => [], 'message' => 'Error, consulte con su administrador' ]);
+                return response()->json([
+                    'status'  => 202,
+                    'data'    => [],
+                    'message' => 'Error al ingresar los datos'
+                ], 202);
             }
         }
 
@@ -127,15 +135,59 @@ class UsuarioController extends Controller
             return response()->json([
                 'status'  => 200,
                 'data'    => [],
-                'message' => 'Usuario disponible'
+                'message' => 'Nombre de usuario disponible'
             ], 200);
         } else {
             return response()->json([
                 'status'  => 202,
                 'data'    => [],
-                'message' => 'El usuario ya existe'
+                'message' => 'Usuario no disponible'
             ], 202);
         }
+    }
+
+    public function editarUsuario($id, Request $request)
+    {
+        $option = 'usuarios';
+        $roles = (new Utils())->getRoles();
+
+        $usuario = Usuario::getUsuarioById($id);
+
+        if ($request->isMethod('post')) {
+
+            if (is_null($usuario)) {
+                return response()->json([
+                    'status' => 200,
+                    'data' => [],
+                    'message' => 'Error, consulte su administrador'
+                ], 202);
+            }
+
+            Persona::updatePersona([
+                'nombres' => $request->input('nombres'),
+                'apellidos' => $request->input('apellidos'),
+            ], [
+                'id' => $usuario->persona_id
+            ]);
+            
+            $data = [
+                'usuario' => $request->input('usuario'),
+            ];
+
+            if (!is_null($request->input('pass'))) {
+                $data['pass'] = md5(sha1($request->input('pass')));
+            }
+
+            Usuario::updateUser($data, ['id' => $id,]);
+
+            return response()->json([
+                'status'  => 200,
+                'data'    => [],
+                'message' => 'Actualizacion satisfactoria'
+            ], 200);
+        }
+
+        return view('usuarios.nuevos', compact('option', 'roles', 'usuario'));
     }
 }
 //agregar la actualizacion del usuario

@@ -18,17 +18,19 @@ class Usuario extends Model
 
     public function getAllUsuarios()
     {
-        return $this->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
+        return $this->select('tusuario.*', 'tp.nombres', 'tp.apellidos', 'tr.nombre as rol')
+                    ->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
                     ->join('trol as tr', 'tusuario.rol_id', '=', 'tr.id')
                     ->select('tusuario.*','tp.nombres','tp.apellidos','tr.nombre as rol')
                     ->get();
     }
 
-    public function getAllUsuariosById($id = 0){
-        return $this->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
+    public static function getUsuarioById($id)
+    {
+        return self::select('tusuario.*', 'tp.nombres', 'tp.apellidos', 'tr.nombre as rol')
+                    ->join('persona as tp', 'tusuario.persona_id', '=', 'tp.id')
                     ->join('trol as tr', 'tusuario.rol_id', '=', 'tr.id')
-                    ->select('tusuario.*','tp.nombres','tp.apellidos','tr.nombre as rol')
-                    ->where('tusuario.id',$id)
+                    ->where('tusuario.id', $id)
                     ->first();
     }
 
@@ -48,8 +50,9 @@ class Usuario extends Model
         }
     }
 
-    public static function updateUsuario($data = array(), $where = array()){
-        return Usuario::where('id', '=' ,$where['id'])
+    public static function updateUser($data = array(), $where = array())
+    {
+        return self::where('id', $where['id'])
                     ->update($data);
     }
 }

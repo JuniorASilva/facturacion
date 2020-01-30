@@ -8,16 +8,15 @@ use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-
-    public function login(Request $request){
-        if (!$request->session()->has('user'))
+    public function login(Request $request)
+    {
+        if (!$request->session()->has('user')){
             return view('layout/login');
-        else
-            return redirect()->route('home');
-        $option = 'home';
-        return view('layout.home', compact('option'));
+        } else {
+            return redirect('home');
+        }
     }
-
+    
     public function index(Request $request)
     {
         if (!$request->session()->has('user'))

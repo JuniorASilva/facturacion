@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="">
-	<link rel="icon" href="assets/img/favicon.png">
+	<link rel="icon" href="{{ asset('assets/img/favicon.png') }}">
 
 	<title>Backend | Facturación</title>
 
@@ -29,17 +29,16 @@
 	<!-- CSS - OPTIONAL - START -->
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	<!-- Font Awesome -->
 
+	<!-- PLUGINS -->
+	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/confirm/jquery-confirm.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
-
-	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr-master/toastr.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/plugins/jquery-confirm-v3.3.4/jquery-confirm.min.css') }}">
-	
-	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
 
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -65,31 +64,47 @@
 	<!-- SCRIPTS - REQUIRED END -->
 
 	<!-- SCRIPTS - OPTIONAL START -->
-	<!-- ChartJS -->
-	
-	<!-- JVMaps -->
-	
-	
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/toastr.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-confirm-v3.3.4/jquery-confirm.min.js') }}"></script>
 
+	<!-- PLUGINS -->
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/confirm/jquery-confirm.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
 
 	<script type="text/javascript">
-		$(function(){
+		$(function () {
 			toastr.options = {
 				closeButton: true,
 				progressBar: true,
 				showMethod: 'slideDown',
-				timeOut: 4000
+				timeOut: 4000,
 			}
-		});
+			$('[data-toggle="tooltip"]').tooltip()
+			$.fn.datepicker.languages['es'] = {
+				closeText: 'Cerrar',
+				prevText: '<Ant',
+				nextText: 'Sig>',
+				currentText: 'Hoy',
+				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+				monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+				dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+				dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+				weekHeader: 'Sm',
+				dateFormat: 'dd-mm-yy',
+				firstDay: 1,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: ''
+			}
+          $.fn.datepicker.setDefaults($.fn.datepicker.languages['es'])
+		})
 	</script>
 </head>
 
@@ -120,9 +135,9 @@
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ $option == 'venta' ? 'active' : '' }}" href="{{ route('ventas') }}">
+						<a class="nav-link {{ $option == 'ventas' ? 'active' : '' }}" href="{{ route('ventas') }}">
 							<i class="batch-icon batch-icon-store"></i>
-							Ventas
+							Ventas <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					
@@ -163,11 +178,6 @@
 						</li>
 					</ul>
 
-					<!--  DEPRECATED CODE:
-						<div class="navbar-collapse" id="navbarSupportedContent">
-					-->
-					<!-- USE THIS CODE Instead of the Commented Code Above -->
-					<!-- .collapse added to the element -->
 					<div class="collapse navbar-collapse" id="navbar-header-content">
 						<ul class="navbar-nav navbar-language-translation mr-auto">
 						   
