@@ -14,11 +14,12 @@
                                 <label >
                                     Cliente
                                 </label>
+
                                 <div class="input-group">
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="clientes" placeholder="Buscar por Dni o Apellidos">
                                             <div class="input-group-append">
-                                                <button type="button" class="btn btn-success" title="Nuevo Cliente" data-toggle="tooltip">
+                                                <button type="button" class="btn btn-success" title="Nuevo Cliente" id="nuevo_cliente" data-toggle="tooltip">
                                                 <i class="fa fa-plus"></i>
                                                 </button>
                                             </div>
@@ -27,7 +28,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <label> Tipo Documento</label>
-                                <select class="form-control" name="tipo_doc">
+                                <select class="form-control" name="tipo_doc" id="tipo_doc">
                                     <option value="03">Boleta</option>
                                     <option value="01">Factura</option>
                                 </select>
@@ -38,11 +39,94 @@
                             <label for="">Fecha</label>
                             <input  type="text" name="fecha" class="form-control datepicker" >
                         </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-lg-offset-4 col-md-offset-4 col-sm-offset-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4 ">
                             <label for="">&nbsp;</label><br>
-                            <button type="button" class="btn btn-success"><i class="fa fa-plus"></i>Item </button>
+                            <button type="button" class="btn btn-success pull-right"><i class="fa fa-plus"></i>Item </button>
                         </div>
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="table">
+                                <table class="table display table-striped table-bordered table-hover center" id="tabla-items">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Producto</th>
+                                            <th scope="col">Precio</th>
+                                            <th scope="col">Cantidad</th>
+                                            <th scope="col">Impuesto</th>
+                                            <th scope="col">Total</th>
+                                            <th scope="col">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Op. Gravada</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Op. Inafecta</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Op. Exonerada</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>I.G.V</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Total</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label >Moneda</label>
+                            <select class="form-control" name="" id="">
+                                <option value="PEN">Soles</option>
+                                <option value="DLR">Dolares</option>
+                                <option value="EUR">Euros</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
                     </div>
                 </div>
             </div>
@@ -55,4 +139,70 @@
     })
 </script>
 
+<script type="text/javascript">
+    $(function () {
+        var t_ventas = $('#tabla-items').DataTable({
+            "lengthMenu":[[-1,10,15,20,30],["All",10,15,20,30]],
+            "columns":[
+                {"width":"10%"},
+                {"width":"40%"},
+                {"width":"10%"},
+                {"width":"15%"},
+                {"width":"15%"},
+                {"width":"15%"},
+                {"width":"15%"}
+            ],
+            "pageLength":15,
+            "language":{
+                "paginate":{
+                    "first":"Primera Pagina",
+                    "last":"Ultima Pagina",
+                    "next":"Siguiente",
+                    "previous":"Anterior",
+                },
+            "infoEmpty":"Observando 0 a 0 de 0 Registros",
+            "info":"Observando Página _PAGE_ de _PAGE_",
+            "lengthMenu":"Desplegando _MENU_ registros",
+            "sSearch":"Buscar por:",
+            
+            }
+        });
+        $('#nuevo_cliente').on('click',function () {
+            $.confirm({
+                title:'Agregar Cliente',
+                columnClass:'col-lg-6 col-md-6 col-sm-6 offset-md-3 offset-lg-3 offset-sm-3',
+                content: function(){
+                    var self = this
+                    return $.ajax({
+                        url:'{{ route('util-documento') }}',
+                        dataType:'JSON',
+                        method:'POST',
+                        data:{
+                            _token:'{{ csrf_token() }}'
+                        }
+                    }).done(function(response){
+                        self.setContentAppend(`<div class="row" style="margin-right:0px ;margin-left:0px;">
+    <div class="col-lg-6 col-md-6">
+        <label>Nombres</label>
+        <input type="text" class="form-control" placeholder="Nombres" name="nombres">
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <label>Apellidos</label>
+        <input type="text" class="form-control" placeholder="Apellidos" name="apellidos">
+    </div>
+    </div>
+    <div class="row" style="margin-right:0px ;margin-left:0px;"></div>`)
+                    }).fail(function(){
+                        self.close()
+                        toastr.error('Error, consulte con su administrador');
+                    })
+                }
+            })
+            
+        })
+    });
+</script>
+
 @endsection
+
+
