@@ -54,7 +54,7 @@
 						<p class="lead mb-5">
 							Trabajo 1 <br>
 							Profesor | Junior Silva <br>
-							Autor | María Lucía Ibáñez Palacios
+							Diseñador | María Lucía Ibáñez Palacios
 						</p>
 					</div>
 					<div class="col-md-5 order-md-1 signin-left-column bg-white px-5" style="padding-top: 100px">
@@ -68,9 +68,9 @@
 								<p>Por favor ingresar su usuario y contraseña para iniciar sesión</p>
 								<div class="form-group">
 									<label for="nombre">Usuario</label>
-									<input type="text" class="form-control" name="usuario" required>
+									<input type="text" class="form-control" name="usuario" required placeholder="Usuario">
 									<label for="password">Contraseña</label>
-									<input type="password" class="form-control" name="password" required>
+									<input type="password" class="form-control" name="password" required placeholder="Contraseña">
 								</div>
 								<button type="submit" class="btn btn-primary btn-gradient btn-block">
 									<i class="batch-icon batch-icon-key"></i>&nbsp;&nbsp;

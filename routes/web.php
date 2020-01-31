@@ -36,3 +36,10 @@ Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsua
  * Rutas para Ventas
  */
 Route::get('/ventas','VentasController@index')->name('ventas');
+Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
+
+
+/*
+ * Rutas Utilitarias
+ */
+Route::post('/util-documento','FacturacionController@cargaDocumentos')->name('util-documento');

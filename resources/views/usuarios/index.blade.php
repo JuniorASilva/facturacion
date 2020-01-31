@@ -37,7 +37,7 @@
                                         @endswitch
                                         <td>
                                             <div class="btn-group">
-                                                <a class="btn btn-outline-success btn-sm" href="{{ route('editar-usuario',['id'=>$usuario->id]) }}" title="Editar"><i class="fa fa-edit"></i></a>
+                                                <a class="btn btn-outline-success btn-sm" data-toggle="tooltip" title="Editar usuario" href="{{ route('editar-usuario',['id'=>$usuario->id]) }}"><i class="fa fa-edit"></i></a>
                                             </div>
                                         </td>
                                     </tr>
