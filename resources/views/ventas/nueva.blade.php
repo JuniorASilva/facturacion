@@ -161,30 +161,15 @@
     				content: function(){
 						var self = this
 						return $.ajax({
-							url: '{{ route('') }}',
+							url: '{{ route('util-documento') }}',
 							dataType: 'JSON',
 							method: 'POST',
 							data: {
 								_token: '{{ csrf_token() }}'
 							}
-						}).done(function(response){}).fail(function(){
-							self.close()
-							toastr.error('Error, consulte con su administrador')
-						})
-					}
-    			})
-    		})
-   		})
-   	</script>
-@endsection
-
-
-
-
-
-
-
-`<div class="row" style="margin-right: 0px; margin-left: 0px;">
+						}).done(function(response){
+							/* html */
+							self.setContentAppend(`<div class="row" style="margin-right: 0px; margin-left: 0px;">
 						<div class="col-lg-6 col-md-6">
 							<label>Nombres</label>
 							<input type="text" class="form-control" placeholder="Nombres" name="nombres">
@@ -194,4 +179,14 @@
 							<input type="text" class="form-control" placeholder="Apellidos" name="apellidos">
 						</div>
 					</div>
-					<div class="row" style="margin-right: 0px; margin-left: 0px;"></div>`
+					<div class="row" style="margin-right: 0px; margin-left: 0px;"></div>`)
+						}).fail(function(){
+							self.close()
+							toastr.error('Error, consulte con su administrador')
+						})
+					}
+    			})
+    		})
+   		})
+   	</script>
+@endsection
