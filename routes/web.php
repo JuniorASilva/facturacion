@@ -22,3 +22,9 @@ Route::match(['get', 'post'], '/editar-usuario/{id}', 'UsuarioController@editarU
 
 Route::get('/ventas', 'VentasController@index')->name('ventas');
 Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
+
+/**
+ * Rutas Utiliarias
+ */
+
+Route::post('/util-documento', 'FacturacionController@cargaDocumentos')->name('util-documento');
