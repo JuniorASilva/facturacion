@@ -41,6 +41,11 @@
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
+	<style type="text/css">
+		.datepicker-container{
+			z-index: 9999999999 !important;
+		}
+	</style>
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Bootstrap core JavaScript -->
@@ -75,6 +80,8 @@
     <script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/toastr.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery/dist/jquery-confirm.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/data-tables/datatables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
