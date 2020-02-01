@@ -140,6 +140,9 @@
 </script>
 
 <script type="text/javascript">
+    $(document).on("focus",'.datepicker',function(){
+        $(this).datepicker()
+    })
     $(function () {
         var t_ventas = $('#tabla-items').DataTable({
             "lengthMenu":[[-1,10,15,20,30],["All",10,15,20,30]],
@@ -181,21 +184,89 @@
                             _token:'{{ csrf_token() }}'
                         }
                     }).done(function(response){
-                        self.setContentAppend(`<div class="row" style="margin-right:0px ;margin-left:0px;">
+                        if(response.status==200)
+                        {
+                            console.log(response.data)
+                            let stringDocumentos='';
+                            for(let i in response.data){
+                                stringDocumentos+='<option value"'+response.data[i].id+'">'+response.data[i].nombre+'</option>'
+                            }
+                        self.setContentAppend(`<form class="formulario-persona"><div class="row" style="margin-right:0px ;margin-left:0px;">
     <div class="col-lg-6 col-md-6">
-        <label>Nombres</label>
-        <input type="text" class="form-control" placeholder="Nombres" name="nombres">
+        <label>Nombres *</label>
+        <input type="text" class="form-control" placeholder="Nombres" name="nombres" required>
     </div>
     <div class="col-lg-6 col-md-6">
-        <label>Apellidos</label>
-        <input type="text" class="form-control" placeholder="Apellidos" name="apellidos">
+        <label>Apellidos *</label>
+        <input type="text" class="form-control" placeholder="Apellidos" name="apellidos" required>
     </div>
     </div>
-    <div class="row" style="margin-right:0px ;margin-left:0px;"></div>`)
+    <div class="row" style="margin-right:0px ;margin-left:0px;">
+      <div class="col-lg-6 col-md-6">
+        <label>Tipo Documentos *</label>
+        <select class="form-control" name="tipo_doc">${stringDocumentos}</select>
+    </div>
+    <div class="col-lg-6 col-md-6">
+        <label>Numero Documentos * </label>
+        <input type="text" class="form-control" placeholder="12345678" name="nro_doc" required>
+    </div>
+    </div>
+    <div class="row" style="margin-right:0px ;margin-left:0px;">
+        <div class="col-lg-6 col-md-6">
+            <label>Direccion</label>
+            <input type="text" class="form-control" placeholder="Av. Los cuchillos filudos" name="direccion">
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <label>Fec.Nacimiento</label>
+            <input type="text" class="form-control datepicker" placeholder="{{ date('Y-m-d') }}" name="fec_nac">
+        </div>
+    </div>
+    <div class="row" style="margin-right:0px ;margin-left:0px;">
+        <div class="col-lg-6 col-md-6">
+            <label>Telefono</label>
+            <input type="text" class="form-control" placeholder="952311111" name="telefono">
+        </div>
+        <div class="col-lg-6 col-md-6">
+            <label>Genero</label>
+            <select class='form-control'>
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+                <option value="1">No Precisa</option>
+            </select>
+        </div>
+    </div>
+</form>`)
+                        }
+                        else{
+                            self.close()
+                            toastr.error(response.message)
+                        }
                     }).fail(function(){
                         self.close()
                         toastr.error('Error, consulte con su administrador');
                     })
+                }, 
+                contentLoaded: function(){},
+                onContentReady: function(){
+                    $('.datepicker').datepicker({
+                        container: "body"
+                    })
+                },
+                buttons:{
+                    Guardar:{
+                        text:'guardar',
+                        keys:['enter'],
+                        action: function(){
+                            if(!$('.formulario-persona').valid())
+                            {
+                                toastr.error('Ingrese los datos correctos')
+                                return false
+                            }
+                            toastr.success('Bienvenido')
+                            return false
+                        }
+                    },
+                    Cancelar:function(){}
                 }
             })
             

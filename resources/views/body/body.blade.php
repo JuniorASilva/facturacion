@@ -36,6 +36,11 @@
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
+	<style>
+		.datepicker-container{
+			z-index: 99999999999 !important;
+		}
+	</style>
 	<!-- CSS - OPTIONAL - END -->
 
 	<!-- QuillPro Styles -->
@@ -64,6 +69,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js') }}"></script>
 
 	<!-- SCRIPTS - REQUIRED END -->
 
@@ -80,6 +87,7 @@
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
+	
 	<script type="text/javascript">
 		if(function () {
 			toastr.option = {
