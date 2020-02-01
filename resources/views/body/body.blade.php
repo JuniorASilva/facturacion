@@ -80,6 +80,10 @@
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
 
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+	
+
+
 	<script type="text/javascript">
 		$(function(){
 			toastr.options = {
@@ -92,6 +96,13 @@
 			
 		})
 	</script>
+
+<style>
+	.datepicker-container{
+		z-index: 99999999999 !important;
+	}
+</style>
+
 </head>
 
 <body>
