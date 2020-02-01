@@ -11,4 +11,9 @@ class Utils extends Model
     {
         return DB::table('trol')->get();
     }
+
+    public static function getDocumentos()
+    {
+        return DB::table('tipo_identificacion')->get();
+    }
 }

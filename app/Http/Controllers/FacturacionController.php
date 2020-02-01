@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Utils;
 use Illuminate\Http\Request;
 
 class FacturacionController extends Controller
@@ -11,6 +12,12 @@ class FacturacionController extends Controller
         if (!$request->session()->has('user'))
             return redirect('/');
 
-        // Falta extraer datos
+        $documentos = Utils::getDocumentos();
+
+        return response()->json([
+            'status'  => 200,
+            'data'    => $documentos,
+            'message' => 'Consulta satisfactoria'
+        ]);
     }
 }
