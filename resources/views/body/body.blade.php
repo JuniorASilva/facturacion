@@ -42,6 +42,11 @@
 	<!-- DataTable Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
+	<style>
+		.datepicker-container{
+			z-index: 999999999999 !important;
+		}
+	</style>
 
 
 	<!-- SCRIPTS - REQUIRED START -->
@@ -76,6 +81,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
 	<!-- DataTable Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+	<!-- Validation Scripts -->
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
