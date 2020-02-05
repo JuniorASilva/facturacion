@@ -3,54 +3,52 @@
 @section('contenido')
 
 <main class="main-content p-5" role="main">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                <div class="card-header">
-                    <h3>Nueva Venta</h3>
-                </div>
-                    <div class="card-body">
-                        
-                        <div class="form-horizontal">
-                            <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                    <label>Cliente</label>
-                                        <div class="input-group">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+            <div class="card-header">
+                <h3>Nueva Venta</h3>
+            </div>
 
-                                            <input type="text" class="form-control" name="cliente" placeholder="Busque por DNI o Apellidos">
-                                            <div class = "input-group-append">
-                                                <button type="button" class="btn btn-success" id="nuevo_cliente" title="Nuevo Cliente" data-toggle="tooltip">
-                                                <i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <label>Tipo Documento</label>
-                                    <select class="form-control" name="tipo_doc" id="tipo_doc">
-                                        <option value="03">Boleta</option>
-                                        <option value="01">Factura</option>
-                                    </select>
+            <div class="card-body">                        
+                <div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <label>Cliente</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="cliente" placeholder="Busque por DNI o Apellidos">
+                                <div class = "input-group-append">
+                                    <button type="button" class="btn btn-success" id="nuevo_cliente" title="Nuevo Cliente" data-toggle="tooltip">
+                                    <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <br>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label>Tipo Documento</label>
+                            <select class="form-control" name="tipo_doc" id="tipo_doc">
+                                <option value="03">Boleta</option>
+                                <option value="01">Factura</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
 
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                <label>Fecha</label>
-                                <input type="text" name="fecha" class="form-control datepicker">
-                                </div>
-                                <div class="col-lg-8 col-md-8 col-sm-8">
-                                <label>&nbsp;</label><br>
-                                <button type="button" class="btn btn-success pull-right"><i class="fa fa-plus"></i>Item </button>
-                                </div>                                
-                            </div>
-                            <hr>
-                            <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
+                            <label>Fecha</label>
+                            <input type="text" name="fecha" class="form-control datepicker">
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8">
+                            <label>&nbsp;</label><br>
+                            <button type="button" class="btn btn-success pull-right"><i class="fa fa-plus"></i>Item </button>
+                        </div>                                
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="table">
-                            
-                                <table class="table display table-striped table-bordered table-hover center"
-                                id="tabla-items">
+                        
+                                <table class="table display table-striped table-bordered table-hover center" id="tabla-items">
                                 <thead>
                                 <tr>
                                     <th class="center">#</th>
@@ -68,84 +66,84 @@
                                 </table>
 
                             </div>
-                            </div>
-                            </div>
-                            
-                        
+                        </div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                            <span>Op. Gravada</span>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <span>Op. Gravada</span>
+                                </div>
+                                <div class="col-ld-6 col-md-6 col-sm-6">
+                                    <label>S/</label><label>0.00</label>
+                                </div>
                             </div>
-                            <div class="col-ld-6 col-md-6 col-sm-6">
-                            <label>S/</label><label>0.00</label>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                            <span>Op. Inafecta</span>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Op. Inafecta</span>
+                                </div>
+                                <div class="col-ld-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                                </div>
                             </div>
-                            <div class="col-ld-6 col-md-6 col-sm-6">
-                            <label>S/</label><label>0.00</label>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                            <span>Op. Exonerada</span>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Op. Exonerada</span>
+                                </div>
+                                <div class="col-ld-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                                </div>
                             </div>
-                            <div class="col-ld-6 col-md-6 col-sm-6">
-                            <label>S/</label><label>0.00</label>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                            <span>I.G.V</span>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>I.G.V</span>
+                                </div>
+                                <div class="col-ld-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                                </div>
                             </div>
-                            <div class="col-ld-6 col-md-6 col-sm-6">
-                            <label>S/</label><label>0.00</label>
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4">
-                            <span>Total</span>
-                            </div>
-                            <div class="col-ld-6 col-md-6 col-sm-6">
-                            <label>S/</label><label>0.00</label>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                <span>Total</span>
+                                </div>
+                                <div class="col-ld-6 col-md-6 col-sm-6">
+                                <label>S/</label><label>0.00</label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6 col-sm-6">
-                        <div class="form-group">
-                        <label>Moneda</label>
-                        <select class = "form-control">
-                            <option value="PEN">Soles</option>
-                            <option value="DLR">Dolares</option>
-                            <option value="EUR">Euros</option>
-                        </select>
-                        </div>
+                            <div class="form-group">
+                                <label>Moneda</label>
+                                <select class = "form-control">
+                                    <option value="PEN">Soles</option>
+                                    <option value="DLR">Dolares</option>
+                                    <option value="EUR">Euros</option>
+                                </select>
+                            </div>
                         </div>                            
-                        </div>
-                        <hr>
-                        <div class="row">      
-                        <div class="col-lg-8 col-md-8 col-sm-8">
-                        <div class="btn-group">
-                        <button type="button" class="btn btn-success">
-                        <i class="fa fa-save"></i>Guardar</button>
-                        </div>
+                    </div>
+                    <hr>
+                    
+                    <div class="row">      
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-success">
+                                <i class="fa fa-save"></i>Guardar</button>
+                            </div>
                         </div>          
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-    </main>
+    </div>
+</div>
+</main>
 
     <script type="text/javascript">
         $(document).on("focus",'.datepicker',function(){
@@ -243,6 +241,7 @@
                                 <option value="3">Otros</option>
                             </select> 
                             </div>
+                            @csrf
                             </div>
                             </div>
                             </form>`)
@@ -269,11 +268,38 @@
                     //btnClass: 'btn-primary',
                     keys: ['enter'],
                     action: function(){
+                        var self = this
                         if(!$('.formulario-persona').valid()){
-                            toastr.error('Ingrese los datos correctos')
-                            return false
-                        }
-                        toastr.success('Bienvenidos')
+                            toastr.error('Ingrese los datos correctos') 
+                            return false                           
+                        }                        
+                        var formularioPersona = self.$content.find('.formulario-persona').serialize()
+                        $.confirm({
+                            title: 'Registrando',
+                            content: function(){
+                                var self2 = this
+                                return $.ajax({
+                                    url: '{{ route("registro-cliente") }}',
+                                    method: 'POST',
+                                    dataType: 'JSON',
+                                    data: formularioPersona
+                                }).done(function(response){
+                                    if(response.status == 200){
+                                        toastr.success(response.message)
+                                        self2.close()
+                                        self.close()
+                                    }
+                                    console.log(response)
+                                    self2.close()
+                                    return false
+                                }).fail(function(){
+                                    self2.close()
+                                    toastr.error('Error, consulte con su admnistrador.')
+                                    return false
+                                })
+                            }
+                        })
+                        /*toastr.success('Bienvenidos')*/
                         return false
                     }
                 },

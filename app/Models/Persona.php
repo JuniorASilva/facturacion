@@ -23,4 +23,7 @@ class Persona extends Model
         return $this->where('id', $where['id'] )
                     ->update($data);
     }
+
+    
+
 }
