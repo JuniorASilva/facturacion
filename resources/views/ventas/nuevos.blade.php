@@ -198,7 +198,8 @@
 
                                 /*html*/
                                 self.setContentAppend(`
-                                    <form class="formulario-persona">
+                                    <form class="formulario-persona" id="registro-cliente">
+                                        @csrf
                                         <div class="row" style="margin-right: 0px; margin-left: 0px;">
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Nombres *</label>
@@ -213,7 +214,7 @@
                                         <div class="row" style="margin-right: 0px; margin-left: 0px;">
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Tipo de documento *</label>
-                                                <select class="form-control" required>
+                                                <select class="form-control" name="tipo_documento" required>
                                                     ${stringDocumentos}
                                                 </select>
                                             </div>
@@ -241,7 +242,7 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <label>Genero</label>
-                                                <select class="form-control" required>
+                                                <select class="form-control" name="genero" required>
                                                     <option value="1">Masculino</option>
                                                     <option value="2">Femenino</option>
                                                     <option value="3">Otros</option>
@@ -279,8 +280,36 @@
                                     return false
                                 }
 
-                                toastr.success('Bienvenido')
-                                return false
+                                $.confirm({
+                                    title: 'Registrando',
+                                    content: function () {
+                                        let self2 = this
+
+                                        return $.ajax({
+                                            url: "{{ route('crear-cliente') }}",
+                                            dataType: 'JSON',
+                                            method: 'POST',
+                                            data: $('#registro-cliente').serialize()
+                                        }).done(function (response) {
+                                            
+                                            console.log(response)
+
+                                            if (response.status == 200) {
+                                                toastr.success(response.message)
+                                                self2.close()
+                                                self.close()
+                                            } else {
+                                                toastr.success(response.message)
+                                            }
+                                            return false
+
+                                        }).fail(function (error) {
+                                            self2.close()
+                                            toastr.error('Error consulte a su administrador')
+                                            console.log(error)
+                                        })
+                                    }
+                                })
                             }
                         },
                         Cancelar: {}

@@ -28,3 +28,5 @@ Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
  */
 
 Route::post('/util-documento', 'FacturacionController@cargaDocumentos')->name('util-documento');
+
+Route::post('/crear-cliente', 'FacturacionController@crearCliente')->name('crear-cliente');

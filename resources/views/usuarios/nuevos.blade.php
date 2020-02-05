@@ -79,6 +79,7 @@
                 $.confirm({
                     content: function () {
                         let self = this
+                        
                         return $.ajax({
                             url: "{{ isset($usuario) ? route('editar-usuario', ['id' => $usuario->id]) : route('nuevo-usuario') }}",
                             //url: "{{ route( isset($usuario) ? 'editar-usuario' : 'nuevo-usuario', ['id' => isset($usuario) ? $usuario->id : 0]) }}",
