@@ -89,32 +89,40 @@
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
 	
 	<script type="text/javascript">
-		if(function () {
-			toastr.option = {
+		(function (global, factory) {
+		  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
+		  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+		  (factory(global.jQuery));
+		}(this, (function ($) {
+		  'use strict';
+		  $.fn.datepicker.languages['ca-ES'] = {
+	            closeText: 'Cerrar',
+	            prevText: '<Ant',
+	            nextText: 'Sig>',
+	            currentText: 'Hoy',
+	            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+	            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+	            days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+	            daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+	            daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+	            weekHeader: 'Sm',
+	            dateFormat: 'dd-mm-yy',
+	            firstDay: 1,
+	            isRTL: false,
+	            showMonthAfterYear: false,
+	            yearSuffix: ''
+	          };
+		})));
+		$(function(){
+			toastr.options = {
 				closeButton: true,
-				progressBar:true,
-				showMethod:'slideDown',
+				progressBar: true,
+				showMethod: 'slideDown',
 				timeOut: 4000
 			}
 			$('[data-toggle="tooltip"]').tooltip()
-			$.fn.datepicker.languages['ca-ES'] = {
-            closeText: 'Cerrar',
-            prevText: '<Ant',
-            nextText: 'Sig>',
-            currentText: 'Hoy',
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-            dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-            dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-            weekHeader: 'Sm',
-            dateFormat: 'dd-mm-yy',
-            firstDay: 1,
-            isRTL: false,
-            showMonthAfterYear: false,
-            yearSuffix: ''
-          };
-          $.datepicker.setDefaults($.datepicker.regional['es']);
+			/*$.datepicker.languages['es'] = 
+	          $.datepicker.setDefaults($.datepicker.languages['es']);*/
 		})
 	</script>
 </head>

@@ -17,6 +17,15 @@ class Persona extends Model
                     ->first();
     }
 
+    public static function getIdentificacionWhere($nro_doc,$tipo_doc) {
+        return DB::table('identificacion')
+                    ->where('id_tipo_identificacion',$tipo_doc)
+                    ->where('nroidentificacion',$nro_doc)
+                    ->first();
+    }
+
+    
+
      public function updatePersona($data = array(), $where = array())
     {
         return $this->where('id',$where['id'])
