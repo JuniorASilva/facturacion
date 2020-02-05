@@ -17,4 +17,5 @@ class Persona extends Model
     	return self::where('id',$where['id'])
     	            ->update($data);
     }
+    
 }
