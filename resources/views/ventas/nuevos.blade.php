@@ -136,6 +136,9 @@
         </div>
     </main>
     <script>
+    $(document).on("focus",".datepicker",function(){
+        $(this).datepicker();
+    });
         $(function () {
             $('.datepicker').datepicker();
             $('#table-items').dataTable({
@@ -178,21 +181,121 @@
                                 _token: '{{ csrf_token() }}'
                             }
                         }).done(function(response){
-                            self.setContentAppend(`<div class="row" style="margin-right:0px; margin-left: 0px;">
+                            if(response.status == 200){
+                                console.log(response.data);
+                                let stringDocumentos = '';
+                                for(let i in response.data){
+                                    stringDocumentos += `<option value="${response.data[i].id}">${response.data[i].nombre}</option>`;
+                                }
+                                /*html */
+                                self.setContentAppend(`<form id="formulario-persona" class="formulario-persona"><div class="row" style="margin-right:0px; margin-left: 0px;">
                                         <div class="col-lg-6 col-md-6">
-                                            <label>Nombres</label>
-                                            <input type="text" class="form-control" placeholder="Nombres" name="nombres">
+                                            <label>Nombres *</label>
+                                            <input type="text" class="form-control" placeholder="Nombres" name="nombres" required>
                                         </div>
                                         <div class="col-lg-6 col-md-6">
-                                            <label>Apellidos</label>
-                                            <input type="text" class="form-control" placeholder="Apellidos" name="apellidos">
+                                            <label>Apellidos *</label>
+                                            <input type="text" class="form-control" placeholder="Apellidos" name="apellidos" required>
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-right:0px; margin-left:0px;"></div>`);
+                                    <div class="row" style="margin-right:0px; margin-left:0px;">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label>Tipo de Documento *</label>
+                                            <select name="tipo_doc" class="form-control">${stringDocumentos}</select>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label>Número de Documento *</label>
+                                            <input type="text" class="form-control" placeholder="12345678" name="nro_doc" required>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-right:0px; margin-left:0px;">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label>Dirección *</label>
+                                            <input type="text" name="direccion" class="form-control" placeholder="Av. Dirección">
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label>Fecha de Nacimiento</label>
+                                            <input type="text" class="form-control datepicker" placeholder="{{ date('Y-m-d') }}" name="fch_nac">
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-right:0px; margin-left:0px;">
+                                        <div class="col-lg-6 col-md-6">
+                                            <label>Teléfono</label>
+                                            <input type="text" name="telefono" class="form-control" placeholder="987654321">
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <label>Género</label>
+                                            <select class="form-control" name="cb_genero">
+                                                <option value="1">Masculino</option>
+                                                <option value="2">Femenino</option>
+                                                <option value="3">Otros</option>
+                                            </select>
+                                        </div>
+                                        @csrf
+                                    </div></form>`);
+                            }else{
+                                self.close();    
+                                toastr.error(response.message);
+                            }
+                            
                         }).fail(function(){
                             self.close();
                             toastr.error('Error, consulte con su administrador')
+                            return false;
                         });
+                    },
+                    contentLoaded: function(){},
+                    onContentReady: function(){
+                        $('.datepicker').datepicker({
+                            container:"body"
+                        });
+                        
+                    },
+                    buttons: {
+                        Guardar: {
+                            text: 'Ok',
+                            btnClass: 'btn-primary',
+                            keys: ['enter'],
+                            action: function(){
+                                var self = this;
+                                if(!$('.formulario-persona').valid()){
+                                    toastr.error('Ingrese los datos correctos');
+                                    return false;
+                                }
+                                var formularioPersona = self.$content.find('.formulario-persona').serialize();
+                                console.log(formularioPersona);
+                                $.confirm({
+                                    title: 'Registrando',
+                                    content: function(){
+                                        var self2 = this;
+                                        return $.ajax({
+                                            url: '{{ route("registro-cliente") }}',
+                                            method: 'POST',
+                                            dataType: 'JSON',
+                                            data: formularioPersona
+                                        }).done(function(response){
+                                            if(response.status == 200){
+                                                toastr.success(response.message);
+                                                self2.close();
+                                                self.close();
+                                            }
+                                            console.log(response)
+                                            self2.close();
+                                            return false;
+                                        }).fail(function(){
+                                            self2.close();
+                                            toastr.error('Error, consulte con su administrador.');
+                                            return false;
+                                        })
+                                    }
+                                })
+                                //toastr.success('bienvenido');
+                                return false;
+                            }
+                        },
+                        Cancelar: function(){
+
+                        }
                     }
                 });
             });

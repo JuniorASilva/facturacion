@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class Utils extends Model
 {
-
-
     public function getRoles(){
         return DB::table('trol')->get();
     }
+    public function getDocumentos(){
+        return DB::table("tipo_identificacion")->get();
+    }
+
 }
