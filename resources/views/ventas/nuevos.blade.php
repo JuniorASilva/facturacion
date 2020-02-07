@@ -14,7 +14,8 @@
                                 <div class="col-lg-8 col-md-8 col-sm-8">
                                     <label>Cliente</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="cliente" placeholder="Busque por DNI o Apellidos">
+                                        <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Busque por DNI o Apellidos">
+                                        <input type="hidden" name="id_cliente" id="id_cliente" />
                                         <div class="input-group-append">
                                             <button type="button" class="btn btn-success" title="Nuevo Cliente" data-toggle="tooltip" id="nuevo_cliente">
                                                 <i class="fa fa-plus"></i>
@@ -278,6 +279,8 @@
                                                 toastr.success(response.message);
                                                 self2.close();
                                                 self.close();
+                                                $('#cliente').val(response.data.nro_doc + ' - '+response.data.apellidos +' - '+response.data.nombres);
+                                                $('#id_cliente').val(response.data.id_persona);
                                             }
                                             console.log(response)
                                             self2.close();
@@ -298,6 +301,20 @@
                         }
                     }
                 });
+            });
+            $('#cliente').autocomplete({
+                serviceUrl: '{{ route("autocomplete-cliente") }}',
+                minChars: 3,
+                dataType: 'JSON',
+                type: 'POST',
+                paramName: 'cliente',
+                params: {
+                    cliente: $('#cliente').val(),
+                    _token: '{{csrf_token()}}'
+                },
+                onSelect: function(suggestions){
+                    $('#id_cliente').val(suggestions.data.id_persona);
+                }
             });
         });
 
