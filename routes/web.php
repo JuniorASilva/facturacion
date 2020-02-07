@@ -27,7 +27,7 @@ Rutas para Ventas
 Route::get('/ventas', 'VentasController@index')->name('ventas');
 Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
 Route::post('/registro-cliente', 'FacturacionController@crearCliente')->name('registro-cliente');
-
+Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
 
 /*
 *Rutas Utilitarias

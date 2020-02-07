@@ -31,10 +31,10 @@ class FacturacionController extends Controller
                 $id_persona = $p->id;
 
                 $identificacion = new Identificacion();
-                $identificacion->nroidentificacion = $request->input('nro-doc');
-                $identificacion->id_tipo_identificacion = $request->input('tipo-doc');
+                $identificacion->nroidentificacion = $request->input('nro_doc');
+                $identificacion->id_tipo_identificacion = $request->input('tipo_doc');
                 $identificacion->id_empresa = 1;
-                $identificacion->id_persona = $p->$id; 
+                $identificacion->id_persona = $p->id; 
                 $identificacion->save();
             }   
             $data = $request->all();
@@ -43,54 +43,7 @@ class FacturacionController extends Controller
 
 
 
-       /* if ($request->isMethod('post')) {
-            $p = new Persona();
-
-            $res = $p->getPersonaWhereLike([
-                'nombres' => $request->input('nombres'),
-                'apellidos' => $request->input('apellidos')
-            ]);
-
-            if ($res != null && count($res->toArray()) != 0) {
-                $id_persona = $res->id;
-            } else {
-                $p->nombres = $request->input('nombres');
-                $p->apellidos = $request->input('apellidos');
-                $p->direccion = $request->input('direccion');
-                $p->tipodoc = $request->input('tipo_doc');
-                $p->numdoc = $request->input('nro_doc');
-                $p->fch_nac = date('Y-m-d');
-                $p->telefono = '123456789';
-                $p->genero = 1;
-                $p->save();
-            }
-
-            $is_save_user = Usuario::saveUser([
-                'usuario' => $request->input('usuario'),
-                'pass' => md5(sha1($request->input('pass'))),
-                'persona' => $p->id,
-                'rol' => $request->input('roles'),
-            ]);
-
-            if ($is_save_user) {
-                return response()->json([
-                    'status'  => 200,
-                    'data'    => [],
-                    'message' => 'Registro satisfactorio'
-                ]);
-            } else {
-                return response()->json([
-                    'status'  => 200,
-                    'data'    => [],
-                    'message' => 'Ingrese datos correctamente'
-                ]);
-            }
-        }
-
-        $option = 'usuarios';
-        $roles = (new Utils())->getRoles();
-
-        return view('usuarios.nuevos', compact('option', 'roles'));*/
+       
     }
 
     public function cargaDocumentos(Request $request){
@@ -105,4 +58,42 @@ class FacturacionController extends Controller
             return response()->json(['status'=>202,'data'=>[],'message'=>"Error consulte con su admnistrador"]);
             }
     }
+
+    public function consultaAutocompleteCliente(Request $request){
+        if (!$request->session()->has('user'))
+            return redirect('/');
+
+            if (!$request->isMethod('post')){
+                return response()->json(['status'=>202,'data'=>[],'message'=>"Error consulte con su admnistrador"]);                               
+            }
+            
+            if (is_numeric($request->input('cliente'))){
+                $where = [
+                    ['i.nroidentificacion','like',$request->input('cliente').'%']
+                ];
+
+            }else{
+
+                $where = [
+                    ['p.apellidos','like',$request->input('cliente').'%']
+                ];
+
+            }
+
+            $personas = (new Persona()) -> getClienteAutocomplete($where);
+            $pers = [];
+            if (!is_null($personas)){
+                foreach($personas as $per){
+                    array_push($pers,[
+                        'value'=>$per->nroidentificacion.' - '.$per->apellidos. ' '.$per->nombres,
+                        'data'=>$per
+                    ]);
+                }
+            }
+            return response()->json(['suggestions'=>$pers]);                               
+                
+            
+    }
+
+
 }
