@@ -29,7 +29,7 @@ class FacturacionController extends Controller
 	    	$p->save();
 	        $id_persona = $p->id;
 	        $identificacion = new Identificacion();
-	        $identificacion->nroidentificacion = $request ->input('nro-doc');
+	        $identificacion->nroidentificacion = $request ->input('nro_doc');
 	        $identificacion->id_tipo_identificacion = $request->input('tipo_doc');
 	        $identificacion->id_empresa = 1;
 	        $identificacion->id_persona = $p->id;
@@ -52,5 +52,31 @@ class FacturacionController extends Controller
     	else{
     		return response()->json_encode(['status' => 202, 'data' =>[],'message'=> 'Error']);
     	}
+    }
+    public function consultaAutocompleteCliente(Request $request){
+    	if(!$request->session()->has('user'))
+    		return redirect('/');
+    	if(!$request->isMethod('post'))
+    		return response()->json_encode(['status' => 202, 'data' =>[],'message'=> 'Error']);
+    	if(is_numeric($request->input('cliente'))){
+    		$where= [
+    			['i.nroidentificacion','like',$request->input('cliente').'%']
+    		];
+    	}else{
+    		$where = [
+    			['p.apellidos','like',$request->input('cliente').'%']
+    		];
+    	}
+    	$personas = (new Persona())->getClienteAutocomplete($where);
+    	$pers = [];
+    	if (!is_null($personas)) {
+    		foreach ($personas as $per) {
+    			array_push($pers,[
+    				'value'=>$per->nroidentificacion.' - '.$per->apellidos.' '.$per->nombres,
+    				'data'=>$per
+    			]);
+    		}
+    	}
+    	return response()->json(['suggestions'=>$pers]);
     }
 }

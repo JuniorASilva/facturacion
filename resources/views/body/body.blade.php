@@ -44,7 +44,14 @@
 	<style type="text/css">
 		.datepicker-container{
 			z-index: 9999999999 !important;
+
 		}
+		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 	</style>
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -63,7 +70,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/custom-scrollbar/jquery.mCustomScrollbar.concat.min.js') }}"></script>
 	<!-- jQuery Visible -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-autocomplete/jquery.autocomplete.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<!-- jQuery Visible -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

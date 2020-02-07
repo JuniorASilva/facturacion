@@ -13,7 +13,8 @@
                         		<div class="col-lg-8 col-md-8 col-sm-8">
                         			<label>Cliente</label>
                         			<div class="input-group mb-3">
-                        			<input type="text" class="form-control" placeholder="Busque por DNI o Apellidos" aria-label="Busque por DNI o Apellidos" aria-describedby="basic-addon2">
+                        			<input type="text" class="form-control" placeholder="Busque por DNI o Apellidos" aria-label="Busque por DNI o Apellidos" aria-describedby="basic-addon2" name="cliente" id="cliente">
+                                    <input type="hidden" name="id_cliente" id="id_cliente">
 										<div class="input-group-append">
 											<button class="btn btn-primary  active" id="nuevo_cliente" type="button" title="Nuevo Cliente" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
 										</div>
@@ -225,6 +226,12 @@
                                             toastr.success(response.message)
                                             self2.close()
                                             self.close()
+                                            $('#cliente').val(response.data.nro_doc+' - '+response.data.apellidos+' '+response.data.nombres)
+                                            $('#id_cliente').val(response.data.id_persona)
+                                        }else{
+                                            toastr.error(response.message)
+                                            self2.close()
+                                            return false
                                         }
                                         console.log(response)
                                         self2.close()
@@ -244,6 +251,20 @@
                     Cancelar: function(){}
                 }
             })
+        })
+        $('#cliente').autocomplete({
+            serviceUrl: '{{ route("autocomplete-cliente") }}',
+            minChars: 3,
+            dataType: 'JSON',
+            type: 'POST',
+            paramName:'cliente',
+            params: {
+                cliente: $('#cliente').val(),
+                _token:'{{ csrf_token() }}'
+            },
+            onSelect: function(suggestion){
+                $('#id_cliente').val(suggestion.data.id_persona)
+            }
         })
     })
 </script>

@@ -29,3 +29,4 @@ Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
 
 */Route::post('/util-documento','FacturacionController@cargaDocumentos')->name('util-documento');
 Route::post('/resgistro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
+Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
