@@ -22,11 +22,11 @@ Route::match(['get', 'post'], '/editar-usuario/{id}', 'UsuarioController@editarU
 
 Route::get('/ventas', 'VentasController@index')->name('ventas');
 Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
+Route::post('/crear-cliente', 'FacturacionController@crearCliente')->name('crear-cliente');
+Route::post('/autocomplete-cliente', 'FacturacionController@autocompleteCliente')->name('autocomplete-cliente');
 
 /**
  * Rutas Utiliarias
  */
 
 Route::post('/util-documento', 'FacturacionController@cargaDocumentos')->name('util-documento');
-
-Route::post('/crear-cliente', 'FacturacionController@crearCliente')->name('crear-cliente');
