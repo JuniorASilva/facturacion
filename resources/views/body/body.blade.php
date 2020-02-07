@@ -34,7 +34,7 @@
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 	<!-- ToastrMaster Styles -->
-	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr-master/toastr.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr-master/build/toastr.min.css') }}">
 
 	<!-- Jconfirm Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
@@ -46,6 +46,12 @@
 		.datepicker-container{
 			z-index: 999999999999 !important;
 		}
+		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 	</style>
 
 
@@ -76,13 +82,15 @@
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- ToastrMaster Scripts -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/toastr.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr-master/build/toastr.min.js') }}"></script>
 	<!-- Jconfirm Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
 	<!-- DataTable Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
 	<!-- Validation Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
+	<!-- AutoComplete Scripts -->
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-autocomplete/dist/jquery.autocomplete.min.js') }}"></script>
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>

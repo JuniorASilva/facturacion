@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Persona extends Model
 {
@@ -20,5 +21,14 @@ class Persona extends Model
     public function updatePersona($data = array(),$where = array()){
     	return $this->where('id',$where['id'])
     				->update($data);
+    }
+
+    public function getClienteAutocomplete($where){
+        return DB::table('persona as p')
+                    ->join('identificacion as i','p.id','=','i.id_persona')
+                    ->where('i.id_tipo_identificacion',2)
+                    ->where($where)
+                    ->select('p.apellidos','p.nombres','p.id as id_persona','i.nroidentificacion')
+                    ->get();
     }
 }

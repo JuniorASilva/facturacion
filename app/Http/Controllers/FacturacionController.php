@@ -52,4 +52,33 @@ class FacturacionController extends Controller
             return response()->json(['status'=>202,'data'=>[],'message'=>'Error consulte con su administrador']);
         }
     }
+
+    public function consultaAutocompleteCliente(Request $request){
+        if(!$request->session()->has('user'))
+            return redirect('/');
+        if(!$request->isMethod('post'))
+            return response()->json(['status'=>202,'data'=>[],'message'=>'Error consulte con su administrador']);
+
+        if(is_numeric($request->input('cliente'))){
+            $where = [
+                ['i.nroidentificacion','like',$request->input('cliente').'%']
+            ];
+        }else{
+            $where = [
+                ['p.apellidos','like',$request->input('cliente').'%']
+            ];
+        }
+        $personas = (new Persona())->getClienteAutocomplete($where);
+        $pers = array();
+        if(!is_null($personas)){
+            foreach($personas as $per){
+                array_push($pers,array(
+                    'value'=>$per->nroidentificacion.' - '.$per->apellidos.' '.$per->nombres,
+                    'data'=>$per
+                    )
+                );
+            }
+        }
+        return \Response::json(array('suggestions'=>$pers));
+    }
 }
