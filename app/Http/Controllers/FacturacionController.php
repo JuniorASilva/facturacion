@@ -107,4 +107,9 @@ class FacturacionController extends Controller
             'suggestions' => $resultados
         ]);
     }
+
+    public function consultaRuc(Request $request)
+    {
+        return response()->json(\Sunat::llamado());
+    }
 }

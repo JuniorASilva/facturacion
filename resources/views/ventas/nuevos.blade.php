@@ -148,6 +148,13 @@
 
         $(function () {
             $('.datepicker').datepicker()
+            $('#tipo_doc').on('click', function () {
+                if ($(this).val() == '03') {
+                    $('#cliente').attr('placeholder', 'Busque por DNI o apellidos')
+                } else {
+                    $('#cliente').attr('placeholder', 'Busque por RUC o Razon social')
+                }
+            })
             $('#tabla-items').dataTable({
                 "pageLength": 15,
                 "language": {
@@ -170,155 +177,200 @@
 
             // Evento para agregar un nuevo cliente
             $('#nuevo_cliente').on('click', function () {
-                $.confirm({
-                    title: 'Agregar Cliente',
-                    columnClass: 'col-lg-8 col-md-8 col-sm-8',
-                    
-                    content: function() {
-                        let self = this
+                
+                if ($('#tipo_doc').val() == '03') {
+                    $.confirm({
+                        title: 'Agregar Cliente',
+                        columnClass: 'col-lg-8 col-md-8 col-sm-8',
+                        
+                        content: function() {
+                            let self = this
 
-                        return $.ajax({
-                            url: '{{ route('util-documento') }}',
-                            dataType: 'JSON',
-                            method: 'POST',
-                            data: {
-                                _token: '{{ csrf_token() }}'
-                            }
-                        }).done(function (response) {
-                            if (response.status == 200) {
-                                console.log(response.data)
-
-                                let stringDocumentos = ``
-
-                                for (let i in response.data) {
-                                    
-                                    stringDocumentos += `
-                                        <option value="${response.data[i].id}">${response.data[i].nombre}</option>
-                                    `
+                            return $.ajax({
+                                url: '{{ route('util-documento') }}',
+                                dataType: 'JSON',
+                                method: 'POST',
+                                data: {
+                                    _token: '{{ csrf_token() }}'
                                 }
+                            }).done(function (response) {
+                                if (response.status == 200) {
+                                    console.log(response.data)
 
-                                /*html*/
-                                self.setContentAppend(`
-                                    <form class="formulario-persona" id="registro-cliente">
-                                        @csrf
-                                        <div class="row" style="margin-right: 0px; margin-left: 0px;">
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Nombres *</label>
-                                                <input type="text" class="form-control" placeholder="Nombres" name="nombres" required>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Apellidos *</label>
-                                                <input type="text" class="form-control" placeholder="Apellidos" name="apellidos" required>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="row" style="margin-right: 0px; margin-left: 0px;">
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Tipo de documento *</label>
-                                                <select class="form-control" name="tipo_documento" required>
-                                                    ${stringDocumentos}
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Numero de documento *</label>
-                                                <input type="text" class="form-control" placeholder="12345678" name="nro_doc" required>
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="row" style="margin-right: 0px; margin-left: 0px;">
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Direccion</label>
-                                                <input type="text" class="form-control" placeholder="Av. Direccion" name="direccion">
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Fecha de nacimiento</label>
-                                                <input type="text" class="form-control datepicker" placeholder="{{ date('Y-m-d') }}" name="fch_nac">
-                                            </div>
-                                        </div>
-                                        <br />
-                                        <div class="row" style="margin-right: 0px; margin-left: 0px;">
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Telefono</label>
-                                                <input type="text" class="form-control" placeholder="Telefono" name="telefono">
-                                            </div>
-                                            <div class="col-lg-6 col-md-6">
-                                                <label>Genero</label>
-                                                <select class="form-control" name="genero" required>
-                                                    <option value="1">Masculino</option>
-                                                    <option value="2">Femenino</option>
-                                                    <option value="3">Otros</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </form>
-                                `)
-                            } else {
-                                self.close()
-                                toastr.error(response.message)
-                            }
-                        }).fail(function (error) {
-                            self.close()
-                            toastr.error('Error, consulte con su administrador')
-                        })
-                    },
-                    contentLoaded: function () {
+                                    let stringDocumentos = ``
 
-                    },
-                    onContentReady: function () {
-                        $('.datepicker').datepicker({
-                            container: 'body',
-                        })
-                    },
-                    buttons: {
-                        Guardar: {
-                            text: 'Guardar',
-                            keys: ['enter'],
-                            btnClass: 'btn-primary',
-                            action: function () {
-
-                                if (!$('.formulario-persona').valid()) {
-                                    toastr.error('Ingrese los datos correctos')
-                                    return false
-                                }
-
-                                $.confirm({
-                                    title: 'Registrando',
-                                    content: function () {
-                                        let self2 = this
-
-                                        return $.ajax({
-                                            url: "{{ route('crear-cliente') }}",
-                                            dataType: 'JSON',
-                                            method: 'POST',
-                                            data: $('#registro-cliente').serialize()
-                                        }).done(function (response) {
-                                            
-                                            console.log(response)
-
-                                            if (response.status == 200) {
-                                                toastr.success(response.message)
-                                                self2.close()
-                                                self.close()
-
-                                                $('#cliente').val(`${response.data.nro_doc} - ${response.data.apellidos} ${response.data.nombres}`)
-                                                $('#id_cliente').val(response.data.id_persona)
-                                            } else {
-                                                toastr.error(response.message)
-                                            }
-                                            return false
-
-                                        }).fail(function (error) {
-                                            self2.close()
-                                            toastr.error('Error consulte a su administrador')
-                                            console.log(error)
-                                        })
+                                    for (let i in response.data) {
+                                        
+                                        stringDocumentos += `
+                                            <option value="${response.data[i].id}">${response.data[i].nombre}</option>
+                                        `
                                     }
-                                })
-                            }
+
+                                    /*html*/
+                                    self.setContentAppend(`
+                                        <form class="formulario-persona" id="registro-cliente">
+                                            @csrf
+                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Nombres *</label>
+                                                    <input type="text" class="form-control" placeholder="Nombres" name="nombres" required>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Apellidos *</label>
+                                                    <input type="text" class="form-control" placeholder="Apellidos" name="apellidos" required>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Tipo de documento *</label>
+                                                    <select class="form-control" name="tipo_documento" required>
+                                                        ${stringDocumentos}
+                                                    </select>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Numero de documento *</label>
+                                                    <input type="text" class="form-control" placeholder="12345678" name="nro_doc" required>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Direccion</label>
+                                                    <input type="text" class="form-control" placeholder="Av. Direccion" name="direccion">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Fecha de nacimiento</label>
+                                                    <input type="text" class="form-control datepicker" placeholder="{{ date('Y-m-d') }}" name="fch_nac">
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Telefono</label>
+                                                    <input type="text" class="form-control" placeholder="Telefono" name="telefono">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6">
+                                                    <label>Genero</label>
+                                                    <select class="form-control" name="genero" required>
+                                                        <option value="1">Masculino</option>
+                                                        <option value="2">Femenino</option>
+                                                        <option value="3">Otros</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    `)
+                                } else {
+                                    self.close()
+                                    toastr.error(response.message)
+                                }
+                            }).fail(function (error) {
+                                self.close()
+                                toastr.error('Error, consulte con su administrador')
+                            })
                         },
-                        Cancelar: {}
-                    }
-                })
+                        contentLoaded: function () {
+
+                        },
+                        onContentReady: function () {
+                            $('.datepicker').datepicker({
+                                container: 'body',
+                            })
+                        },
+                        buttons: {
+                            Guardar: {
+                                text: 'Guardar',
+                                keys: ['enter'],
+                                btnClass: 'btn-primary',
+                                action: function () {
+
+                                    if (!$('.formulario-persona').valid()) {
+                                        toastr.error('Ingrese los datos correctos')
+                                        return false
+                                    }
+
+                                    $.confirm({
+                                        title: 'Registrando',
+                                        content: function () {
+                                            let self2 = this
+
+                                            return $.ajax({
+                                                url: "{{ route('crear-cliente') }}",
+                                                dataType: 'JSON',
+                                                method: 'POST',
+                                                data: $('#registro-cliente').serialize()
+                                            }).done(function (response) {
+                                                
+                                                console.log(response)
+
+                                                if (response.status == 200) {
+                                                    toastr.success(response.message)
+                                                    self2.close()
+                                                    self.close()
+
+                                                    $('#cliente').val(`${response.data.nro_doc} - ${response.data.apellidos} ${response.data.nombres}`)
+                                                    $('#id_cliente').val(response.data.id_persona)
+                                                } else {
+                                                    toastr.error(response.message)
+                                                }
+                                                return false
+
+                                            }).fail(function (error) {
+                                                self2.close()
+                                                toastr.error('Error consulte a su administrador')
+                                                console.log(error)
+                                            })
+                                        }
+                                    })
+                                }
+                            },
+                            Cancelar: {}
+                        }
+                    })
+                } else {
+                    $.confirm({
+                        title: 'Busqueda por SUNAT',
+                        /* html */
+                        content: `
+                            <form class="formulario-sunat" id="consulta-sunat">
+                                @csrf
+                                <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                    <div class="col-lg-12 col-md-12">
+                                        <label>RUC</label>
+                                        <input type="text" class="form-control" placeholder="Ingrese numero de RUC" name="ruc" required></input>
+                                    </div>
+                                </div>
+                            </form>
+                        `,
+                        buttons: {
+                            consulta: {
+                                text: 'Consultar',
+                                btnClass: 'btn-primary',
+                                action: function () {
+                                    $.confirm({
+                                        title: 'Consultando',
+                                        content: function () {
+                                            let self2 = this
+                                            return $.ajax({
+                                                url: '{{ route("consulta-ruc") }}',
+                                                dataType: 'JSON',
+                                                method: 'POST',
+                                                data: $('#consulta-sunat').serialize()
+                                            }).done(function (response) {
+                                                console.log(response)
+                                            }).fail(function (error) {
+                                                console.error(error)
+                                                self2.close()
+                                            })
+                                        }
+                                    })
+                                }
+                            },
+                            cancelar: function () {}
+                        }
+                    })
+                }
             })
 
             // Autocompletado de clientes
