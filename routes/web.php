@@ -33,3 +33,4 @@ Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteC
 *Rutas Utilitarias
 */
 Route::post('/util-documento','FacturacionController@cargaDocumentos')->name('util-documento');
+Route::post('/consulta-ruc','FacturacionController@consultaRUC')->name('consulta-ruc');
