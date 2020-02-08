@@ -35,11 +35,18 @@
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
+
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
 	<style>
 		.datepicker-container{
 			z-index: 99999999999 !important;
 		}
+		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 	</style>
 	<!-- CSS - OPTIONAL - END -->
 
@@ -69,6 +76,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/autocomplete/jquery.autocomplete.min.js') }}"></script>
+	
 	
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js') }}"></script>
 

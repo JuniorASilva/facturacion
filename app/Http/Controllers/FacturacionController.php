@@ -63,4 +63,39 @@ class FacturacionController extends Controller
             }
 
     }
+
+    public function consultaAutocompleteClientes(Request $request){
+        if (!$request->session()->has('user'))
+            return redirect('/');
+        if(!$request -> isMethod('post')){
+            return response()->json(['status'=>202,'data'=>[],'message'=>'Error, consulte con su administador']);
+        }
+        if(is_numeric($request->input('clientes'))){
+            $where=[
+                ['i.nroidentificacion','like',$request->input('clientes').'%']
+            ];
+        }
+        else{
+            $where=[
+                ['p.apellidos','like',$request->input('clientes').'%']
+            ];
+        }
+
+        $personas=(new Persona())->getClienteAutocomplete($where);
+        $pers=[];
+        if(!is_null($personas)){
+            foreach($personas as $per)
+            {
+                array_push($pers,['value'=>$per->nroidentificacion.'-'.$per->apellidos.' '.$per->nombres,
+                                    'data'=>$per]);
+            }
+        }
+
+        return response()->json(['suggestions'=>$pers]);
+    }
+
+    public function consultaRuc(Request $request){
+        return response()->json(\Sunat::llamado());
+    }
+
 }

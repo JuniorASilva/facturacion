@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Utils;
 use App\Models\Persona;
+use Illuminate\Support\Facades\DB;
 
 class Persona extends Model
 {
@@ -32,6 +33,14 @@ class Persona extends Model
                     ->update($data);
     }
 
-    
+    public function getClienteAutocomplete($where){
+        return DB::table('persona as p')
+                    ->join('identificacion as i', 'p.id', '=','i.id_persona')
+                    ->where('i.id_tipo_identificacion',2)
+                    ->where($where)
+                    ->select('p.apellidos','p.nombres','p.id as id_persona','i.nroidentificacion')
+                    ->get();
+
+    }
 
 }

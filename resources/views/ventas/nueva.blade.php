@@ -17,7 +17,8 @@
 
                                 <div class="input-group">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="clientes" placeholder="Buscar por Dni o Apellidos">
+                                        <input type="text" class="form-control" name="clientes" id="clientes" placeholder="Buscar por Dni o Apellidos">
+                                        <input type="hidden" class="form-control" name="id_cliente" id="id_cliente">
                                             <div class="input-group-append">
                                                 <button type="button" class="btn btn-success" title="Nuevo Cliente" id="nuevo_cliente" data-toggle="tooltip">
                                                 <i class="fa fa-plus"></i>
@@ -134,16 +135,21 @@
     </div>
 </main>
 <script type="text/javascript">
-    $(function () {
-        $('.datepicker').datepicker()
-    })
-</script>
-
-<script type="text/javascript">
-    $(document).on("focus",'.datepicker',function(){
+$(document).on("focus",'.datepicker',function(){
         $(this).datepicker()
+        
     });
     $(function () {
+        $('.datepicker').datepicker()
+        $('#tipo_doc').on('click',function(){
+            if($(this).val()=='03'){
+                $('#clientes').attr('placeholder','Nombre o DNI')
+            }
+            else
+            {
+                $('#clientes').attr('placeholder','Razon Social')
+            }
+        })
         var t_ventas = $('#tabla-items').DataTable({
             "lengthMenu":[[-1,10,15,20,30],["All",10,15,20,30]],
             "columns":[
@@ -171,13 +177,16 @@
             }
         });
         $('#nuevo_cliente').on('click',function () {
+            if ($('#tipo_doc').val()=='03'){
+
+            
             $.confirm({
                 title:'Agregar Cliente',
                 columnClass:'col-lg-6 col-md-6 col-sm-6 offset-md-3 offset-lg-3 offset-sm-3',
                 content: function(){
                     var self = this
                     return $.ajax({
-                        url:'{{ route('util-documento') }}',
+                        url:'{{ route("util-documento") }}',
                         dataType:'JSON',
                         method:'POST',
                         data:{
@@ -189,7 +198,7 @@
                             console.log(response.data)
                             let stringDocumentos='';
                             for(let i in response.data){
-                                stringDocumentos+='<option value"'+response.data[i].id+'">'+response.data[i].nombre+'</option>'
+                                stringDocumentos+=`<option value="${response.data[i].id}">${response.data[i].nombre}</option>`;
                             }
                         self.setContentAppend(`<form class="formulario-persona">
                                                     <div class="row" style="margin-right:0px ;margin-left:0px;">
@@ -278,10 +287,12 @@
                                         data: formularioPersona
 
                                     }).done(function(response){
-                                        if (response.status=200){
+                                        if (response.status==200){
                                             toastr.success(response.message)
                                             self2.close();
                                             self.close();
+                                            $('#clientes').val(response.data.nro_doc+'-'+response.data.apellidos+', '+response.data.nombres);
+                                            $('#id_clientes').val(response.data.id_persona);
                                         }
                                         console.log(response)
                                         self2.close()
@@ -301,7 +312,69 @@
                     Cancelar:function(){}
                 }
             })
+        }
+        else{
+            $.confirm({
+                title:`
+                <form class="formulario-sunat" id="consulta-sunat">
+                        @csrf
+                            <div class="row" style="margin-rigth:0px; margin-left:0px;">
+                                <div class="col-lg-12 col-md-12">
+                                    <label>Ruc</label>
+                                    <input type="text" class="form-control" placeholder="Ingresar NUmero de RUC" name="ruc" required>
+                                </div>
+                            </div>
+                        </form>
+                        `,
+                buttons:{
+                    consultar:{
+                        text:'Consultar',
+                        btnClass:'btn-primary',
+                        keys:['enter'],
+                        action:function(){
+                            var self=this
+                            $.confirm({
+                                title:'Consultando',
+                                content:function(){
+                                    var self2=this
+                                    return $.ajax({
+                                        url:'{{ route("consulta-ruc") }}',
+                                        method:'POST',
+                                        dataType:'JSON',
+                                        //data: self.$content.find(".formulario-sunat").serialize(),
+                                        data: $('#consulta-sunat').serialize(),
+                                    }).done(function(response){
+                                        console.log(response)
+                                    }).fail(function(){
+                                        toastr.error('Error,consulte con su administrador')
+                                        self2.close()
+                                    })
+                                }
+                            })
+                            /*toastr.success('Consultando')
+                            return false*/
+                        }
+                    },
+                    cancelar:function(){}
+                }
+
+            })
+        }
             
+        })
+        $('#clientes').autocomplete({
+            serviceUrl:'{{ route("autocomplete-clientes") }}',
+            minChars:3,
+            dataType:'JSON',
+            type:'POST',
+            paramName:'clientes',
+            params:{
+                clientes: $('#clientes').val(),
+                _token: '{{ csrf_token() }}'
+            },
+            onSelect:function(suggestions){
+                $('#id_clientes').val(suggestions.data.id_persona);
+            }
         })
     });
 </script>

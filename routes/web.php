@@ -27,9 +27,13 @@ Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsua
 Route::get('/ventas','VentasController@index')->name('ventas');
 Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
 Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
+Route::post('/autocomplete-clientes','FacturacionController@consultaAutocompleteClientes')->name('autocomplete-clientes');
+
 
 /* Rutas Utilitarias */
 
 Route::post('/util-documento','FacturacionController@cargaDocumentos')->name('util-documento');
+Route::post('/consulta-ruc','FacturacionController@consultaRUC')->name('consulta-ruc');
+
 
 
