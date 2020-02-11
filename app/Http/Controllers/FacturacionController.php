@@ -81,4 +81,8 @@ class FacturacionController extends Controller
         }
         return \Response::json(array('suggestions'=>$pers));
     }
+
+    public function consultaRuc(Request $request){
+        return response()->json(\Sunat::llamado());
+    }
 }
