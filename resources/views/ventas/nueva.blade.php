@@ -330,7 +330,8 @@
 												data: $('#consulta-sunat').serialize()
 											}).done(function(response){
 												console.log(response)
-											}).fail(function(){
+											}).fail(function(error){
+												console.log(error)
 												toastr.error('Error, consulte con su administrador')
 												self2.close()
 											})
