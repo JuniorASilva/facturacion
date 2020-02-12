@@ -305,7 +305,7 @@
 							<div class="row"  style="margin-right: 0px; margin-left: 0px;">
 								<div class="col-lg-12 col-md-12">
 									<label>RUC</label>
-									<input type="text" class="form-control" placeholer="Ingrese numero de RUC" name="ruc" required>
+									<input type="text" class="form-control ruc" placeholer="Ingrese numero de RUC" name="ruc" required>
 								</div>
 								@csrf
 							</div>
@@ -318,6 +318,10 @@
 								keys: ['enter'],
 								action: function(){
 									var self = this
+									if(self.$content.find('.ruc').val() == ''){
+										toastr.error('Ingrese un ruc valido')
+										return false
+									}
 									$.confirm({
 										title: 'Consultando',
 										content: function(){
