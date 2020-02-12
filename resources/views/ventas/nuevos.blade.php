@@ -338,7 +338,7 @@
                                 <div class="row" style="margin-right: 0px; margin-left: 0px;">
                                     <div class="col-lg-12 col-md-12">
                                         <label>RUC</label>
-                                        <input type="text" class="form-control" placeholder="Ingrese numero de RUC" name="ruc" required></input>
+                                        <input type="text" id="ruc" class="form-control" placeholder="Ingrese numero de RUC" name="ruc" required></input>
                                     </div>
                                 </div>
                             </form>
@@ -348,6 +348,13 @@
                                 text: 'Consultar',
                                 btnClass: 'btn-primary',
                                 action: function () {
+
+                                    let self = this
+                                    if ($('#ruc').val() == '') {
+                                        toastr.error('Ingrese ruc valido')
+                                        return false
+                                    }
+
                                     $.confirm({
                                         title: 'Consultando',
                                         content: function () {
