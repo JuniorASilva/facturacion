@@ -6,4 +6,5 @@ e-consultaruc.sunat.gob.pe	FALSE	/	FALSE	0	TS019202bb	019edc9eb8f556329d6039038a
 e-consultaruc.sunat.gob.pe	FALSE	/cl-ti-itmrconsruc/	FALSE	0	___utmvbpcuompMB	EZF
 .sunat.gob.pe	TRUE	/	FALSE	0	incap_ses_123_2093648	JVvsEalFRXDq8ESAhfy0AWfdJF0AAAAAAzWYKz60Mq5oJXOpaIp+5w==
 .sunat.gob.pe	TRUE	/	FALSE	0	nlbi_2093648	N+y5CJOrJlKVq7SSv8VRkgAAAAAs37EyfxhLvk77NnwomOPh
-.sunat.gob.pe	TRUE	/	FALSE	1594190856	visid_incap_2093648	WXDFIMn5RC6axgxdqwmlKWbdJF0AAAAAQUIPAAAAAAAsm739b22bIDzbsRp0b7Tx
+#HttpOnly_e-consultaruc.sunat.gob.pe	FALSE	/	FALSE	0	ITMRCONSRUCSESSION	GhqjpTSWD1r3BYt8wBbsBTb73v2w7KpRh7X3xY8bM1PGKXCYnxj3LTqHyFLJ0yth21vL8Fdmnbwv1VvpGBNRj0wp8pfcnZRYnGcnD0BhvngFTspxK6z2vsTtBppgpzTHGCHcf3t1Y9MDV4yb2nQ11JQ1H53qzXQVYvJpNRfNQdkLzQMcjXGYg2qv50qNmGhv9qvc1nf5R8rsHbhw84nVnpDbXHMjxFfjkvh7qvG52KcwsxqZzQDN2kp2FWccnT61!569531640!1595361841
+.e-consultaruc.sunat.gob.pe	TRUE	/	FALSE	0	TS01fda901	019edc9eb89a5e668e5d6e344aafdd35680ffb7b8309cec6ddbc3d7b58c56edaea0f59dd8bda66ddecca5c146f7d4dab49c418668b2896d81bf9a5df97e5be51a0c11e7ee9
