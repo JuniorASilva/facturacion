@@ -7,7 +7,7 @@
 	<meta name="author" content="Maria Lucia Ibañez Palacios">
 	<link rel="icon" href="assets/img/favicon.png">
 
-	<title>Backend | Facturación</title>
+	<title>Backend | Trab 1</title>
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
@@ -38,9 +38,63 @@
 
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="assets/css/quillpro/quillpro.css">
+</head>
 
+<body>
 
-		<!-- SCRIPTS - REQUIRED START -->
+	<div class="container-fluid">
+		<div class="row">
+			<div class="right-column sisu">
+				<div class="row mx-0">
+					<div class="col-md-7 order-md-2 signin-right-column px-5 bg-dark" style="background-image: url(assets/img/fondo4.jpg);">
+						<a class="signin-logo d-sm-block d-md-none" href="#">
+							<img src="assets/img/logo-white.png" width="145" height="40" alt="QuillPro">
+						</a>
+						<h1 class="display-4">Backend</h1>
+						<p class="lead mb-5">
+							Facturacion V.00001 <br>
+							Profesor | Junior Silva <br>
+							Autor | John Lee Sarango Araujo
+						</p>
+					</div>
+					<div class="col-md-5 order-md-1 signin-left-column bg-white px-5" style="padding-top: 100px">
+						<a class="signin-logo d-sm-none d-md-block text-center" href="#">
+							<img src="assets/img/logo-white.png" width="145" height="40" alt="CodiGO">
+						</a>
+						<div class="profile-picture profile-picture-lg bg-gradient bg-primary">
+							<img src="assets/img/usuario.png" width="44" height="44">
+						</div>
+                                                
+                            
+                    <form class="pt-3" action="{{ 'login' }}" method="POST">
+                                <p>Por favor ingresar su usuario y contraseña para iniciar sesión</p>
+                                <div class="form-group">
+                                    <label for="nombre">Usuario</label>
+                                    <input type="text" class="form-control" name="usuario" value="jlee">
+                                    <label for="password">Contraseña</label>
+                                    <input type="password" class="form-control" name="password" value="123456789">
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-gradient btn-block">
+                                    <i class="batch-icon batch-icon-key"></i>&nbsp;&nbsp;
+                                    Iniciar Sesión
+                                </button>
+                                <hr>
+                                @if (session()->get('message_login'))
+                                    <div class="alert alert-danger">{{ session()->get('message_login') }} </div>
+                                @endif
+                                <p class="text-center">
+                                    ¿No tienes una cuenta? <a href="registrar.php">Registrate aquí</a>
+                                </p>
+                                @csrf
+                            </form>
+                        
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Bootstrap core JavaScript -->
 	<!-- JQuery -->
@@ -70,60 +124,5 @@
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="assets/js/scripts.js"></script>
-</head>
-
-<body>
-
-	<div class="container-fluid">
-		<div class="row">
-			<div class="right-column sisu">
-				<div class="row mx-0">
-					<div class="col-md-7 order-md-2 signin-right-column px-5 bg-dark" style="background-image: url(assets/img/fondo4.jpg);">
-						<a class="signin-logo d-sm-block d-md-none" href="#">
-							<img src="assets/img/logo-white.png" width="145" height="40" alt="QuillPro">
-						</a>
-						<h1 class="display-4">Backend</h1>
-						<p class="lead mb-5">
-							Trabajo 1 <br>
-							Profesor | Junior Silva <br>
-							Autor | María Lucía Ibáñez Palacios
-						</p>
-					</div>
-					<div class="col-md-5 order-md-1 signin-left-column bg-white px-5" style="padding-top: 100px">
-						<a class="signin-logo d-sm-none d-md-block text-center" href="#">
-							<img src="assets/img/logo-white.png" width="145" height="40" alt="CodiGO">
-						</a>
-						<div class="profile-picture profile-picture-lg bg-gradient bg-primary">
-							<img src="assets/img/usuario.png" width="44" height="44">
-						</div>                
-                            <form class="pt-3" action="{{ route('login') }}" method="POST">
-								<p>Por favor ingresar su usuario y contraseña para iniciar sesión</p>
-								<div class="form-group">
-									<label for="nombre">Usuario</label>
-									<input type="text" class="form-control" name="usuario" required>
-									<label for="password">Contraseña</label>
-									<input type="password" class="form-control" name="password" required>
-								</div>
-								<button type="submit" class="btn btn-primary btn-gradient btn-block">
-									<i class="batch-icon batch-icon-key"></i>&nbsp;&nbsp;
-									Iniciar Sesión
-								</button>
-								<hr>
-								@if (session()->get('message_login'))
-									<div class="alert alert-danger">{{ session()->get('message_login') }} </div>
-								@endif
-								<p class="text-center">
-									¿No tienes una cuenta? <a href="registrar.php">Registrate aquí</a>
-								</p>
-								@csrf
-							</form>
-                                              
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 </body>
 </html>

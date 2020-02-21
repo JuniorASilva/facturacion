@@ -2,28 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Usuario;
 
 class HomeController extends Controller
 {
+    //
+
     public function login(Request $request)
     {
-        if (!$request->session()->has('user')){
+        if (!$request->session()->has('user'))
+        {
             return view('layout/login');
-        } else {
-            return redirect('home');
         }
+        else{
+            return redirect()->route('home');
+        }
+        
     }
-    
+
     public function index(Request $request)
     {
         if (!$request->session()->has('user'))
+        {
             return redirect('/');
-
+        }
         $option = 'home';
-        return view('layout.home', compact('option'));
+        return view('layout/home',compact('option'));
+        echo 'Bienvenido';
+        exit;
+    }
+
+    public function validarUsuario(Request $request)
+    {
+        if(!$request->isMethod('post'))
+            return redirect('/');
+        $inputs = $request->all();
+        //$user = DB::table('tusuario')->where('usuario',$inputs['usuario'])->where('pass',md5(sha1($inputs['password'])))->first();
+        $user = (new Usuario())->getUsuarioWhere([
+            'usuario'   => $inputs['usuario'],
+            'pass'      => md5(sha1($inputs['password']))
+        ]);
+
+        if(!is_null($user)){
+            
+            $data = [
+                'id' => $user->id,
+                'usuario' => $user->usuario,
+                'rol_id' => $user->rol_id,
+                'persona_id' => $user->persona_id
+            ];
+            $request->session()->put('user',$data);
+            return redirect('/home');
+            echo 'logueado';
+        }
+        else
+        {
+            \Session::flash('message_login','Error, Ingrese los datos correctos');
+             return redirect('/');
+        }
+       
     }
 
     public function salir(Request $request)
@@ -33,34 +72,4 @@ class HomeController extends Controller
         return redirect('/');
     }
     
-    public function validarUsuario(Request $request)
-    {
-        if (!$request->isMethod('post'))
-            return redirect('/');
-
-        $inputs = $request->all();
-
-        $inputs['pass'] = md5(sha1($inputs['password']));
-
-        $user = (new Usuario())->getUsuarioWhere([
-            'usuario' => $inputs['usuario'],
-            'pass'    => $inputs['pass']
-        ]);
-
-        if (!is_null($user)) {
-            $data = [
-                'id'         => $user->id,
-                'usuario'    => $user->usuario,
-                'rol_id'     => $user->rol_id,
-                'persona_id' => $user->persona_id,
-            ];
-
-            $request->session()->put('user', $data);
-            return redirect('/home');
-
-        } else {
-            \Session::flash('message_login', 'Error, ingrese los datos correctos');
-            return redirect('/');
-        }
-    }
 }

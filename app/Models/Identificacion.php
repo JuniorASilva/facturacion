@@ -3,17 +3,21 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Identificacion extends Model
 {
-    protected $table = 'identificacion';
+
+    protected $table ='identificacion';
     public $timestamps = false;
 
-
-    public static function getIdentificacionPersona($data){
-        return Identificacion::where('id_tipo_identificacion','=',$data["tipo_identificacion"])
-                        ->where('nroidentificacion','=',$data["nro_identificacion"])
-                        ->first();
+    public static function getIdentificacionWhere($nro_doc,$tipo_doc) {
+        return DB::table('identificacion')
+                    ->where('id_tipo_identificacion',$tipo_doc)
+                    ->where('nroidentificacion',$nro_doc)
+                    ->first();
     }
+
 
 }

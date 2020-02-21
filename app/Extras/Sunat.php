@@ -1,0 +1,51 @@
+<?php
+
+
+namespace App\Extras;
+
+
+class Sunat{
+
+    private static $client;
+    private static $response;
+
+    public static function llamado($ruc = ''){
+        if(empty($ruc)){
+            return false;
+        }
+        $cl = new \App\Extras\Curl();
+        $cl->load_params('http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/captcha?accion=random');
+        $numRand = $cl->exec();
+        $data = [
+            'nroRuc'        => $ruc,
+            'accion'        => 'consPorRuc',
+            'numRnd'        => $numRand
+        ];
+        $cl = new \App\Extras\Curl();
+        $cl->load_params('http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/jcrS00Alias');
+        $cl->setPost($data);
+        $da = $cl->exec();
+        dd($da);
+        $cl = new \GuzzleHttp\Client();
+        $rs = $cl->request('GET', 
+        'http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/captcha',
+         ['query' => ['accion' => 'random'] ]);
+         if($rs->getStatusCode() != 200)
+            return false;
+         $numRand = $rs->getBody()->getContents();
+        self::$client = new \GuzzleHttp\Client();
+        $data = [
+            "nroRuc" => $ruc,
+            "accion" => 'consPorRuc',
+            "numRnd" => $numRand,
+            "contexto" => 'ti-it',
+            "search1" => $ruc,
+            "codigo" => 'DFRJ',
+            "tipdoc" => 1
+        ];
+        self::$response = self::$client->request('POST',
+        'http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/jcrS00Alias',
+        $data);
+        return self::$response->getBody()->getContents();
+    }
+}

@@ -7,7 +7,7 @@
 	<meta name="author" content="">
 	<link rel="icon" href="{{ asset('assets/img/favicon.png') }}">
 
-	<title>Backend | Facturación</title>
+	<title>Backend | Trab 1</title>
 
 	<!-- Fonts -->
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&amp;subset=latin-ext" rel="stylesheet">
@@ -29,28 +29,29 @@
 	<!-- CSS - OPTIONAL - START -->
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-
-	<!-- PLUGINS -->
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
+	
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
-	<link rel="stylesheet" href="{{ asset('assets/plugins/confirm/jquery-confirm.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
-	<!-- CSS - OPTIONAL - END -->
 
-	<!-- QuillPro Styles -->
-	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css">
-
 	<style>
 		.datepicker-container{
 			z-index: 99999999999 !important;
 		}
 		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
-		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-		.autocomplete-selected { background: #F0F0F0; }
-		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-		.autocomplete-group { padding: 2px 5px; }
-		.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 	</style>
+	<!-- CSS - OPTIONAL - END -->
+
+	<!-- QuillPro Styles -->
+	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 	<!-- SCRIPTS - REQUIRED START -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Bootstrap core JavaScript -->
@@ -60,6 +61,7 @@
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
+	
 	<!-- Velocity -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
@@ -71,53 +73,65 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery_visible/jquery.visible.min.js') }}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/ie10-viewport-bug-workaround.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/autocomplete/jquery.autocomplete.min.js') }}"></script>
+	
+	
+	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js') }}"></script>
 
 	<!-- SCRIPTS - REQUIRED END -->
 
 	<!-- SCRIPTS - OPTIONAL START -->
+	<!-- ChartJS -->
+	<script type="text/javascript" src="{{ asset('assets/plugins/chartjs/chart.bundle.min.js') }}"></script>
+	<!-- JVMaps -->
+	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/jquery.vmap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('assets/plugins/jvmaps/maps/jquery.vmap.usa.js') }}"></script>
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
 
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
-
-	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-complete/dist/jquery.autocomplete.min.js') }}"></script>
-
-	<!-- PLUGINS -->
-	<script type="text/javascript" src="{{ asset('assets/plugins/toastr/toastr.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/confirm/jquery-confirm.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
-	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js') }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
-
+	
 	<script type="text/javascript">
-		$(function () {
+		(function (global, factory) {
+		  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
+		  typeof define === 'function' && define.amd ? define(['jquery'], factory) :
+		  (factory(global.jQuery));
+		}(this, (function ($) {
+		  'use strict';
+		  $.fn.datepicker.languages['ca-ES'] = {
+	            closeText: 'Cerrar',
+	            prevText: '<Ant',
+	            nextText: 'Sig>',
+	            currentText: 'Hoy',
+	            months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+	            monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+	            days: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+	            daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+	            daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
+	            weekHeader: 'Sm',
+	            dateFormat: 'dd-mm-yy',
+	            firstDay: 1,
+	            isRTL: false,
+	            showMonthAfterYear: false,
+	            yearSuffix: ''
+	          };
+		})));
+		$(function(){
 			toastr.options = {
 				closeButton: true,
 				progressBar: true,
 				showMethod: 'slideDown',
-				timeOut: 4000,
+				timeOut: 4000
 			}
 			$('[data-toggle="tooltip"]').tooltip()
-			$.fn.datepicker.languages['es'] = {
-				closeText: 'Cerrar',
-				prevText: '<Ant',
-				nextText: 'Sig>',
-				currentText: 'Hoy',
-				monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-				monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-				dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-				dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
-				dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
-				weekHeader: 'Sm',
-				dateFormat: 'dd-mm-yy',
-				firstDay: 1,
-				isRTL: false,
-				showMonthAfterYear: false,
-				yearSuffix: ''
-			}
-          $.fn.datepicker.setDefaults($.fn.datepicker.languages['es'])
+			/*$.datepicker.languages['es'] = 
+	          $.datepicker.setDefaults($.datepicker.languages['es']);*/
 		})
 	</script>
 </head>
@@ -137,21 +151,21 @@
 						<h6 class="nav-header">General</h6>
 					</li>
 					<li class="nav-item">
-                        <a class="nav-link {{ $option == 'home' ? 'active' : '' }}" href="{{ route('home') }}">
-							<i class="fa fa-tachometer"></i>
+					<a class="nav-link {{ $option == 'home' ? 'active':'' }}" href="{{ route('home') }}">
+							<i class="batch-icon batch-icon-terminal"></i>
 							Principal <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ $option == 'usuarios' ? 'active' : '' }}" href="{{ route('usuarios') }}">
-							<i class="fa fa-users"></i>
+						<a class="nav-link {{ $option == 'usuario' ? 'active':'' }}" href="{{ route('usuarios') }}">
+							<i class="batch-icon batch-icon-user"></i>
 							Usuarios <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link {{ $option == 'ventas' ? 'active' : '' }}" href="{{ route('ventas') }}">
-							<i class="batch-icon batch-icon-store"></i>
-							Ventas <span class="sr-only">(current)</span>
+						<a class="nav-link {{ $option == 'ventas' ? 'active':'' }}" href="{{ route('ventas') }}">
+							<i class="batch-icon batch-icon-bullhorn"></i>
+							Ventas
 						</a>
 					</li>
 					
@@ -192,6 +206,11 @@
 						</li>
 					</ul>
 
+					<!--  DEPRECATED CODE:
+						<div class="navbar-collapse" id="navbarSupportedContent">
+					-->
+					<!-- USE THIS CODE Instead of the Commented Code Above -->
+					<!-- .collapse added to the element -->
 					<div class="collapse navbar-collapse" id="navbar-header-content">
 						<ul class="navbar-nav navbar-language-translation mr-auto">
 						   
@@ -202,23 +221,30 @@
 						<ul class="navbar-nav ml-5 navbar-profile">
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
-                                    <div class="profile-name">
-									    <b style="color: #142961">Hola!&nbsp;</b> {{  session('user')['usuario'] }}
-								    </div>
+								        <div class="profile-name">
+                                             <b style="color: #142961">Hola!&nbsp;</b>
+                                             {{ session('user')['usuario'] }}
+                                             
+									    </div>
+                                    
 									<div class="profile-picture bg-gradient bg-primary has-message float-right">
-										<img src="{{ asset('assets/img/usuario.png') }}" width="44" height="44">
+										<img src="{{ asset('asse') }}ts/img/usuario.png" width="44" height="44">
 									</div>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-navbar-profile">
-									<li><a class="dropdown-item" href="{{ route('salir') }}"><i class="batch-icon batch-icon-outgoing"></i>&nbsp;&nbsp; Cerrar Sesión</a></li>
+									
+                                                                    <li><a class="dropdown-item" href="{{ route('salir') }}"><i class="batch-icon batch-icon-outgoing"></i>&nbsp;&nbsp; Cerrar Sesión</a></li>
 								</ul>
 							</li>
 						</ul>
 					</div>
 				</nav>
-@yield('content')
+
+				@yield('contenido')
 			</div>
 		</div>
 	</div>
+
+	
 </body>
 </html>
