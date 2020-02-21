@@ -321,7 +321,7 @@ $(document).on("focus",'.datepicker',function(){
                             <div class="row" style="margin-rigth:0px; margin-left:0px;">
                                 <div class="col-lg-12 col-md-12">
                                     <label>Ruc</label>
-                                    <input type="text" class="form-control" placeholder="Ingresar NUmero de RUC" name="ruc" required>
+                                    <input type="text" class="form-control ruc" placeholder="Ingresar NUmero de RUC" name="ruc" required>
                                 </div>
                             </div>
                         </form>
@@ -333,6 +333,10 @@ $(document).on("focus",'.datepicker',function(){
                         keys:['enter'],
                         action:function(){
                             var self=this
+                            if(self.$content.find('.ruc').val()==''){
+                                toastr.error('Ingrese un Ruc Valido')
+                                return false
+                            }
                             $.confirm({
                                 title:'Consultando',
                                 content:function(){

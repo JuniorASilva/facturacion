@@ -179,6 +179,7 @@ return [
          * Servicios propios Provider
          */
         App\Providers\SunatServiceProvider::class,
+        App\Providers\CurlServiceProvider::class,
 
     ],
 
@@ -231,6 +232,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Sunat' => App\Facades\Sunat::class,
+        'Curl' => App\Facades\Curl::class,
     ],
 
 ];

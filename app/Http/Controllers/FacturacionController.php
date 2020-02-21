@@ -95,7 +95,7 @@ class FacturacionController extends Controller
     }
 
     public function consultaRuc(Request $request){
-        return response()->json(\Sunat::llamado());
+        return response()->json(\Sunat::llamado($request->input('ruc')));
     }
 
 }
