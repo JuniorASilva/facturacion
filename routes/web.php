@@ -20,10 +20,13 @@ Route::match(['get', 'post'], '/editar-usuario/{id}', 'UsuarioController@editarU
  * Rutas para las ventas
  */
 
-Route::get('/ventas', 'VentasController@index')->name('ventas');
-Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
-Route::post('/crear-cliente', 'FacturacionController@crearCliente')->name('crear-cliente');
-Route::post('/autocomplete-cliente', 'FacturacionController@autocompleteCliente')->name('autocomplete-cliente');
+Route::group(['prefix' => 'ventas'], function () {
+    Route::get('/', 'VentasController@index')->name('ventas');
+    Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
+    Route::post('/crear-cliente', 'FacturacionController@crearCliente')->name('crear-cliente');
+    Route::post('/autocomplete-cliente', 'FacturacionController@autocompleteCliente')->name('autocomplete-cliente');
+});
+
 
 /**
  * Rutas Utiliarias

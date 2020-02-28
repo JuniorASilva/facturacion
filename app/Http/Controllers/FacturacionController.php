@@ -111,6 +111,23 @@ class FacturacionController extends Controller
     public function consultaRuc(Request $request)
     {
         $sunat = new \Sunat();
-        return response()->json($sunat->getDataRUC($request->input('ruc')));
+        $ruc = $request->input('ruc');
+
+        $data = $sunat->getDataRUC($ruc);
+
+        if ($data) {
+            $data['ruc'] = $ruc;
+            return response()->json([
+                'status'  => 202,
+                'data'    => [$data],
+                'message' => 'Datos encontrados'
+            ]);
+        } else {
+            return response()->json([
+                'status'  => 202,
+                'data'    => [],
+                'message' => 'Datos no encontrados'
+            ]);
+        }
     }
 }
