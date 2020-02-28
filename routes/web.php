@@ -12,7 +12,7 @@ Route::get('/logout', 'HomeController@salir')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*
- * Rutas para el usuario 
+ * Rutas para el usuario
  */
 Route::post('/consulta-usuario', 'UsuarioController@consultaUsuario')->name('consulta-usuario');
 Route::get('/usuarios', 'UsuarioController@index')->name('usuarios');
@@ -25,10 +25,11 @@ Rutas para Ventas
 */
 
 Route::get('/ventas', 'VentasController@index')->name('ventas');
-Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
-Route::post('/registro-cliente', 'FacturacionController@crearCliente')->name('registro-cliente');
-Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
-
+Route::group(['prefix'=>'ventas'],function(){
+    Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
+    Route::post('/registro-cliente', 'FacturacionController@crearCliente')->name('registro-cliente');
+    Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
+});
 /*
 *Rutas Utilitarias
 */

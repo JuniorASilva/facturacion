@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Extras\Sunat;
 use App\Models\Utils;
 use App\Models\Persona;
 use App\Models\Identificacion;
@@ -22,7 +23,7 @@ class FacturacionController extends Controller
                 $p = new Persona();
                 $p->nombres = $request->input('nombres');
                 $p->apellidos = $request->input('apellidos');
-                $p->direccion = '';                        
+                $p->direccion = '';
                 $p->fch_nac = date('Y-m-d');
                 $p->telefono = '123456789';
                 $p->genero = 1;
@@ -34,16 +35,16 @@ class FacturacionController extends Controller
                 $identificacion->nroidentificacion = $request->input('nro_doc');
                 $identificacion->id_tipo_identificacion = $request->input('tipo_doc');
                 $identificacion->id_empresa = 1;
-                $identificacion->id_persona = $p->id; 
+                $identificacion->id_persona = $p->id;
                 $identificacion->save();
-            }   
+            }
             $data = $request->all();
-            $data['id_persona'] = $id_persona;         
+            $data['id_persona'] = $id_persona;
             return response()->json(['status'=>200,'data'=>$data,'message'=>'Registro Satisfactorio']);
 
 
 
-       
+
     }
 
     public function cargaDocumentos(Request $request){
@@ -64,9 +65,9 @@ class FacturacionController extends Controller
             return redirect('/');
 
             if (!$request->isMethod('post')){
-                return response()->json(['status'=>202,'data'=>[],'message'=>"Error consulte con su admnistrador"]);                               
+                return response()->json(['status'=>202,'data'=>[],'message'=>"Error consulte con su admnistrador"]);
             }
-            
+
             if (is_numeric($request->input('cliente'))){
                 $where = [
                     ['i.nroidentificacion','like',$request->input('cliente').'%']
@@ -90,15 +91,21 @@ class FacturacionController extends Controller
                     ]);
                 }
             }
-            return response()->json(['suggestions'=>$pers]);                               
-                
-            
+            return response()->json(['suggestions'=>$pers]);
+
+
     }
 
     public function consultaRUC(Request $request)
     {
-        return response()->json(\Sunat::llamado($request->input('ruc')));
-
+        $sunat = new Sunat();
+        $sunat->llamado($request->input('ruc'));
+        $data = $sunat->getData();
+        if($data){
+            $data['ruc'] = $request->input('ruc');
+            return response()->json(['status'=>200,'data'=>$data,'message'=>'Datos encontrados']);
+        }
+        return response()->json(['status'=>202,'data'=>$data,'message'=>'Datos no encontrados']);
     }
 
 

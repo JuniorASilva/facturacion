@@ -12,8 +12,8 @@ class CurlServiceProvider extends ServiceProvider
      * @return void
      */
     public function register()
-    {        
-        App::bind('curl',function(){
+    {
+        \App::bind('curl',function(){
             return new \App\Extras\Curl;
         });
 

@@ -89,7 +89,7 @@ class UsuarioController extends Controller
         if($request->input('id') !=0){
             $usuarioId = $u->getUsuarioWhere(['id'=>$request->input('id')]);
             if(!is_null($usuarioId) && $usuarioId->usuario != $request->input('usuario')){
-                $res = $u->getUsuarioWhere(['usuario' => $request->input('usuario')]);        
+                $res = $u->getUsuarioWhere(['usuario' => $request->input('usuario')]);
             }
         }else{
             $res = $u->getUsuarioWhere(['usuario' => $request->input('usuario')]);
