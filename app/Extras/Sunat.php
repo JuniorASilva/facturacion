@@ -9,6 +9,10 @@ class Sunat{
 public static function llamado($ruc = ''){
         if($ruc == '')
             return false;
+        $cl = new \App\Extras\Curl();
+        $cl->load_params('http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/captcha?accion=random');
+        $numRand = $cl->exec();
+        dd($numRand);
         $cl = new \GuzzleHttp\Client();
         $rs = $cl->request('GET',
         'http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/captcha',[
@@ -19,6 +23,7 @@ public static function llamado($ruc = ''){
             return false;
         $numRand = $rs->getBody()->getContents();
         //http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/jcrS00Alias
+        $jar = new \GuzzleHttp\Cookie\CookieJar;
         self::$client = new \GuzzleHttp\Client();
         $data = [
             "nroRuc"        => $ruc,

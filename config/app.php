@@ -180,6 +180,7 @@ return [
          */
 
          App\Providers\SunatServiceProvider::class,
+         App\Providers\CurlServiceProvider::class,
 
     ],
 
@@ -237,6 +238,7 @@ return [
          */
 
          'Sunat' => App\Facades\Sunat::class,
+         'Curl' => App\Facades\Curl::class,
 
     ],
 
