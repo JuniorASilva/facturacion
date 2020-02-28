@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\App;
 
-class SunatServiceProvider extends ServiceProvider
+class CurlServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -14,9 +14,8 @@ class SunatServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
-        App::bind('sunat',function(){
-            return new \App\Extras\Sunat;
+        App::bind('Curl',function(){
+            return new \App\Extras\Curl;
         });
     }
 
