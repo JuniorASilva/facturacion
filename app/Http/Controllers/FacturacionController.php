@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Utils;
 use App\Models\Persona;
 use App\Models\Identificacion;
+use App\Extras\Sunat;
 
 class FacturacionController extends Controller
 {
@@ -13,7 +14,7 @@ class FacturacionController extends Controller
     public function crearCliente(Request $request)
     {
         if (!$request->session()->has('user'))
-            return redirect('/'); 
+            return redirect('/');
 
         $i = Identificacion::getIdentificacionWhere($request->input('nro_doc'),$request->input('tipo_doc'));
         if(!is_null($i))
@@ -32,7 +33,7 @@ class FacturacionController extends Controller
             $p->estado = 1;
             $p->save();
             $id_persona = $p->id;
-            
+
             $identificacion = new Identificacion();
             $identificacion->nroidentificacion = $request->input('nro_doc');
             $identificacion->id_tipo_identificacion = $request->input('tipo_doc');
@@ -41,19 +42,19 @@ class FacturacionController extends Controller
             $identificacion->save();
 
         }
-            
+
         $data = $request->All();
         $data['id_persona'] = $id_persona;
         return response()->json(['status'=>200,'data'=>$data,'message'=>'Se Registro Satisfactoriamente!!']);
 
     }
 
-    
+
 
     public function cargaDocumentos(Request $request){
         if (!$request->session()->has('user'))
             return redirect('/');
-        
+
             if($request -> isMethod('post')){
                 $documentos=(new Utils())->getDocumentos();
                 return response()->json(['status'=>200,'data'=>$documentos,'message'=>'Consulta Satisfactoria']);
@@ -95,7 +96,14 @@ class FacturacionController extends Controller
     }
 
     public function consultaRuc(Request $request){
-        return response()->json(\Sunat::llamado($request->input('ruc')));
+        $sunat = new Sunat();
+        $sunat->llamado($request->input('ruc'));
+        $data = $sunat->getData();
+        if($data){
+            $data['ruc'] = $request->input('ruc');
+            return response()->json(['status'=>200,'data'=>[],'message'=>'Datos encontrados']);
+        }
+        return response()->json(['status'=>202,'data'=>[],'message'=>'Datos NO encontrados']);
     }
 
 }
