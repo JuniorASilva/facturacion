@@ -178,6 +178,7 @@ return [
          * Servicios propios Providers
          */
         App\Providers\SunatServiceProvider::class,
+        App\Providers\CurlServiceProvider::class,
     ],
 
     /*
@@ -232,6 +233,7 @@ return [
          * Alias de mis providers
          */
         'Sunat' => App\Facades\Sunat::class,
+        'Curl' => App\Facades\Curl::class,
     ],
 
 ];
