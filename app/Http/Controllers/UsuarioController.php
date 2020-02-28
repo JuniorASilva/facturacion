@@ -16,7 +16,7 @@ class UsuarioController extends Controller
             return redirect('/');
         $usuarios = (new Usuario())->getAllUsuarios();
         $option = 'usuarios';
-    	return view('usuarios/index',compact('usuarios','option'));                                     
+    	return view('usuarios/index',compact('usuarios','option'));
     }
 
     public function nuevoUsuario(Request $request){
@@ -28,7 +28,7 @@ class UsuarioController extends Controller
                 'nombres'           => $request->input('nombres'),
                 'apellidos'         => $request->input('apellidos')
             ]);
-            if(count($res->toArray()) != 0)
+            if($res != null)
                 $id_persona = $res->id;
             else{
                 $p->nombres = $request->input('nombres');
@@ -39,7 +39,7 @@ class UsuarioController extends Controller
                 $p->genero = 1;
                 $p->estado = 1;
                 $p->save();
-                $id_persona = $res->id;
+                $id_persona = $p->id;
             }
 
             $is_save_user = Usuario::saveUser([
