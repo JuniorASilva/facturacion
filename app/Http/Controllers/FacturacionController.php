@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Utils;
 use App\Models\Persona;
 use App\Models\Identificacion;
+use App\Extras\Sunat;
 
 class FacturacionController extends Controller
 {
@@ -96,7 +97,15 @@ class FacturacionController extends Controller
 
     public function consultaRuc(Request $request){
         $ruc = $request->input('ruc');
-        return response()->json(\Sunat::llamado($ruc));
+        $sunat = new Sunat();
+        $sunat->llamado($ruc);
+        $data = $sunat->getData();
+        if($data){
+            $data['ruc'] = $ruc;
+            return response()->json(['status'=>200, 'data' => $data, 'message' => 'Datos encontrado']);
+        }
+        return response()->json(['status'=>202, 'data' => [], 'message' => 'Datos no encontrados']);
+        
     }
 
 }

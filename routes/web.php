@@ -24,11 +24,13 @@ Route::get('/salir','HomeController@salir')->name('salir');
 Route::get('/usuarios','UsuarioController@index')->name('usuarios');
 Route::match(['get','post'],'/nuevo-usuario','UsuarioController@nuevoUsuario')->name('nuevo-usuario');
 Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsuario')->name('editar-usuario');
-Route::get('/ventas','VentasController@index')->name('ventas');
-Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
-Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
-Route::post('/autocomplete-clientes','FacturacionController@consultaAutocompleteClientes')->name('autocomplete-clientes');
 
+Route::get('/ventas','VentasController@index')->name('ventas');
+Route::group(['prefix' => 'ventas'], function() {
+    Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
+    Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
+    Route::post('/autocomplete-clientes','FacturacionController@consultaAutocompleteClientes')->name('autocomplete-clientes');
+});
 
 /* Rutas Utilitarias */
 
