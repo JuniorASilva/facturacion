@@ -177,12 +177,12 @@
 
             // Evento para agregar un nuevo cliente
             $('#nuevo_cliente').on('click', function () {
-                
+
                 if ($('#tipo_doc').val() == '03') {
                     $.confirm({
                         title: 'Agregar Cliente',
                         columnClass: 'col-lg-8 col-md-8 col-sm-8',
-                        
+
                         content: function() {
                             let self = this
 
@@ -200,7 +200,7 @@
                                     let stringDocumentos = ``
 
                                     for (let i in response.data) {
-                                        
+
                                         stringDocumentos += `
                                             <option value="${response.data[i].id}">${response.data[i].nombre}</option>
                                         `
@@ -301,7 +301,7 @@
                                                 method: 'POST',
                                                 data: $('#registro-cliente').serialize()
                                             }).done(function (response) {
-                                                
+
                                                 console.log(response)
 
                                                 if (response.status == 200) {
@@ -331,6 +331,7 @@
                 } else {
                     $.confirm({
                         title: 'Busqueda por SUNAT',
+                        keys: ['enter'],
                         /* html */
                         content: `
                             <form class="formulario-sunat" id="consulta-sunat">
@@ -356,7 +357,8 @@
                                     }
 
                                     $.confirm({
-                                        title: 'Consultando',
+                                        title: 'Resultado',
+                                        columnClass: 'col-lg-8 col-md-8 col-sm-8',
                                         content: function () {
                                             let self2 = this
                                             return $.ajax({
@@ -365,11 +367,58 @@
                                                 method: 'POST',
                                                 data: $('#consulta-sunat').serialize()
                                             }).done(function (response) {
+                                                if (response.status != 200) {
+                                                    toastr.error(response.message)
+                                                    self2.close()
+                                                    return false
+                                                } else {
+                                                    let d = response.data
+                                                    /* html */
+                                                    self2.setContentAppend(`
+                                                        <div class="content">
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>RUC</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.ruc }</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Razon social</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.RazonSocial }</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Nombre comercial</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.nombre_comercial }</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Direccion</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.direccion }</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    `)
+                                                }
                                                 console.log(response)
                                             }).fail(function (error) {
                                                 console.error(error)
                                                 self2.close()
                                             })
+                                        },
+                                        buttons: {
+                                            ok: function(){}
                                         }
                                     })
                                 }

@@ -57,18 +57,18 @@ class Sunat {
             }
 
             $busca=array(
-                "NombreComercial" 		=> "Nombre Comercial",
-                "Tipo" 					=> "Tipo Contribuyente",
-                "Inscripcion" 			=> "Fecha de Inscripci&oacute;n",
-                "Estado" 				=> "Estado del Contribuyente",
-                "Direccion" 			=> "Direcci&oacute;n del Domicilio Fiscal",
-                "SistemaEmision" 		=> "Sistema de Emisi&oacute;n de Comprobante",
-                "ActividadExterior"		=> "Actividad de Comercio Exterior",
-                "SistemaContabilidad" 	=> "Sistema de Contabilidad",
-                "Oficio" 				=> "Profesi&oacute;n u Oficio",
-                "ActividadEconomica" 	=> "Actividad\(es\) Econ&oacute;mica\(s\)",
-                "EmisionElectronica" 	=> "Emisor electr&oacute;nico desde",
-                "PLE" 					=> "Afiliado al PLE desde"
+                "nombre_comercial" 		=> "Nombre Comercial",
+                "tipo" 					=> "Tipo Contribuyente",
+                "inscripcion" 			=> "Fecha de Inscripci&oacute;n",
+                "estado" 				=> "Estado del Contribuyente",
+                "direccion" 			=> "Direcci&oacute;n del Domicilio Fiscal",
+                "sistema_emision" 		=> "Sistema de Emisi&oacute;n de Comprobante",
+                "actividad_exterior"	=> "Actividad de Comercio Exterior",
+                "sistema_contabilidad" 	=> "Sistema de Contabilidad",
+                "oficio" 				=> "Profesi&oacute;n u Oficio",
+                "actividad_economica" 	=> "Actividad\(es\) Econ&oacute;mica\(s\)",
+                "emision_electronica" 	=> "Emisor electr&oacute;nico desde",
+                "ple" 					=> "Afiliado al PLE desde"
             );
             foreach($busca as $i=>$v)
             {

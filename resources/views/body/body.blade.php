@@ -50,6 +50,9 @@
 		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
 		.autocomplete-group { padding: 2px 5px; }
 		.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+        .jconfirm-content {
+            overflow-x: hidden !important;
+        }
 	</style>
 
 	<!-- SCRIPTS - REQUIRED START -->
@@ -154,10 +157,10 @@
 							Ventas <span class="sr-only">(current)</span>
 						</a>
 					</li>
-					
+
 				</ul>
 
-				
+
 			</nav>
 			<div class="right-column">
 				<nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -194,17 +197,17 @@
 
 					<div class="collapse navbar-collapse" id="navbar-header-content">
 						<ul class="navbar-nav navbar-language-translation mr-auto">
-						   
+
 						</ul>
 						<ul class="navbar-nav navbar-notifications float-right">
-							
+
 						</ul>
 						<ul class="navbar-nav ml-5 navbar-profile">
 							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">									
+								<a class="nav-link dropdown-toggle" id="navbar-dropdown-navbar-profile" data-toggle="dropdown" data-flip="false" aria-haspopup="true" aria-expanded="false">
 									<div class="profile-name">
 										<b style="color: #142961">Hola!&nbsp; {{ Session::get('user')['usuario'] }}</b>
-									</div>                                    
+									</div>
 									<div class="profile-picture bg-gradient bg-primary has-message float-right">
 										<img src="{{ asset('assets/img/usuario.png') }}" width="44" height="44">
 									</div>
@@ -225,6 +228,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>
