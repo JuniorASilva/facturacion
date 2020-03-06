@@ -31,11 +31,11 @@
                     		<div class="row">
                     			<div class="col-lg-4 col-md-4 col-sm-4">
                     				<label>Fecha</label>
-                    				<input type="text" name="fecha" class="form-control datepicker">
+                    				<input type="text" name="fecha" class="form-control datepicker" value="{{ date('d/m/Y') }}">
                     			</div>
                     			<div class="col-lg-8 col-md-8 col-sm-8 ">
                     				<label>&nbsp;</label><br>
-                    				<button type="button" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Item</button>
+                    				<button type="button" id="agregaItem" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Item</button>
                     			</div>
                     		</div>
                     		<hr>
@@ -173,7 +173,7 @@
 						content: function(){
 							var self = this
 							return $.ajax({
-								url: '{{ route('util-documento') }}',
+								url: '{{ route("util-documento") }}',
 								dataType: 'JSON',
 								method: 'POST',
 								data: {
@@ -298,7 +298,8 @@
 				}
 				else{
 					$.confirm({
-						title: 'Busqueda en SUNAT',
+                        title: 'Busqueda en SUNAT',
+                        keys: ['enter'],
 						/* html */
 						content: `
 						<form class="formulario-sunat" id="consulta-sunat">
@@ -323,7 +324,8 @@
 										return false
 									}
 									$.confirm({
-										title: 'Consultando',
+                                        title: 'Resultado',
+                                        columnClass: 'col-lg-10 col-md-10 col-sm-10',
 										content: function(){
 											var self2 = this
 											return $.ajax({
@@ -333,13 +335,61 @@
 												//data: self.$content.find('.formulario-sunat').serialize(),
 												data: $('#consulta-sunat').serialize()
 											}).done(function(response){
-												console.log(response)
+												if(response.status != 200){
+                                                    toastr.error(response.message)
+                                                    self2.close()
+                                                    return false
+                                                }else{
+                                                    var d = response.data
+                                                    //html
+                                                    self2.setContentAppend(
+                                                        `
+                                                        <div class="content">
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>RUC</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${d.ruc}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Razón Social</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${d.razon_social}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Nombre Comercial</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${d.nombre_comercial}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Dirección</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${d.direccion}</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        `
+                                                    )
+                                                }
 											}).fail(function(error){
 												console.log(error)
 												toastr.error('Error, consulte con su administrador')
 												self2.close()
 											})
-										}
+                                        },
+                                        buttons: {
+                                            ok:function(){}
+                                        }
 									})
 									/*toastr.success('Consultando')
 									return false*/
@@ -350,7 +400,8 @@
 					})
 				}
     		})
-			$('#cliente').autocomplete({
+            var autoCompletadoCliente = function(){
+                $('#cliente').autocomplete({
 				serviceUrl: '{{ route("autocomplete-cliente") }}',
 				minChars: 3,
 				dataType: 'JSON',
@@ -358,12 +409,96 @@
 				paramName: 'cliente',
 				params: {
 					cliente: $('#cliente').val(),
+                    cod_doc: $('#tipo_doc').val(),
 					_token: '{{ csrf_token() }}'
 				},
 				onSelect: function(suggestion){
-					$('#id_cliente').val(suggestion.data.id_persona)
+					$('#id_cliente').val(suggestion.data.id_cliente)
 				}
-			})
+			    })
+            }
+            autoCompletadoCliente()
+            $('#tipo_doc').on('change',function(){
+                $('#cliente').unbind('autocomplete')
+                autoCompletadoCliente()
+            })
+            $('#agregaItem').on('click',function(){
+                $.confirm({
+                    title: 'Nuevo Item',
+                    columnClass: 'col-md-10 col-lg-10 col-sm-10',
+                    /*html*/
+                    content:
+                    `
+                    <form>
+                    <div class="row" style="width: 100%;">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label>Descripción</label>
+                            <textarea class="form-control" rows="10" id="descripcion" required></textarea>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Cantidad</label>
+                                    <input class="form-control" id="cantidad" type="number" name="cantidad" value="1" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Precio</label>
+                                    <input class="form-control" id="precio1" type="number" name="precio" step="0.001" value="0.000" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Tipo</label>
+                                    <select class="form-control" id="tipoitem" name="tipoitem">
+                                        <option value="1">Bien</option>
+                                        <option value="0">Servicio</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Descuento 0-100%</label>
+                                    <input class="form-control" id="descuento2" name="descuento" placeholder="Ejm. 50%" type="number" value="0" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>IGV</label>
+                                    <select class="form-control" id="igvs" name="igv">
+                                        <option value="1">Gravado</option>
+                                        <option value="2">Inafecto</option>
+                                        <option value="3">Exonerado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <label>Subtotal: </label>
+                                    <spam class="subtotal">0</spam>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <label>IGV: </label>
+                                    <spam class="igv">0</spam>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <label>Total: </label>
+                                    <spam class="total">0</spam>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                    `,
+                    buttons: {
+                        agregar: function(){
+                            if(!this.$content.find('form').valid()){
+                                toastr.error('Ingrese los datos correctamente')
+                                return false
+                            }
+                        },
+                        cancelar: function(){}
+                    }
+                })
+            })
    		})
    	</script>
 @endsection
