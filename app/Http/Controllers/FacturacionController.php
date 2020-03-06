@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Utils;
 use App\Models\Persona;
+use App\Models\Empresa;
 use App\Models\Identificacion;
 
 class FacturacionController extends Controller
@@ -59,27 +60,40 @@ class FacturacionController extends Controller
         if(!$request->isMethod('post'))
             return response()->json(['status'=>202,'data'=>[],'message'=>'Error consulte con su administrador']);
 
-        if(is_numeric($request->input('cliente'))){
-            $where = [
-                ['i.nroidentificacion','like',$request->input('cliente').'%']
-            ];
-        }else{
-            $where = [
-                ['p.apellidos','like',$request->input('cliente').'%']
-            ];
-        }
-        $personas = (new Persona())->getClienteAutocomplete($where);
-        $pers = array();
-        if(!is_null($personas)){
-            foreach($personas as $per){
-                array_push($pers,array(
-                    'value'=>$per->nroidentificacion.' - '.$per->apellidos.' '.$per->nombres,
-                    'data'=>$per
+        $where = $this->_preparaWhere($request->input('cod_doc'),$request->input('cliente'));
+        if($request->input('cod_doc') == '03')
+            $clientes = (new Persona())->getClienteAutocomplete($where);
+        else
+            $clientes = (new Empresa())->getClienteAutocomplete($where);
+        $clients = array();
+        if(!is_null($clientes)){
+            foreach($clientes as $client){
+                array_push($clients,array(
+                    'value'=>$client->nroidentificacion.' - '.$client->cliente,
+                    'data'=>$client
                     )
                 );
             }
         }
-        return \Response::json(array('suggestions'=>$pers));
+        return \Response::json(array('suggestions'=>$clients));
+    }
+
+    public function _preparaWhere($cod_doc,$cliente = ''){
+        if(is_numeric($cliente)){
+            $where= [
+                ['i.nroidentificacion','like',$cliente.'%']
+            ];
+        }else{
+            if($cod_doc == '03')
+                $where = [
+                    ['p.apellidos','like',$cliente.'%']
+                ];
+            else
+                $where = [
+                    ['e.razon_social','like',$cliente.'%']
+                ];
+        }
+        return $where;
     }
 
     public function consultaRuc(Request $request){
@@ -88,6 +102,22 @@ class FacturacionController extends Controller
         $data = $sunat->getData();
         if($data){
             $data['ruc'] = $request->input('ruc');
+            $emp = new Empresa();
+            $emp->razon_social = $data['razon_social'];
+            $emp->nombre_comercial = $data['nombre_comercial'];
+            $emp->direccion = $data['direccion'];
+            $emp->estado = 1;
+            if($emp->save()){
+                $ident = new Identificacion();
+                $ident->id_persona = 1;
+                $ident->id_tipo_identificacion = 6;
+                $ident->nroidentificacion = $data['ruc'];
+                $ident->id_empresa = $emp->id;
+                $ident->save();
+                $data['id_empresa'] = $emp->id;
+            }else{
+                return response()->json(['status'=>202,'data'=>[],'message'=>'Error al almacenar los datos']);
+            }
             return response()->json(['status'=>200,'data'=>$data,'message'=>'Datos encontrados']);
         }
         return response()->json(['status'=>202,'data'=>[],'message'=>'Datos no encontrados']);
