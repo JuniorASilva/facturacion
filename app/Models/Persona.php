@@ -38,7 +38,7 @@ class Persona extends Model
                     ->join('identificacion as i', 'p.id', '=','i.id_persona')
                     ->where('i.id_tipo_identificacion',2)
                     ->where($where)
-                    ->select('p.apellidos','p.nombres','p.id as id_persona','i.nroidentificacion')
+                    ->select(DB::raw('CONCAT(p.apellidos, p.nombres) as cliente'),'p.id as id_cliente','i.nroidentificacion')
                     ->get();
 
     }

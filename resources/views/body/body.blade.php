@@ -41,12 +41,15 @@
 		.datepicker-container{
 			z-index: 99999999999 !important;
 		}
+		.jconfirm-content{
+			overflow-x: hidden !important;
+		}
 		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
-.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
-.autocomplete-selected { background: #F0F0F0; }
-.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
-.autocomplete-group { padding: 2px 5px; }
-.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+		.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+		.autocomplete-selected { background: #F0F0F0; }
+		.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+		.autocomplete-group { padding: 2px 5px; }
+		.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 	</style>
 	<!-- CSS - OPTIONAL - END -->
 
@@ -115,7 +118,7 @@
 	            daysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
 	            daysMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá'],
 	            weekHeader: 'Sm',
-	            dateFormat: 'dd-mm-yy',
+	            dateFormat: 'dd-mm-yyyy',
 	            firstDay: 1,
 	            isRTL: false,
 	            showMonthAfterYear: false,
@@ -123,6 +126,9 @@
 	          };
 		})));
 		$(function(){
+			$('.datepicker').datepicker({
+				format: 'dd/mm/yyyy'
+			});
 			toastr.options = {
 				closeButton: true,
 				progressBar: true,

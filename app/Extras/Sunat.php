@@ -38,6 +38,10 @@ class Sunat{
         preg_match_all($patron, $this->response, $matches, PREG_SET_ORDER);
         //dd($matches);
         //Telefono
+        if(isset($matches[0])){
+            $rs = utf8_encode(str_replace('"', '',($matches[0][1])));
+            $data["razon_social"] = trim($rs);
+        }
         $patron='/<td class="bgn" colspan=1>Tel&eacute;fono\(s\):<\/td>[ ]*-->\r\n<!--\t[ ]*<td class="bg" colspan=1>(.*)<\/td>/';
         $output = preg_match_all($patron, $this->response, $matches, PREG_SET_ORDER);
         if( isset($matches[0]) )
