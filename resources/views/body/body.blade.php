@@ -32,7 +32,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	
+
 	<!-- QuillPro Styles -->
 	<link rel="stylesheet" href="{{ asset('assets/css/quillpro/quillpro.css') }}">
 
@@ -60,7 +60,7 @@
 	<!-- SCRIPTS - REQUIRED END -->
 
 	<!-- SCRIPTS - OPTIONAL START -->
-		
+
 	<!-- Image Placeholder -->
 	<script type="text/javascript" src="{{ asset('assets/js/misc/holder.min.js') }}"></script>
 	<!-- SCRIPTS - OPTIONAL END -->
@@ -83,8 +83,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation/dist/jquery.validate.min.js') }}"></script>
 
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-autocomplete/jquery.autocomplete.min.js') }}"></script>
-	
-	
+
+
 
 
 	<script type="text/javascript">
@@ -96,14 +96,23 @@
 				timeOut:4000
 			}
 			$('[data-toggle="tooltip"]').tooltip()
-			
-		})
+
+		});
+        $(function(){
+            $('.datepicker').datepicker({
+                format: 'dd-mm-yyyy'
+            })
+        })
 	</script>
 
 <style>
 	.datepicker-container{
 		z-index: 99999999999 !important;
 	}
+    .jconfirm-content{
+        overflow-x: hidden !important;
+    }
+
 	.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
 .autocomplete-selected { background: #F0F0F0; }
@@ -143,13 +152,13 @@
 					<li class="nav-item">
 						<a class="nav-link {{ $option == 'ventas' ? 'active' : '' }}" href="{{ route('ventas') }}">
 							<i class="batch-icon batch-icon-store"></i>
-							Ventas 
+							Ventas
 						</a>
 					</li>
-					
+
 				</ul>
 
-				
+
 			</nav>
 			<div class="right-column">
 				<nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -191,10 +200,10 @@
 					<!-- .collapse added to the element -->
 					<div class="collapse navbar-collapse" id="navbar-header-content">
 						<ul class="navbar-nav navbar-language-translation mr-auto">
-						   
+
 						</ul>
 						<ul class="navbar-nav navbar-notifications float-right">
-							
+
 						</ul>
 						<ul class="navbar-nav ml-5 navbar-profile">
 							<li class="nav-item dropdown">
@@ -224,6 +233,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

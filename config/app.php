@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Lima',
 
     /*
     |--------------------------------------------------------------------------
@@ -174,7 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        
+
         /**
          * Servicios Propios
          */
@@ -234,7 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         /**
          * Alias de mis provides
-         * 
+         *
          */
 
          'Sunat' => App\Facades\Sunat::class,

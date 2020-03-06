@@ -10,7 +10,7 @@
                 <h3>Nueva Venta</h3>
             </div>
 
-            <div class="card-body">                        
+            <div class="card-body">
                 <div class="form-horizontal">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
@@ -37,18 +37,18 @@
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <label>Fecha</label>
-                            <input type="text" name="fecha" class="form-control datepicker">
+                            <input type="text" name="fecha" class="form-control datepicker" value="{{ date('d/m/Y') }}">
                         </div>
                         <div class="col-lg-8 col-md-8 col-sm-8">
                             <label>&nbsp;</label><br>
-                            <button type="button" class="btn btn-success pull-right"><i class="fa fa-plus"></i>Item </button>
-                        </div>                                
+                            <button type="button" class="btn btn-success pull-right" id="agregaItem"><i class="fa fa-plus"></i>Item </button>
+                        </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="table">
-                        
+
                                 <table class="table display table-striped table-bordered table-hover center" id="tabla-items">
                                 <thead>
                                 <tr>
@@ -127,17 +127,17 @@
                                     <option value="EUR">Euros</option>
                                 </select>
                             </div>
-                        </div>                            
+                        </div>
                     </div>
                     <hr>
-                    
-                    <div class="row">      
+
+                    <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-success">
                                 <i class="fa fa-save"></i>Guardar</button>
                             </div>
-                        </div>          
+                        </div>
                     </div>
                 </div>
             </div>
@@ -180,7 +180,7 @@
                     "infoEmpty": "Observando 0 a 0 de 0 registros",
                     "info": "Observando pagina _PAGE_ de _PAGE_",
                     "lengthMenu": "Desplegando _MENU_ registros",
-                    "sSearch": "Buscador" 
+                    "sSearch": "Buscador"
                 }
             })
             $('#nuevo_cliente').on('click',function(){
@@ -188,7 +188,7 @@
                     $.confirm({
                     title: 'Agrega Cliente',
                     columnClass: 'col-lg-8 col-md-8 col-sm-8',
-                    
+
                     content: function(){
                         var self = this
                         return $.ajax({
@@ -199,13 +199,13 @@
                                 _token: '{{ csrf_token() }}'
                             }
                         }).done(function(response){
-                            if(response.status === 200){   
-                                //console.log(response.data)  
+                            if(response.status === 200){
+                                //console.log(response.data)
                                 let stringDocumentos = ''
                                 for(let i in response.data){
                                     stringDocumentos += '<option value="' +response.data[i].id +'">' + response.data[i].nombre + '</option>'
-                                }                   
-                                
+                                }
+
                                 self.setContentAppend(
                                 `<form class="formulario-persona"><div class="row" style="margin-right: 0px; margin-left:0px;">
                                 <div class="col-lg-6 col-md-6">
@@ -220,7 +220,7 @@
                                 <div class="row" style="margin-right: 0px; margin-left: 0px">
                                 <div class="col-lg-6 col-md-6">
                                 <label>Tipo Documento *</label>
-                                <select class="form-control" name="tipo_doc">${stringDocumentos}</select>                           
+                                <select class="form-control" name="tipo_doc">${stringDocumentos}</select>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                 <label>Numero Documento *</label>
@@ -228,10 +228,10 @@
                                 </div>
                                 </div>
                                 <div class="row" style="margin-right: 0px; margin-left:0px;">
-                                
+
                                 <div class="col-lg-6 col-md-6">
                                 <label>Direccion </label>
-                                <input type="text" class="form-control" placeholder="Av. Direccion" name="direccion">                                                   
+                                <input type="text" class="form-control" placeholder="Av. Direccion" name="direccion">
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                 <label>Fecha Nacimiento </label>
@@ -241,7 +241,7 @@
                                 <div class="row" style="margin-right: 0px; margin-left:0px;">
                                 <div class="col-lg-6 col-md-6">
                                 <label>Telefono </label>
-                                <input type="text" class="form-control" placeholder="96857441" name="telefono">                                                   
+                                <input type="text" class="form-control" placeholder="96857441" name="telefono">
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                 <label>Genero </label>
@@ -249,7 +249,7 @@
                                     <option value="1">Masculino</option>
                                     <option value="2">Femenino</option>
                                     <option value="3">Otros</option>
-                                </select> 
+                                </select>
                                 </div>
                                 @csrf
                                 </div>
@@ -260,7 +260,7 @@
                                 self.close()
                                 toastr.error(response.message)
                             }
-                            
+
                         }).fail(function(){
                             self.close()
                             toastr.error('Error, consulte con su administrador');
@@ -280,9 +280,9 @@
                             action: function(){
                                 var self = this
                                 if(!$('.formulario-persona').valid()){
-                                    toastr.error('Ingrese los datos correctos') 
-                                    return false                           
-                                }                        
+                                    toastr.error('Ingrese los datos correctos')
+                                    return false
+                                }
                                 var formularioPersona = self.$content.find('.formulario-persona').serialize()
                                 $.confirm({
                                     title: 'Registrando',
@@ -354,7 +354,52 @@
                                                      dataType: 'JSON',
                                                      data: self.$content.find('.formulario-sunat').serialize(),
                                                  }).done(function(response){
-                                                     console.log(response)
+                                                     //console.log(response)
+                                                     if (response.status != 200) {
+                                                    toastr.error(response.message)
+                                                    self2.close()
+                                                    return false
+                                                } else {
+                                                    let d = response.data
+                                                    /* html */
+                                                    self2.setContentAppend(`
+                                                        <div class="content">
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>RUC</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.ruc }</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Razon social</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.razon_social }</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Nombre comercial</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.nombre_comercial }</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                                                                <div class="col-lg-4 col-md-4">
+                                                                    <label>Direccion</label>
+                                                                </div>
+                                                                <div class="col-lg-8 col-md-8">
+                                                                    <label>${ d.direccion }</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    `)
+                                                }
+
                                                  }).fail(function(){
                                                      toastr.error('Error','Consulte con su Administrador')
                                                      self2.close()
@@ -370,6 +415,8 @@
                 })
             }
             })
+            var autoCompletadoCliente = function(){
+
             $('#cliente').autocomplete({
                 serviceUrl: '{{ route("autocomplete-cliente") }}',
                 minChars: 3,
@@ -378,11 +425,95 @@
                 paramName: 'cliente',
                 params: {
                     cliente: $('#cliente').val(),
+                    cod_doc: $('#tipo_doc').val(),
                     _token: '{{ csrf_token() }}'
                 },
                 onSelect: function(suggestion){
                     $('#id_cliente').val(suggestion.data.id_persona)
                 }
+            })
+
+            }
+            autoCompletadoCliente()
+            $('#tipo_doc').on('change',function(){
+                $('#cliente').unbind('autocomplete')
+                autoCompletadoCliente()
+            })
+            $('#agregaItem').on('click',function(){
+                $.confirm({
+                    title: 'Nuevo Item',
+                    columnClass: 'col-md-10 col-lg-10 col-sm-10',
+                    /*html*/
+                    content: `
+                    <form>
+                    <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <label>Descripción</label>
+                        <textarea class="form-control" rows="20" id="descripcion" name="descripcion" required></textarea>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>Cantidad</label>
+                                <input class="form-control" id="cantidad" type="number" value="1" name="cantidad">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>Precio</label>
+                                <input class="form-control" id="precio1" type="number" step="0.001" value="0.000" name="precio" required>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>Tipo</label>
+                                <select class="form-control" id="tipoitem" name="tipoitem">
+                                    <option value="1">Bien</option>
+                                    <option value="0">Servicio</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>Descuento 0-100%</label>
+                                <input class="form-control" id="descuento" placeholder="Ejm. 50%" type="number" value="0" name="descuento" required>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>IGV</label>
+                                <select class="form-control" id="igv" name="igv">
+                                    <option value="1">Gravado</option>
+                                    <option value="2">Inafecto</option>
+                                    <option value="3">Exonerado</option>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <label>Subtotal: </label>
+                                <span class="subtotal">0</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <label>IGV: </label>
+                                <span class="igv">0</span>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                <label>Total: </label>
+                                <span class="total">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                    `,
+                    buttons: {
+                        agregar: function(){
+                            if(!this.$content.find('form').valid()){
+                                toastr.error('Ingrese los datos correctamente')
+                                return false
+                            }
+                        },
+                        Cancelar: function(){}
+                    }
+                })
             })
         })
     </script>
