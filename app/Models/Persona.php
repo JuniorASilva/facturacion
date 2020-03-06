@@ -28,10 +28,10 @@ class Persona extends Model
     public static function getClienteAutocomplete($where)
     {
         return DB::table('persona as p')
+                 ->select(DB::raw('CONCAT(p.apellidos, " ",p.nombres) AS cliente'), 'p.id as id_cliente', 'i.nroidentificacion')
                  ->join('identificacion as i', 'p.id', '=', 'i.id_persona')
                  ->where('i.id_tipo_identificacion', 2)
                  ->where($where)
-                 ->select(DB::raw('CONCAT(p.apellidos, p.nombres) AS cliente'), 'p.id as id_cliente', 'i.nroidentificacion')
                  ->get();
     }
 }

@@ -82,16 +82,6 @@ class FacturacionController extends Controller
         if (!$request->session()->has('user'))
             return redirect('/');
 
-        if (is_numeric($request->input('cliente'))) {
-            $where = [
-                ['i.nroidentificacion', 'like', $request->input('cliente') . '%']
-            ];
-        } else {
-            $where = [
-                ['p.apellidos', 'like', $request->input('cliente') . '%']
-            ];
-        }
-
         $where = $this->_prepareWhere($request->input('cod_doc'), $request->input('cliente'));
 
         if ($request->input('cod_doc') == '03') {
@@ -119,7 +109,7 @@ class FacturacionController extends Controller
     public function _prepareWhere($cod_doc, $cliente='') {
         if (is_numeric($cliente)) {
             $where = [
-                ['i.nroidetificacion', 'like', $cliente . '%']
+                ['i.nroidentificacion', 'like', $cliente . '%']
             ];
         } else {
             if ($cod_doc == '03') {

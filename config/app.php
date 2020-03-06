@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Lima',
 
     /*
     |--------------------------------------------------------------------------
@@ -227,7 +227,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         // App aliases
-        'Sunat' => App\Services\Sunat::class, 
+        'Sunat' => App\Services\Sunat::class,
     ],
 
 ];

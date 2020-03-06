@@ -94,7 +94,12 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-autocomplete/jquery.autocomplete.min.js') }}"></script>
 
-	<script type="text/javascript">
+    <script type="text/javascript">
+        $(function () {
+            $('.datepicker').datepicker({
+                format: 'dd-mm-yyyy'
+            })
+        })
 		$(function () {
 			toastr.options = {
 				closeButton: true,

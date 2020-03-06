@@ -36,12 +36,11 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4">
                                     <label>Fecha</label>
-
-                                    <input type="text" name="fecha" class="form-control datepicker">
+                                    <input type="text" name="fecha" class="form-control datepicker" value="{{ date('d/m/Y') }}">
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 offset-lg-4 offset-md-4 offset-sm-4">
                                     <label>&nbsp;</label><br>
-                                    <button type="button" class="btn btn-success pull-right">
+                                    <button type="button" class="btn btn-success pull-right" id="agregarItem">
                                         <i class="fa fa-plus"></i> Item
                                     </button>
                                 </div>
@@ -430,20 +429,104 @@
             })
 
             // Autocompletado de clientes
-            $('#cliente').autocomplete({
-                serviceUrl: '{{ route("autocomplete-cliente") }}',
-                minChars: 3,
-                dataType: 'JSON',
-                type: 'POST',
-                paramName: 'cliente',
-                params: {
-                    _token: '{{ csrf_token() }}',
-                    cliente: $('#cliente').val()
-                },
-                onSelect: function (suggestion) {
-                    console.log(suggestion)
-                    $('#id_cliente').val(suggestion.data.id_persona)
-                }
+            let autocompletadoCliente = function() { $('#cliente').autocomplete({
+                    serviceUrl: '{{ route("autocomplete-cliente") }}',
+                    minChars: 3,
+                    dataType: 'JSON',
+                    type: 'POST',
+                    paramName: 'cliente',
+                    params: {
+                        _token: '{{ csrf_token() }}',
+                        cliente: $('#cliente').val(),
+                        cod_doc: $('#tipo_doc').val()
+                    },
+                    onSelect: function (suggestion) {
+                        console.log(suggestion)
+                        $('#id_cliente').val(suggestion.data.id_persona)
+                    }
+                })
+            }
+            autocompletadoCliente()
+            $('#tipo_doc').on('change', function () {
+                $('#cliente').unbind('autocomplte')
+                autocompletadoCliente()
+            })
+
+            $('#agregarItem').on('click', function () {
+                $.confirm({
+                    title: 'Nuevo Item',
+                    columnClass: 'col-md-8 col-lg-8 col-sm-8',
+                    /* html */
+                    content: `
+                    <form id="formularioProductos">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <label>Descripción</label>
+                            <textarea class="form-control" rows="10" id="descripcion" name="descripcion" required></textarea>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Cantidad</label>
+                                    <input class="form-control" id="cantidad" type="number" value="1" name="cantidad" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Precio</label>
+                                    <input class="form-control" id="precio1" type="number" step="0.001" value="0.000" name="precio" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Tipo</label>
+                                    <select class="form-control" id="tipoitem" name="tipoitem">
+                                        <option value="1">Bien</option>
+                                        <option value="0">Servicio</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>Descuento 0-100%</label>
+                                    <input class="form-control" id="descuento2" placeholder="Ejm. 50%" type="number" value="0" name="descuento" required>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <label>IGV</label>
+                                    <select class="form-control" id="igvs" name="igv">
+                                        <option value="1">Gravado</option>
+                                        <option value="2">Inafecto</option>
+                                        <option value="3">Exonerado</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <label>Subtotal: </label>
+                                    <span class="subtotal">0</span>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <label>IGV: </label>
+                                    <span class="igv">0</span>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <label>Total: </label>
+                                    <span class="total">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </form>
+                    `,
+                    buttons: {
+                        agregar: function() {
+                            if (!$('#formularioProductos').valid()) {
+                                toastr.error('Ingrese los datos correctamente')
+                                return false
+                            }
+                        },
+                        cancelar: function() {},
+                    }
+                })
             })
         })
     </script>
