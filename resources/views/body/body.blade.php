@@ -31,7 +31,7 @@
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome/css/font-awesome.min.css') }}">
-	
+
 	<link rel="stylesheet" href="{{ asset('assets/plugins/toastr/toastr.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/datatables/datatables.min.css') }}">
@@ -41,6 +41,9 @@
 		.datepicker-container{
 			z-index: 99999999999 !important;
 		}
+        .jconfirm-content {
+            overflow-x: hidden !important;
+        }
 		.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
 .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
 .autocomplete-selected { background: #F0F0F0; }
@@ -61,7 +64,7 @@
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/popper.min.js') }}"></script>
 	<!-- Bootstrap core JavaScript -->
 	<script type="text/javascript" src="{{ asset('assets/js/bootstrap/bootstrap.min.js') }}"></script>
-	
+
 	<!-- Velocity -->
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/velocity/velocity.ui.min.js') }}"></script>
@@ -77,8 +80,8 @@
 	<script type="text/javascript" src="{{ asset('assets/plugins/jconfirm/jquery-confirm.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/datatables/datatables.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('assets/plugins/autocomplete/jquery.autocomplete.min.js') }}"></script>
-	
-	
+
+
 	<script type="text/javascript" src="{{ asset('assets/plugins/jquery-validation-1.19.1/dist/jquery.validate.min.js') }}"></script>
 
 	<!-- SCRIPTS - REQUIRED END -->
@@ -96,7 +99,7 @@
 	<!-- QuillPro Scripts -->
 	<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js"></script>
-	
+
 	<script type="text/javascript">
 		(function (global, factory) {
 		  typeof exports === 'object' && typeof module !== 'undefined' ? factory(require('jquery')) :
@@ -123,6 +126,9 @@
 	          };
 		})));
 		$(function(){
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy'
+            })
 			toastr.options = {
 				closeButton: true,
 				progressBar: true,
@@ -130,7 +136,7 @@
 				timeOut: 4000
 			}
 			$('[data-toggle="tooltip"]').tooltip()
-			/*$.datepicker.languages['es'] = 
+			/*$.datepicker.languages['es'] =
 	          $.datepicker.setDefaults($.datepicker.languages['es']);*/
 		})
 	</script>
@@ -168,10 +174,10 @@
 							Ventas
 						</a>
 					</li>
-					
+
 				</ul>
 
-				
+
 			</nav>
 			<div class="right-column">
 				<nav class="navbar navbar-expand-lg navbar-light bg-white">
@@ -213,10 +219,10 @@
 					<!-- .collapse added to the element -->
 					<div class="collapse navbar-collapse" id="navbar-header-content">
 						<ul class="navbar-nav navbar-language-translation mr-auto">
-						   
+
 						</ul>
 						<ul class="navbar-nav navbar-notifications float-right">
-							
+
 						</ul>
 						<ul class="navbar-nav ml-5 navbar-profile">
 							<li class="nav-item dropdown">
@@ -224,15 +230,15 @@
 								        <div class="profile-name">
                                              <b style="color: #142961">Hola!&nbsp;</b>
                                              {{ session('user')['usuario'] }}
-                                             
+
 									    </div>
-                                    
+
 									<div class="profile-picture bg-gradient bg-primary has-message float-right">
 										<img src="{{ asset('asse') }}ts/img/usuario.png" width="44" height="44">
 									</div>
 								</a>
 								<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbar-dropdown-navbar-profile">
-									
+
                                                                     <li><a class="dropdown-item" href="{{ route('salir') }}"><i class="batch-icon batch-icon-outgoing"></i>&nbsp;&nbsp; Cerrar Sesión</a></li>
 								</ul>
 							</li>
@@ -245,6 +251,6 @@
 		</div>
 	</div>
 
-	
+
 </body>
 </html>

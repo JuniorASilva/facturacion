@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Utils;
 use App\Models\Persona;
+use App\Models\Empresa;
 use App\Models\Identificacion;
 use App\Extras\Sunat;
 
@@ -49,8 +50,6 @@ class FacturacionController extends Controller
 
     }
 
-
-
     public function cargaDocumentos(Request $request){
         if (!$request->session()->has('user'))
             return redirect('/');
@@ -68,21 +67,28 @@ class FacturacionController extends Controller
     public function consultaAutocompleteClientes(Request $request){
         if (!$request->session()->has('user'))
             return redirect('/');
-        if(!$request -> isMethod('post')){
+        if(!$request -> isMethod('post'))
             return response()->json(['status'=>202,'data'=>[],'message'=>'Error, consulte con su administador']);
-        }
-        if(is_numeric($request->input('clientes'))){
-            $where=[
-                ['i.nroidentificacion','like',$request->input('clientes').'%']
-            ];
-        }
-        else{
-            $where=[
-                ['p.apellidos','like',$request->input('clientes').'%']
-            ];
-        }
 
-        $personas=(new Persona())->getClienteAutocomplete($where);
+        $where = $this->_prepareWhere($request->input('cod_doc'),$request->input('clientes'));
+
+        if($request->input('cod_doc')=='03')
+            $clientes = (new Persona())->getClienteAutocomplete($where);
+        else
+            $clientes = (new Empresa())->getClienteAutocomplete($where);
+        //dd($clientes);
+        $clients = array();
+        if(!is_null($clientes))
+            {
+                foreach($clientes as $client){
+                    array_push($clients,array(
+                        'value'=>$client->nroidentificacion.' - '.$client->cliente,
+                        'data'=>$client
+                    ));
+                    unset($client);
+                };
+            }
+        /*$personas=(new Persona())->getClienteAutocomplete($where);
         $pers=[];
         if(!is_null($personas)){
             foreach($personas as $per)
@@ -90,9 +96,28 @@ class FacturacionController extends Controller
                 array_push($pers,['value'=>$per->nroidentificacion.'-'.$per->apellidos.' '.$per->nombres,
                                     'data'=>$per]);
             }
-        }
+        }*/
 
-        return response()->json(['suggestions'=>$pers]);
+        return response()->json(['suggestions'=>$clients]);
+    }
+
+    public function _prepareWhere($cod_doc,$cliente = ''){
+        if(is_numeric($cliente)){
+            $where = [
+                ['i.nroidentificacion','like',$cliente.'%']
+            ];
+
+        }else{
+            if($cod_doc == '03')
+                $where = [
+                    ['p.apellidos','like',$cliente.'%']
+                ];
+            else
+                $where = [
+                    ['e.razon_social','like',$cliente.'%']
+                ];
+        }
+        return $where;
     }
 
     public function consultaRuc(Request $request){
@@ -101,9 +126,52 @@ class FacturacionController extends Controller
         $data = $sunat->getData();
         if($data){
             $data['ruc'] = $request->input('ruc');
-            return response()->json(['status'=>200,'data'=>[],'message'=>'Datos encontrados']);
+            $emp = new Empresa();
+            $emp->razon_social = $data['razon_social'];
+            $emp->nombre_comercial = $data['nombre_comercial'];
+            $emp->direccion = $data['direccion'];
+            $emp->estado = 1;
+            if ($emp->save()){
+                $ident=new Identificacion();
+                $ident->id_persona = 1;
+                $ident->id_tipo_identificacion = 6;
+                $ident->nroidentificacion = $data['ruc'];
+                $ident->id_empresa=$emp->id;
+                $ident->save();
+                $data['id_empresa']=$emp->id;
+            }else {
+                return response()->json(['status'=>202,'data'=>[],'message'=>'Error al almacenar los datos']);
+            }
+
+            return response()->json(['status'=>200,'data'=>$emp->id,'message'=>'Datos encontrados']);
         }
         return response()->json(['status'=>202,'data'=>[],'message'=>'Datos NO encontrados']);
+    }
+
+    public function agregaItem(Request $request){
+        \Cart::session($request->session()->getId());
+
+        $item = [
+            'id'=> sha1($request->input('descripcion')),
+            'name'=>$request->input('descripcion'),
+            'price'=>$request->input('precio'),
+            'quantity'=>$request->input('cantidad'),
+            'attributes'=> [
+                'tipo_igv'=>$request->input('igv'),
+                'tipo'=>$request->input('tipoitem'),
+                'descuento'=>$request->input('descuento')
+                ]
+            ];
+        \Cart::add($item);
+        return response()->json(['status'=>200,'data'=>$item,'message'=>'Item Agregado']);
+
+    }
+
+    public function generaVenta(Request $request){
+        if(!$request->isMethod('post'))
+        {
+            return redirect('/nueva-venta');
+        }
     }
 
 }

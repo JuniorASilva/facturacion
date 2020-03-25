@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class VentasController extends Controller
 {
-    
+
     public function index(Request $request)
     {
         if (!$request->session()->has('user'))
@@ -19,8 +19,12 @@ class VentasController extends Controller
     {
         if (!$request->session()->has('user'))
           return redirect('/');
+        \Cart::session($request->session()->getId());
+        //\Cart::clear();
+        $items = \Cart::getContent()->toArray();
+
         $option = 'ventas';
-        return view('ventas/nueva',compact('option'));
+        return view('ventas/nueva',compact('option','items'));
     }
 
 }
