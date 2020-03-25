@@ -122,4 +122,30 @@ class FacturacionController extends Controller
         }
         return response()->json(['status'=>202,'data'=>[],'message'=>'Datos no encontrados']);
     }
+
+    public function agregaItem(Request $request){
+        \Cart::session($request->session()->getId());
+
+        $item = [
+            'id'=> sha1($request->input('descripcion')),
+            'name'=>$request->input('descripcion'),
+            'price'=>$request->input('precio'),
+            'quantity'=>$request->input('cantidad'),
+            'attributes'=> [
+                'tipo_igv'=>$request->input('igv'),
+                'tipo'=>$request->input('tipoitem'),
+                'descuento'=>$request->input('descuento')
+                ]
+            ];
+        \Cart::add($item);
+        return response()->json(['status'=>200,'data'=>$item,'message'=>'Item Agregado']);
+
+    }
+
+    public function generaVenta(Request $request){
+        if(!$request->isMethod('post'))
+        {
+            return redirect('/nueva-venta');
+        }
+    }
 }
