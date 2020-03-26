@@ -8,6 +8,8 @@ use App\Models\Utils;
 use App\Models\Persona;
 use App\Models\Empresa;
 use App\Models\Identificacion;
+use App\Models\Venta;
+use App\Models\Items;
 
 class FacturacionController extends Controller
 {
@@ -141,11 +143,67 @@ class FacturacionController extends Controller
         return response()->json(['status'=>200,'data'=>$item,'message'=>'Item Agregado']);
 
     }
+    
+    public function quitaItem(Request $request){
+        \Cart::session($request->session()->getId());
+
+        if(\Cart::remove($request->input('idItem')))
+            return response()->json(['status'=>200,'data'=>[],'message'=>'Item Eliminado']);
+        return response()->json(['status'=>202,'data'=>[],'message'=>'Datos no encontrados']);
+    }
 
     public function generaVenta(Request $request){
         if(!$request->isMethod('post'))
         {
             return redirect('/nueva-venta');
         }
+        \Cart::session($request->session()->getId());
+        $usuario = $request->session()->get('user');
+
+        try{
+            $result = (new Venta())->newVenta([
+                'cod_doc'               => $request->input('tipo_doc'),
+                'id_persona'            => $request->input('tipo_doc') == '03' ? $request->input('id_cliente') : 1,
+                'id_empresa'            => $request->input('tipo_doc') == '01' ? $request->input('id_cliente') : 1,
+                'id_usuario'            => $usuario['id'],
+                'id_tipo_pago'          => 1,
+                'id_moneda'             => $request->input('id_moneda'),
+                'descuento'             => 0.0,
+                'total'                 => \Cart::getTotal(),
+                'igv'                   => 0.18,
+                'gravada'               => \Cart::getTotal()-\Cart::getTotal()*0.18,
+                'inafecta'              => 0,
+                'exonerada'             => 0,
+                'gratuita'              => 0,
+                'valorigv'              => \Cart::getTotal()*0.18,
+                'fecha_emision'         => date('Y-m-d H:i:s'),
+                'fecha_pago'            => date('Y-m-d H:i:s'),
+                'estado'                => 1
+            ]);
+        }catch(Exception $e){
+            return response()->json(['status'=>500,'data'=>[],'message'=>'Error en registrar la venta']);
+        }
+        $items = \Cart::getContent()->toArray();
+        foreach($items as $item){
+            $i = new Items();
+            $i->num_serie = $result[0]->num_serie;
+            $i->num_documento = $result[0]->num_documento;
+            $i->cod_doc = $request->input('tipo_doc');
+            $i->id_producto = 1;
+            $i->cantidad = $item['quantity'];
+            $i->precioventa = $item['price'];
+            $i->descuento = $item['attributes']['descuento'];
+            $i->tipo_igv = $item['attributes']['tipo_igv'];
+            $i->igv = 0.18;
+            $i->valorigv = 1;
+            $i->id_medida= 1;
+            $i->cod_catalogo = '20001020';
+            $i->save();
+        }
+
+        $option = 'ventas';
+        $comprobante = $result[0];
+    	return view('ventas.vista',compact('option','comprobante','items'));
+        ddd($result,$items);
     }
 }

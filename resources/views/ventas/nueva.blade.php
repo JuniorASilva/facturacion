@@ -43,7 +43,7 @@
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12">
 										<div class="table">
-											<table class="table display table-striped table-bordered table-hover center" id="tabla-items">
+											<table class="table tabla-items display table-striped table-bordered table-hover center" id="tabla-items">
 												<thead>
 													<tr>
 														<th class="center">#</th>
@@ -65,7 +65,11 @@
 															<td>{{ $item['attributes']['tipo_igv']==1? number_format($item['price']*$item['quantity']*0.18,2,'.',''):0.00 }}
 															</td>
 															<td>{{ $item['price'] *$item['quantity']}}</td>
-															<td></td>
+															<td>
+																<div class="btn-group">
+																	<button class="btn btn-danger eliminar" type="button" data-id="{{ $item['id'] }}" title="Eliminar"><i class="fa fa-trash"></i></button>
+																</div>
+															</td>
 														</tr>
 													@endforeach
 												</tbody>
@@ -120,19 +124,20 @@
 									<div class="col-lg-6 col-md-6 col-sm-6">
 										<div class="form-group">
 											<label>Moneda</label>
-											<select class="form-control">
-												<option value="PEN">Soles</option>
-												<option value="DLR">Dolares</option>
-												<option value="EUR">Euros</option>
+											<select class="form-control" name="id_moneda">
+												<option value="1">Soles</option>
+												<option value="2">Dolares</option>
+												<option value="3">Euros</option>
 											</select>
 										</div>
 									</div>
 								</div>
 								<hr>
+								@csrf
 								<div class="row">
 									<div class="col-lg-12 col-md-12 col-sm-12">
 										<div class="btn-group">
-											<button type="button" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+											<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
 										</div>
 									</div>
 								</div>
@@ -148,6 +153,53 @@
 		   $(this).datepicker()
 	   })
    		$(function(){
+			var cargaFuncionalidades = function(){
+				$('.tabla-items tbody tr button.eliminar').unbind('click')
+				$('.tabla-items tbody tr button.eliminar').on('click',function(){
+					var row = $(this).closest("tr").get(0)
+					var idItem = $(this).attr('data-id')
+					$.confirm({
+						title: 'Atención',
+						content: 'Esta seguro de eliminar este Item?',
+						buttons: {
+							si: {
+								text: 'Si',
+								btnClass: 'btn-primary',
+								action: function(){
+									$.confirm({
+										title: 'Resultado',
+										content: function(){
+											var self = this
+											return $.ajax({
+												url: '{{ route("quitaItem") }}',
+												method: 'DELETE',
+												dataType: 'json',
+												data: {
+													idItem: idItem,
+													_token: '{{ csrf_token() }}'
+												}
+											}).done(function(response){
+												if(response.status == 200){
+													toastr.success(response.message)
+													tabla_items.fnDeleteRow(tabla_items.fnGetPosition(row))
+												}
+												else
+													toastr.error(reponse.message)
+												self.close()
+											}).fail(function(){
+												toastr.error('Error, consulte con su administrador')
+												self.close()
+											})
+										}
+									})
+								}
+							},
+							no: function(){}
+						}
+					})
+				})
+			}
+			cargaFuncionalidades()
    			$('.datepicker').datepicker()
 			$('#tipo_doc').on('click',function(){
 				if($(this).val() == '03'){
@@ -525,17 +577,15 @@
 												d.name,
 												d.price,
 												d.quantity,
-												d.attributes.tipo_igv ==
-												"1" ? (parseFloat(d
-														.price) *
-													parseInt(d
-													.quantity) * 0.18)
-												.toFixed(2) : 0.00,
-												(parseFloat(d.price) *
-													parseInt(d.quantity)
-													),
-												''
+												d.attributes.tipo_igv == "1" ? (parseFloat(d.price) * parseInt(d.quantity) * 0.18).toFixed(2) : 0.00,
+												(parseFloat(d.price) * parseInt(d.quantity)),
+												`<div class="btn-group">
+													<button class="btn btn-danger eliminar" type="button" data-id="${d.id}" title="Eliminar">
+														<i class="fa fa-trash"></i>
+													</button>
+												</div>`
 											])
+											cargaFuncionalidades()
 										}
 										self.close()
 										toastr.success(response.message)

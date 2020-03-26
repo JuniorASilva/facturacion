@@ -20,9 +20,12 @@ class VentasController extends Controller
 		 * Cargado de items del carrito
 		 */
 		\Cart::session($request->session()->getId());
+		//dd(new \Cart);
 		$items = \Cart::getContent()->toArray();
 		
 		$option = 'ventas';
     	return view('ventas/nueva',compact('option','items'));
-    }
+	}
+	
+	public function mostrarVenta(Request $request){}
 }

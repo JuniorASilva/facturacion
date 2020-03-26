@@ -180,6 +180,7 @@ return [
         App\Providers\SunatServiceProvider::class,
         App\Providers\CurlServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -236,6 +237,8 @@ return [
         'Sunat' => App\Facades\Sunat::class,
         'Curl' => App\Facades\Curl::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
 
 ];
