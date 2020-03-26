@@ -41,7 +41,7 @@ Route::group(['prefix'=>'ventas'],function(){
     Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
     Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
     Route::post('/agregaitem','FacturacionController@agregaItem')->name('agregarItem');
-    Route::post('/generarventa','FacturacionController@generaVenta')->name('generarventa');
+    Route::post('/generarventa','FacturacionController@generarventa')->name('generarventa');
 
     Route::delete('/eliminaitem','FacturacionController@quitaItem')->name('quitaItem');
 });

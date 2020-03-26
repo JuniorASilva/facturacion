@@ -241,4 +241,16 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
     ],
 
+    'empresa'   => [
+        'razon_social'      => 'SILVA PORTOCARRERO JUNIOR ALDAIR',
+        'direccion'         => 'APURIMAC 605 AA.HH. TUPAC AMARU',
+        'departamento'      => 'PIURA',
+        'provincia'         => 'SULLANA',
+        'distrito'          => 'BELLAVISTA',
+        'ubigeo'            => '190601',
+        'ruc'               => '10475518808',
+        'usuario'           => 'MODDATOS',
+        'password'          => '10475518808'
+    ]
+
 ];

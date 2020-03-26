@@ -17,9 +17,4 @@ class Venta extends Model
             return false;
         return DB::select('CALL ingresaventa(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', array_values($data));
     }
-
-    public function newDetalleVenta($item = array()){
-        DB::insert(`insert into tdetalleventa (num_serie, num_documento, cod_doc, id_producto, cantidad, precioventa, descuento, tipo_igv, igv, valor_igv, id_medida, cod_catalogo) 
-                    values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, array_values($item));
-    }
 }

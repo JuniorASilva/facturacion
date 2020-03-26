@@ -11,6 +11,7 @@
         "php": "^7.2",
         "darryldecode/cart": "^4.1",
         "fideloper/proxy": "^4.0",
+        "greenter/greenter": "^3.0",
         "guzzlehttp/guzzle": "~6.0",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",

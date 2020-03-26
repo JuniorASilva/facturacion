@@ -152,7 +152,7 @@ class FacturacionController extends Controller
         return response()->json(['status'=>202,'data'=>[],'message'=>'Datos no encontrados']);
     }
 
-    public function generaVenta(Request $request){
+    public function generarventa(Request $request){
         if(!$request->isMethod('post'))
         {
             return redirect('/nueva-venta');
@@ -183,8 +183,14 @@ class FacturacionController extends Controller
         }catch(Exception $e){
             return response()->json(['status'=>500,'data'=>[],'message'=>'Error en registrar la venta']);
         }
+
         $items = \Cart::getContent()->toArray();
         foreach($items as $item){
+
+                /**
+                 * generar la funcionalidad para guardar los datos en tproducto
+                 */
+
             $i = new Items();
             $i->num_serie = $result[0]->num_serie;
             $i->num_documento = $result[0]->num_documento;
@@ -200,10 +206,10 @@ class FacturacionController extends Controller
             $i->cod_catalogo = '20001020';
             $i->save();
         }
+        ddd($result,$items);
 
         $option = 'ventas';
         $comprobante = $result[0];
     	return view('ventas.vista',compact('option','comprobante','items'));
-        ddd($result,$items);
     }
 }

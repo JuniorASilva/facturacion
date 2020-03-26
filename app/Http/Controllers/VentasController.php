@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
+
+use Greenter\Model\Client\Client;
+
 class VentasController extends Controller
 {
     public function index(Request $request){
@@ -14,6 +18,10 @@ class VentasController extends Controller
     }
 
     public function nuevaVenta(Request $request){
+
+		$client = new Client();
+		ddd($client);
+
     	if(!$request->session()->has('user'))
 			return redirect('/');
 		/**
