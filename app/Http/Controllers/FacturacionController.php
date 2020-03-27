@@ -129,14 +129,15 @@ class FacturacionController extends Controller
         \Cart::session($request->session()->getId());
 
         $item = [
-            'id'=> sha1($request->input('descripcion')),
-            'name'=>$request->input('descripcion'),
-            'price'=>$request->input('precio'),
-            'quantity'=>$request->input('cantidad'),
-            'attributes'=> [
-                'tipo_igv'=>$request->input('igv'),
-                'tipo'=>$request->input('tipoitem'),
-                'descuento'=>$request->input('descuento')
+            'id'            => sha1($request->input('descripcion')),
+            'name'          => $request->input('descripcion'),
+            'price'         => $request->input('precio'),
+            'quantity'      => $request->input('cantidad'),
+            'attributes'    => [
+                'tipo_igv'          => $request->input('igv'),
+                'tipo'              => $request->input('tipoitem'),
+                'descuento'         => $request->input('descuento'),
+                'id_medida'         => $request->input('id_medida') ? $request->input('id_medida') : 7
                 ]
             ];
         \Cart::add($item);
@@ -202,7 +203,7 @@ class FacturacionController extends Controller
             $i->tipo_igv = $item['attributes']['tipo_igv'];
             $i->igv = 0.18;
             $i->valorigv = 1;
-            $i->id_medida= 1;
+            $i->id_medida= $item['attributes']['id_medida'];
             $i->cod_catalogo = '20001020';
             $i->save();
         }

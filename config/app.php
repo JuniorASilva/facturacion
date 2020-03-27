@@ -179,6 +179,7 @@ return [
          */
         App\Providers\SunatServiceProvider::class,
         App\Providers\CurlServiceProvider::class,
+        App\Providers\FacturacionServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
     ],
@@ -236,6 +237,7 @@ return [
          */
         'Sunat' => App\Facades\Sunat::class,
         'Curl' => App\Facades\Curl::class,
+        'Facturacion' => App\Facades\Facturacion::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
@@ -250,7 +252,12 @@ return [
         'ubigeo'            => '190601',
         'ruc'               => '10475518808',
         'usuario'           => 'MODDATOS',
-        'password'          => '10475518808'
-    ]
+        'password'          => '10475518808',
+        'certificado'       => [
+            'endpoint'          => 'test',
+            'directory'         => 'LLAMA-PE-CERTIFICADO-DEMO-10475518808.pfx',
+            'pin'               => '10475518808'
+        ]
+    ],
 
 ];

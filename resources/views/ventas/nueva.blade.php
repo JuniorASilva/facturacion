@@ -528,8 +528,9 @@
                                         <label>IGV</label>
                                         <select class="form-control" id="igv" name="igv">
                                             <option value="1">Gravado</option>
-                                            <option value="2">Inafecto</option>
-                                            <option value="3">Exonerado</option>
+                                            <option value="2">Exonerado</option>
+                                            <option value="3">Inafecto</option>
+											<option value="4">Exportación</option>
                                         </select>
                                     </div>
                                 </div>

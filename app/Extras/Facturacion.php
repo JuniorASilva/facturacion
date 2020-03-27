@@ -13,6 +13,10 @@ use Greenter\Model\Sale\SaleDetail;
 use Greenter\Model\Sale\Legend;
 use Greenter\See;
 
+use Greenter\Ws\Services\SunatEndpoints;
+use Greenter\XMLSecLibs\Certificate\X509Certificate;
+use Greenter\XMLSecLibs\Certificate\X509ContentType;
+
 class Facturacion
 {
     /**
@@ -20,35 +24,35 @@ class Facturacion
      *
      * @var Client
      */
-    public $cliente;
+    private $cliente;
 
     /**
      * Propiedad de los datos de mi empresa
      *
      * @var Company
      */
-    public $empresa;
+    private $empresa;
 
     /**
      * Propiedad de mi direccion como empresa
      *
      * @var Address
      */
-    public $direccion;
+    private $direccion;
 
     /**
      * Todo el comprobante que estoy generando
      *
      * @var Invoice
      */
-    public $comprobante;
+    private $comprobante;
 
     /**
      * Permite manejar el comprobante
      *
      * @var See
      */
-    public $manejador;
+    private $manejador;
 
     public function __construct(){
         $this->manejador = new See();
@@ -67,12 +71,97 @@ class Facturacion
                     ->setRazonSocial(config('app.empresa.razon_social'))
                     ->setNombreComercial(config('app.empresa.razon_social'))
                     ->setAddress($this->direccion);
+        $this->comprobante->setCompany($this->empresa);
+
+        //Cargando los certificados digitales
+        $this->manejador->setService(config('app.empresa.certificado.endpoint') == 'test' ? SunatEndpoints::FE_BETA : SunatEndpoints::FE_PRODUCCION);
+        $user = config('app.empresa.ruc').config('app.empresa.usuario');
+        $pass = config('app.empresa.password');
+        $this->manejador->setCredentials($user,$pass);
     }
 
+    /**
+     * Inserta al cliente en el comprobante
+     *
+     * @param array $cliente
+     * @return void
+     */
     public function setCliente($cliente = array()){
         $this->cliente->setTipoDoc($cliente['tipo_doc_cliente'])
                     ->setNumDoc($cliente['nro_identificacion'])
                     ->setRznSocial($cliente['nombres']);
         $this->comprobante->setClient($this->cliente);
+    }
+
+    /**
+     * Inserta todo el cuerpo del comprobante
+     *
+     * @param array $data
+     * @return void
+     */
+    public function setInvoice($data = array()){
+        $this->comprobante->setUblVersion('2.1')
+                        ->setTipoOperacion('0101') // Catalog. 51
+                        ->setTipoDoc($data['cod_doc'])
+                        ->setSerie($data['num_serie'])
+                        ->setCorrelativo($data['num_documento'])
+                        ->setFechaEmision(new DateTime())
+                        ->setTipoMoneda('PEN')
+                        ->setMtoOperGravadas($data['gravada'])
+                        ->setMtoIGV($data['valorigv'])
+                        ->setTotalImpuestos($data['valorigv'])
+                        ->setValorVenta($data['gravada'])
+                        ->setSubTotal($data['total'])
+                        ->setMtoImpVenta($data['total']);
+        //$this->comprobante->setLegends();
+    }
+
+    /**
+     * Inserta todos los items al comprobante
+     *
+     * @param array $items
+     * @return void
+     */
+    public function setItems($items = array()){
+        $sales = [];
+        foreach($items as $item){
+            $sale = new SaleDetail();
+            $sale->setCodProducto('P001')
+                ->setUnidad('NIU')
+                ->setCantidad($items['quantity'])
+                ->setDescripcion($items['name'])
+                ->setMtoBaseIgv($items['quantity']*($items['price'] - $items['price']*0.18))
+                ->setPorcentajeIgv(18.00) // 18%
+                ->setIgv($items['price']*0.18)
+                ->setTipAfeIgv($items['attributes']['tipo_igv']*10)
+                ->setTotalImpuestos($items['price']*0.18)
+                ->setMtoValorVenta($items['quantity']*($items['price'] - $items['price']*0.18))
+                ->setMtoValorUnitario($items['price'] - $items['price']*0.18)
+                ->setMtoPrecioUnitario($items['price']);
+            array_push($sales,$sale);
+        }
+        $this->comprobante->setDetails($sales);
+    }
+
+    /**
+     * Firma y guarda el archivo xml
+     *
+     * @return void
+     */
+    public function end(){
+        $this->manejador->getXmlSigned($this->comprobante);
+    }
+
+    private function cargaCertificado(){
+        if(!file_exists(app_path().'/../files/certificado.pem')){
+            //cargo el certificado completo
+            $pfx = file_get_contents(app_path().'/../files/'.config('app.empresa.certificado.directory'));
+            $password = config('app.empresa.certificado.pin');
+            $certificate = new X509Certificate($pfx, $password);
+            //extraccion de certificado publico
+            $pem = $certificate->export(X509ContentType::PEM);
+            file_put_contents(app_path().'/../files/certificado.pem', $pem);
+        }
+        $this->manejador->setCertificate(file_get_contents(app_path().'/../files/certificado.pem'));
     }
 }

@@ -19,8 +19,13 @@ class VentasController extends Controller
 
     public function nuevaVenta(Request $request){
 
-		$client = new Client();
-		ddd($client);
+		$facturacion = new \App\Extras\Facturacion();
+		$facturacion->setCliente([
+			'tipo_doc_cliente'	=> 1,
+			'nro_identificacion'=> '47551880',
+			'nombres'			=> 'JUNIOR ALDAIR SILVA PORTOCARRERO'
+		]);
+		ddd($facturacion);
 
     	if(!$request->session()->has('user'))
 			return redirect('/');
