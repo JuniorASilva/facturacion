@@ -8,7 +8,7 @@
                 		<h3>Nueva Venta</h3>
                 	</div>
                     <div class="card-body">
-						<form method="POST" action=" {{ route('generarventa') }} ">
+						<form method="POST" id="generarventa">
 							<div class="form-horizontal">
 								<div class="row">
 									<div class="col-lg-8 col-md-8 col-sm-8">
@@ -85,7 +85,7 @@
 												<span>Op. Gravada</span>
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-6">
-												<label>S/</label><label>0.00</label>
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
 											</div>
 										</div>
 										<div class="row">
@@ -93,7 +93,7 @@
 												<span>Op. Inafecta</span>
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-6">
-												<label>S/</label><label>0.00</label>
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
 											</div>
 										</div>
 										<div class="row">
@@ -101,7 +101,7 @@
 												<span>Op. Exonerada</span>
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-6">
-												<label>S/</label><label>0.00</label>
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
 											</div>
 										</div>
 										<div class="row">
@@ -109,7 +109,7 @@
 												<span>I.G.V.</span>
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-6">
-												<label>S/</label><label>0.00</label>
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
 											</div>
 										</div>
 										<div class="row">
@@ -117,14 +117,14 @@
 												<span>Total</span>
 											</div>
 											<div class="col-lg-6 col-md-6 col-sm-6">
-												<label>S/</label><label>0.00</label>
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
 											</div>
 										</div>
 									</div>
 									<div class="col-lg-6 col-md-6 col-sm-6">
 										<div class="form-group">
 											<label>Moneda</label>
-											<select class="form-control" name="id_moneda">
+											<select class="form-control" name="id_moneda" id="id_moneda">
 												<option value="1">Soles</option>
 												<option value="2">Dolares</option>
 												<option value="3">Euros</option>
@@ -226,6 +226,7 @@
                         "previous": "Anterior"
                     },
                     "infoEmpty": "Observando 0 a 0 de 0 registros",
+					"emptyTable": "No hay registros",
                     "info": "Observando página _PAGE_ de _PAGE_",
                     "lengthMenu": "Desplegando _MENU_ registros",
                     "sSearch": "Buscador"
@@ -604,6 +605,59 @@
                     }
                 })
             })
+			$('#id_moneda').on('change',function(){
+				switch ($(this).val()) {
+					case '1':
+						$('label.moneda').html('S/&nbsp;')
+						break;
+
+					case '2':
+						$('label.moneda').html('$&nbsp;')
+						break;
+					
+					case '3':
+						$('label.moneda').html('€&nbsp;')
+						break;
+				
+					default:
+						$('label.moneda').html('S/&nbsp;')
+						break;
+				}
+			})
+			$('#generarventa').on('submit',function(e){
+				e.preventDefault()
+				if($('#id_cliente').val() == '0'){
+					$.alert('Seleccione un cliente valido')
+					return false
+				}
+				$.confirm({
+					title: 'Atención',
+					content: 'Esta seguro de los datos ingresados?',
+					buttons: {
+						si: {
+							btnClass: 'btn-primary',
+							action: function(){
+								$.confirm({
+									title: 'Resultado',
+									content: function(){
+										return $.ajax({
+											url: '{{ route('generarventa') }}',
+											method: 'POST',
+											data: $('#generarventa').serialize(),
+											dataType: 'JSON'
+										}).done(function(response){
+											console.log(response)
+										}).fail(function(){
+											toastr.error('Error consulte con su administrador')
+										})
+									}
+								})
+							}
+						},
+						no: function(){}
+					}
+				})
+			})
    		})
    	</script>
 @endsection

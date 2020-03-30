@@ -54,6 +54,13 @@ class Facturacion
      */
     private $manejador;
 
+    /**
+     * Instancia DOM del xml
+     * 
+     * @var DOMDocument
+     */
+    private $domXml;
+
     public function __construct(){
         $this->manejador = new See();
         $this->cliente = new Client();
@@ -74,10 +81,15 @@ class Facturacion
         $this->comprobante->setCompany($this->empresa);
 
         //Cargando los certificados digitales
-        $this->manejador->setService(config('app.empresa.certificado.endpoint') == 'test' ? SunatEndpoints::FE_BETA : SunatEndpoints::FE_PRODUCCION);
+        $this->manejador->setService(
+            config('app.empresa.certificado.endpoint') == 'test' 
+            ? SunatEndpoints::FE_BETA : 
+            SunatEndpoints::FE_PRODUCCION
+        );
         $user = config('app.empresa.ruc').config('app.empresa.usuario');
         $pass = config('app.empresa.password');
         $this->manejador->setCredentials($user,$pass);
+        $this->cargaCertificado();
     }
 
     /**
@@ -105,7 +117,7 @@ class Facturacion
                         ->setTipoDoc($data['cod_doc'])
                         ->setSerie($data['num_serie'])
                         ->setCorrelativo($data['num_documento'])
-                        ->setFechaEmision(new DateTime())
+                        ->setFechaEmision(new \DateTime())
                         ->setTipoMoneda('PEN')
                         ->setMtoOperGravadas($data['gravada'])
                         ->setMtoIGV($data['valorigv'])
@@ -125,19 +137,20 @@ class Facturacion
     public function setItems($items = array()){
         $sales = [];
         foreach($items as $item){
+            //el error de todos cambiar items por item
             $sale = new SaleDetail();
             $sale->setCodProducto('P001')
                 ->setUnidad('NIU')
-                ->setCantidad($items['quantity'])
-                ->setDescripcion($items['name'])
-                ->setMtoBaseIgv($items['quantity']*($items['price'] - $items['price']*0.18))
+                ->setCantidad($item['quantity'])
+                ->setDescripcion($item['name'])
+                ->setMtoBaseIgv($item['quantity']*($item['price'] - $item['price']*0.18))
                 ->setPorcentajeIgv(18.00) // 18%
-                ->setIgv($items['price']*0.18)
-                ->setTipAfeIgv($items['attributes']['tipo_igv']*10)
-                ->setTotalImpuestos($items['price']*0.18)
-                ->setMtoValorVenta($items['quantity']*($items['price'] - $items['price']*0.18))
-                ->setMtoValorUnitario($items['price'] - $items['price']*0.18)
-                ->setMtoPrecioUnitario($items['price']);
+                ->setIgv($item['price']*0.18)
+                ->setTipAfeIgv($item['attributes']['tipo_igv']*10)
+                ->setTotalImpuestos($item['price']*0.18)
+                ->setMtoValorVenta($item['quantity']*($item['price'] - $item['price']*0.18))
+                ->setMtoValorUnitario($item['price'] - $item['price']*0.18)
+                ->setMtoPrecioUnitario($item['price']);
             array_push($sales,$sale);
         }
         $this->comprobante->setDetails($sales);
@@ -149,9 +162,19 @@ class Facturacion
      * @return void
      */
     public function end(){
-        $this->manejador->getXmlSigned($this->comprobante);
+        $xml = $this->manejador->getXmlSigned($this->comprobante);
+        file_put_contents(app_path().'/../files/'.$this->comprobante->getName().'.xml', $xml);
+
+        $this->domXml = new \DOMDocument();
+        $this->domXml->loadXML($xml);
+        return $this->getResumenFirma();
     }
 
+    /**
+     * Cargar el certificado si no lo encuentra lo extrae del archivo comprado
+     *
+     * @return void
+     */
     private function cargaCertificado(){
         if(!file_exists(app_path().'/../files/certificado.pem')){
             //cargo el certificado completo
@@ -163,5 +186,20 @@ class Facturacion
             file_put_contents(app_path().'/../files/certificado.pem', $pem);
         }
         $this->manejador->setCertificate(file_get_contents(app_path().'/../files/certificado.pem'));
+    }
+
+    /**
+     * Retorno de datos resumen del xml
+     *
+     * @return array
+     */
+    public function getResumenFirma(){
+        $digestValue = $this->domXml->getElementsByTagName('DigestValue');
+        $signatureValue = $this->domXml->getElementsByTagName('SignatureValue');
+        $datos = array(
+            'DigestValue'       => $digestValue[0]->nodeValue,
+            'SignatureValue'    => $signatureValue[0]->nodeValue
+        );
+        return $datos;
     }
 }

@@ -162,7 +162,7 @@ class FacturacionController extends Controller
         $usuario = $request->session()->get('user');
 
         try{
-            $result = (new Venta())->newVenta([
+            $data_invoice = [
                 'cod_doc'               => $request->input('tipo_doc'),
                 'id_persona'            => $request->input('tipo_doc') == '03' ? $request->input('id_cliente') : 1,
                 'id_empresa'            => $request->input('tipo_doc') == '01' ? $request->input('id_cliente') : 1,
@@ -180,7 +180,10 @@ class FacturacionController extends Controller
                 'fecha_emision'         => date('Y-m-d H:i:s'),
                 'fecha_pago'            => date('Y-m-d H:i:s'),
                 'estado'                => 1
-            ]);
+            ];
+            $result = (new Venta())->newVenta($data_invoice);
+            $data_invoice['num_serie'] = $result[0]->num_serie;
+            $data_invoice['num_documento'] = $result[0]->num_documento;
         }catch(Exception $e){
             return response()->json(['status'=>500,'data'=>[],'message'=>'Error en registrar la venta']);
         }
@@ -207,10 +210,22 @@ class FacturacionController extends Controller
             $i->cod_catalogo = '20001020';
             $i->save();
         }
-        ddd($result,$items);
 
-        $option = 'ventas';
-        $comprobante = $result[0];
-    	return view('ventas.vista',compact('option','comprobante','items'));
+        $facturacion = new \App\Extras\Facturacion();
+        $cliente = explode(' - ',$request->input('cliente')); 
+		$facturacion->setCliente([
+			'tipo_doc_cliente'	=> $request->input('cod_doc') == '03' ?  1 : 6,
+			'nro_identificacion'=> $cliente[0],
+			'nombres'			=> $cliente[1]
+        ]);
+        $facturacion->setInvoice($data_invoice);
+        $facturacion->setItems($items);
+        $res = $facturacion->end();
+
+        
+
+        return response()->json(['status'=>200,'data'=>[
+            'resumen'       => $res
+        ],'message'=>'Registro satisfactorio']);
     }
 }
