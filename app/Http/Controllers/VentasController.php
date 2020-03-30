@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Darryldecode\Cart\Facades\CartFacade as Cart;
+use Greenter\Model\Client\Client;
 use Illuminate\Http\Request;
 
 class VentasController extends Controller
@@ -21,8 +23,11 @@ class VentasController extends Controller
         if (!$request->session()->has('user'))
             return redirect('/');
 
+        \Cart::session($request->session()->getId());
+        $items = \Cart::getContent()->toArray();
+
         $option = 'ventas';
 
-        return view('ventas.nuevos', compact('option'));
+        return view('ventas.nuevos', compact('option', 'items'));
     }
 }

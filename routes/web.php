@@ -9,7 +9,7 @@ Route::get('/logout', 'HomeController@salir')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
 
 /*
- * Rutas para el usuario 
+ * Rutas para el usuario
  */
 Route::post('/consulta-usuario', 'UsuarioController@consultaUsuario')->name('consulta-usuario');
 Route::get('/usuarios', 'UsuarioController@index')->name('usuarios');
@@ -25,6 +25,9 @@ Route::group(['prefix' => 'ventas'], function () {
     Route::get('/nueva-venta', 'VentasController@nuevaVenta')->name('nueva-venta');
     Route::post('/crear-cliente', 'FacturacionController@crearCliente')->name('crear-cliente');
     Route::post('/autocomplete-cliente', 'FacturacionController@autocompleteCliente')->name('autocomplete-cliente');
+    Route::post('/agregar-item', 'FacturacionController@agregarItem')->name('agregar-item');
+    Route::post('/generar', 'FacturacionController@generarVenta')->name('generar-venta');
+    Route::delete('/eliminaitem', 'FacturacionController@quitaItem')->name('quitaItem');
 });
 
 
