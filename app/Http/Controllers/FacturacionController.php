@@ -139,4 +139,34 @@ class FacturacionController extends Controller
 
     }
 
+    public function agregaItem(Request $request){
+        \Cart::session($request->session()->getId());
+        $item = [
+            'id' => sha1($request->input('descripcion')),
+            'name' => $request->input('descripcion'),
+            'price' => $request->input('precio'),
+            'quantity' => $request->input('cantidad'),
+            'attributes' => [
+                'tipo_igv' => $request->input('igv'),
+                'tipo' => $request->input('tipoitem'),
+                'descuento' => $request->input('descuento')
+            ]
+        ];
+        \Cart::add($item);
+        return response()->json(['status'=>200,'data'=>$item,'message'=>'Item agregado correctamente']);
+    }
+
+    public function quitaItem(Request $request){
+        \Cart::session($request->session()->getId());
+        if(\Cart::remove($request->input('idItem')))
+            return response()->json(['status'=>200,'data'=>[],'message'=>'Item Eliminado']);
+        return response()->json(['status'=>202,'data'=>[],'message'=>'Datos no encontrados']);
+    }
+
+    public function generaVenta(Request $request){
+        if(!$request->isMethod('post')){
+            return redirect('/nueva-blade');
+        }
+    }
+
 }

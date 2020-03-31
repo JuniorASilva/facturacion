@@ -16,7 +16,10 @@ class VentasController extends Controller
     public function nuevaVenta(Request $request){
     	if(!$request->session()->has('user'))
 			return redirect('/');
-		$option = 'ventas';
-    	return view('ventas/nueva',compact('option'));
+        \Cart::session($request->session()->getId());
+        //\Cart::clear();
+        $items = \Cart::getContent()->toArray();
+        $option = 'ventas';
+    	return view('ventas/nueva',compact('option','items'));
     }
 }

@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +39,9 @@ Route::get('/ventas','VentasController@index')->name('ventas');
 Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
 Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
 Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
-
+Route::post('/agregaItem','FacturacionController@agregaItem')->name('agregaItem');
+Route::post('/generaventa','FacturacionController@generaVenta')->name('generaventa');
+Route::delete('/eliminaitem','FacturacionController@quitaItem')->name('quitaItem');
 
 /*
  * Rutas Utilitarias
