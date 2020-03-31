@@ -17,12 +17,13 @@ class Empresa extends Model
                 ->where('nroidentificacion',$nro_doc)
                 ->first();
     }*/
+
     public function getClienteAutocomplete($where){
         return DB::table('empresa as e')
                     ->join('identificacion as i','e.id','=','i.id_empresa')
                     ->where('i.id_tipo_identificacion',6)
                     ->where($where)
-                    ->select(DB::raw('e.razon_social as cliente'), 'e.id as id_cliente','i.nroidentificacion')
+                    ->select(DB::raw('e.razon_social AS cliente'),'e.id as id_cliente','i.nroidentificacion')
                     ->get();
     }
 }

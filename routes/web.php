@@ -1,5 +1,5 @@
 <?php
-use Illuminate\Support\Facades\Route;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,12 +36,16 @@ Route::match(['get','post'],'/editar-usuario/{id}','UsuarioController@editarUsua
  * Rutas para Ventas
  */
 Route::get('/ventas','VentasController@index')->name('ventas');
-Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
-Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
-Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
-Route::post('/agregaItem','FacturacionController@agregaItem')->name('agregaItem');
-Route::post('/generaventa','FacturacionController@generaVenta')->name('generaventa');
-Route::delete('/eliminaitem','FacturacionController@quitaItem')->name('quitaItem');
+Route::group(['prefix'=>'ventas'],function(){
+    Route::get('/nueva-venta','VentasController@nuevaVenta')->name('nueva-venta');
+    Route::post('/registro-cliente','FacturacionController@crearCliente')->name('registro-cliente');
+    Route::post('/autocomplete-cliente','FacturacionController@consultaAutocompleteCliente')->name('autocomplete-cliente');
+    Route::post('/agregaitem','FacturacionController@agregaItem')->name('agregarItem');
+    Route::post('/generarventa','FacturacionController@generarventa')->name('generarventa');
+
+    Route::delete('/eliminaitem','FacturacionController@quitaItem')->name('quitaItem');
+});
+
 
 /*
  * Rutas Utilitarias

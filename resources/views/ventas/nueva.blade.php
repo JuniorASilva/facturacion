@@ -6,156 +6,154 @@
                 <div class="card">
                 	<div class="card-header">
                 		<h3>Nueva Venta</h3>
+                	</div>
+                    <div class="card-body">
+						<form method="POST" id="generarventa">
+							<div class="form-horizontal">
+								<div class="row">
+									<div class="col-lg-8 col-md-8 col-sm-8">
+										<label>Cliente</label>
+										<div class="input-group">
+											<input type="text" class="form-control" name="cliente" id="cliente" placeholder="Busque por DNI o Apellidos">
+											<input type="hidden" name="id_cliente" id="id_cliente" value="0">
+											<div class="input-group-append">
+												<button type="button" id="nuevo_cliente" class="btn btn-success" title="Nuevo Cliente" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<label>Tipo Documento</label>
+										<select class="form-control" name="tipo_doc" id="tipo_doc">
+											<option value="03">Boleta</option>
+											<option value="01">Factura</option>
+										</select>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-lg-4 col-md-4 col-sm-4">
+										<label>Fecha</label>
+										<input type="text" name="fecha" class="form-control datepicker" value="{{ date('d/m/Y') }}">
+									</div>
+									<div class="col-lg-8 col-md-8 col-sm-8 ">
+										<label>&nbsp;</label><br>
+										<button type="button" id="agregaItem" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Item</button>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12">
+										<div class="table">
+											<table class="table tabla-items display table-striped table-bordered table-hover center" id="tabla-items">
+												<thead>
+													<tr>
+														<th class="center">#</th>
+														<th class="center">Producto</th>
+														<th class="center">Precio</th>
+														<th class="center">Cantidad</th>
+														<th class="center">Impuesto</th>
+														<th class="center">Total</th>
+														<th class="center">&nbsp;</th>
+													</tr>
+												</thead>
+												<tbody>
+													@foreach ($items as $item)
+														<tr>
+															<td>{{ substr($item['id'],0,5) }}</td>
+															<td>{{ $item['name'] }}</td>
+															<td>{{ $item['price'] }}</td>
+															<td>{{ $item['quantity'] }}</td>
+															<td>{{ $item['attributes']['tipo_igv']==1? number_format($item['price']*$item['quantity']*0.18,2,'.',''):0.00 }}
+															</td>
+															<td>{{ $item['price'] *$item['quantity']}}</td>
+															<td>
+																<div class="btn-group">
+																	<button class="btn btn-danger eliminar" type="button" data-id="{{ $item['id'] }}" title="Eliminar"><i class="fa fa-trash"></i></button>
+																</div>
+															</td>
+														</tr>
+													@endforeach
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4">
+												<span>Op. Gravada</span>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-6">
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4">
+												<span>Op. Inafecta</span>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-6">
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4">
+												<span>Op. Exonerada</span>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-6">
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4">
+												<span>I.G.V.</span>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-6">
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-4 col-md-4 col-sm-4">
+												<span>Total</span>
+											</div>
+											<div class="col-lg-6 col-md-6 col-sm-6">
+												<label class="moneda">S/&nbsp;</label><label>0.00</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6 col-md-6 col-sm-6">
+										<div class="form-group">
+											<label>Moneda</label>
+											<select class="form-control" name="id_moneda" id="id_moneda">
+												<option value="1">Soles</option>
+												<option value="2">Dolares</option>
+												<option value="3">Euros</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<hr>
+								@csrf
+								<div class="row">
+									<div class="col-lg-12 col-md-12 col-sm-12">
+										<div class="btn-group">
+											<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</form>
                     </div>
-                    <form method="POST" action="{{ route('generaventa') }}">
-                        <div class="card-body">
-                            <div class="form-horizontal">
-                                <div class="row">
-                                    <div class="col-lg-8 col-md-8 col-sm-8">
-                                        <label>Cliente</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="cliente" id="cliente" placeholder="Busque por DNI o Apellidos">
-                                            <input type="hidden" name="id_cliente" id="id_cliente" value="0">
-                                            <div class="input-group-append">
-                                                <button type="button" id="nuevo_cliente" class="btn btn-success" title="Nuevo Cliente" data-toggle="tooltip"><i class="fa fa-plus"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                        <label>Tipo Documento</label>
-                                        <select class="form-control" name="tipo_doc" id="tipo_doc">
-                                            <option value="03">Boleta</option>
-                                            <option value="01">Factura</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                        <label>Fecha</label>
-                                        <input type="text" name="fecha" class="form-control datepicker" value="{{ date('d/m/Y') }}">
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-8 ">
-                                        <label>&nbsp;</label><br>
-                                        <button type="button" id="agregaItem" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Item</button>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="table">
-                                            <table class="table display table-striped table-bordered table-hover center" id="tabla-items">
-                                                <thead>
-                                                    <tr>
-                                                        <th class="center">#</th>
-                                                        <th class="center">Producto</th>
-                                                        <th class="center">Precio</th>
-                                                        <th class="center">Cantidad</th>
-                                                        <th class="center">Impuesto</th>
-                                                        <th class="center">Total</th>
-                                                        <th class="center">&nbsp;</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($items as $item)
-                                                        <tr>
-                                                            <td>{{ substr($item['id'],0,5) }}</td>
-                                                            <td>{{ $item['name'] }}</td>
-                                                            <td>{{ $item['price'] }}</td>
-                                                            <td>{{ $item['quantity'] }}</td>
-                                                            <td>{{ $item['attributes']['tipo_igv'] == 1 ? number_format($item['price']*$item['quantity']*0.18,2,'.','') : 0.0 }}</td>
-                                                            <td>{{ $item['price']*$item['quantity'] }}</td>
-                                                            <td>
-                                                                <div class="btn-group">
-													                <button class="btn btn-danger eliminar" type="button" data-id="${d.id}" title="Eliminar">
-														                <i class="fa fa-trash"></i>
-													                </button>
-												                </div>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                                <span>Op. Gravada</span>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label>S/</label><label>0.00</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                                <span>Op. Inafecta</span>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label>S/</label><label>0.00</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                                <span>Op. Exonerada</span>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label>S/</label><label>0.00</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                                <span>I.G.V.</span>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label>S/</label><label>0.00</label>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4">
-                                                <span>Total</span>
-                                            </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label>S/</label><label>0.00</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="form-group">
-                                            <label>Moneda</label>
-                                            <select class="form-control">
-                                                <option value="PEN">Soles</option>
-                                                <option value="DLR">Dolares</option>
-                                                <option value="EUR">Euros</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr>
-                                @csrf
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        <div class="btn-group">
-                                            <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </main>
    	<script type="text/javascript">
-
-       $(document).on("focus",'.datepicker', function(){
+	   $(document).on("focus",'.datepicker', function(){
 		   $(this).datepicker()
 	   })
    		$(function(){
-            var cargaFuncionalidades = function(){
+			var cargaFuncionalidades = function(){
 				$('.tabla-items tbody tr button.eliminar').unbind('click')
 				$('.tabla-items tbody tr button.eliminar').on('click',function(){
 					var row = $(this).closest("tr").get(0)
@@ -210,7 +208,7 @@
 					$('#cliente').attr('placeholder','Busque por RUC o Razon social')
 				}
 			})
-   			var tabla_items = $('#tabla-items').dataTable({
+			var tabla_items = $('#tabla-items').dataTable({
     			"lengthMenu": [[-1,10,15,20,30],["All",10,15,20,30]],
                 /*"columns": [
                     {"width": "10%"},
@@ -228,6 +226,7 @@
                         "previous": "Anterior"
                     },
                     "infoEmpty": "Observando 0 a 0 de 0 registros",
+					"emptyTable": "No hay registros",
                     "info": "Observando página _PAGE_ de _PAGE_",
                     "lengthMenu": "Desplegando _MENU_ registros",
                     "sSearch": "Buscador"
@@ -242,7 +241,7 @@
 						content: function(){
 							var self = this
 							return $.ajax({
-								url: '{{ route("util-documento") }}',
+								url: '{{ route('util-documento') }}',
 								dataType: 'JSON',
 								method: 'POST',
 								data: {
@@ -367,8 +366,7 @@
 				}
 				else{
 					$.confirm({
-                        title: 'Busqueda en SUNAT',
-                        keys: ['enter'],
+						title: 'Busqueda en SUNAT',
 						/* html */
 						content: `
 						<form class="formulario-sunat" id="consulta-sunat">
@@ -393,8 +391,8 @@
 										return false
 									}
 									$.confirm({
-                                        title: 'Resultado',
-                                        columnClass: 'col-lg-10 col-md-10 col-sm-10',
+										title: 'Resultado',
+                                        columnClass: 'col-lg-8 col-md-8 col-sm-8',
 										content: function(){
 											var self2 = this
 											return $.ajax({
@@ -404,60 +402,59 @@
 												//data: self.$content.find('.formulario-sunat').serialize(),
 												data: $('#consulta-sunat').serialize()
 											}).done(function(response){
-												if(response.status != 200){
+                                                if(response.status != 200){
                                                     toastr.error(response.message)
                                                     self2.close()
                                                     return false
                                                 }else{
                                                     var d = response.data
-                                                    //html
-                                                    self2.setContentAppend(
-                                                        `
-                                                        <div class="content">
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <label>RUC</label>
-                                                                </div>
-                                                                <div class="col-lg-8 col-md-8">
-                                                                    <label>${d.ruc}</label>
-                                                                </div>
+                                                    /* html */
+                                                    self2.setContentAppend(`
+                                                    <div class="content" style="margin-right: 0px; margin-left: 0px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <label>RUC</label>
                                                             </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <label>Razón Social</label>
-                                                                </div>
-                                                                <div class="col-lg-8 col-md-8">
-                                                                    <label>${d.razon_social}</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <label>Nombre Comercial</label>
-                                                                </div>
-                                                                <div class="col-lg-8 col-md-8">
-                                                                    <label>${d.nombre_comercial}</label>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <div class="col-lg-4 col-md-4">
-                                                                    <label>Dirección</label>
-                                                                </div>
-                                                                <div class="col-lg-8 col-md-8">
-                                                                    <label>${d.direccion}</label>
-                                                                </div>
+                                                            <div class="col-lg-8 col-md-8">
+                                                                <label>${d.ruc}</label>
                                                             </div>
                                                         </div>
-                                                        `
-                                                    )
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <label>Razon Social</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-md-8">
+                                                                <label>${d.razon_social}</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <label>Nombre Comercial</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-md-8">
+                                                                <label>${d.nombre_comercial}</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-4 col-md-4">
+                                                                <label>Dirección</label>
+                                                            </div>
+                                                            <div class="col-lg-8 col-md-8">
+                                                                <label>${d.direccion}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    `)
                                                 }
+												console.log(response)
 											}).fail(function(error){
 												console.log(error)
 												toastr.error('Error, consulte con su administrador')
 												self2.close()
 											})
-                                        },
+										},
                                         buttons: {
-                                            ok:function(){}
+                                            ok: function(){}
                                         }
 									})
 									/*toastr.success('Consultando')
@@ -469,22 +466,22 @@
 					})
 				}
     		})
-            var autoCompletadoCliente = function(){
+			var autoCompletadoCliente = function(){
                 $('#cliente').autocomplete({
-				serviceUrl: '{{ route("autocomplete-cliente") }}',
-				minChars: 3,
-				dataType: 'JSON',
-				type: 'POST',
-				paramName: 'cliente',
-				params: {
-					cliente: $('#cliente').val(),
-                    cod_doc: $('#tipo_doc').val(),
-					_token: '{{ csrf_token() }}'
-				},
-				onSelect: function(suggestion){
-					$('#id_cliente').val(suggestion.data.id_cliente)
-				}
-			    })
+                    serviceUrl: '{{ route("autocomplete-cliente") }}',
+                    minChars: 3,
+                    dataType: 'JSON',
+                    type: 'POST',
+                    paramName: 'cliente',
+                    params: {
+                        cliente: $('#cliente').val(),
+                        cod_doc: $('#tipo_doc').val(),
+                        _token: '{{ csrf_token() }}'
+                    },
+                    onSelect: function(suggestion){
+                        $('#id_cliente').val(suggestion.data.id_cliente)
+                    }
+                })
             }
             autoCompletadoCliente()
             $('#tipo_doc').on('change',function(){
@@ -496,65 +493,65 @@
                     title: 'Nuevo Item',
                     columnClass: 'col-md-10 col-lg-10 col-sm-10',
                     /*html*/
-                    content:
-                    `
+                    content: `
                     <form>
-                    <div class="row" style="width: 100%;">
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <label>Descripción</label>
-                            <textarea class="form-control" rows="10" id="descripcion" name="descripcion" required></textarea>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <label>Cantidad</label>
-                                    <input class="form-control" id="cantidad" type="number" name="cantidad" value="1" required>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <label>Descripción</label>
+                                <textarea class="form-control" rows="20" id="descripcion" name="descripcion" required></textarea>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label>Cantidad</label>
+                                        <input class="form-control" id="cantidad" type="number" name="cantidad" value="1" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label>Precio</label>
+                                        <input class="form-control" id="precio1" type="number" name="precio" step="0.001" value="0.000" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label>Tipo</label>
+                                        <select class="form-control" id="tipoitem" name="tipoitem">
+                                            <option value="1">Bien</option>
+                                            <option value="0">Servicio</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label>Descuento 0-100%</label>
+                                        <input class="form-control" id="descuento2" name="descuento" placeholder="Ejm. 50%" type="number" value="0" required>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <label>IGV</label>
+                                        <select class="form-control" id="igv" name="igv">
+                                            <option value="1">Gravado</option>
+                                            <option value="2">Exonerado</option>
+                                            <option value="3">Inafecto</option>
+											<option value="4">Exportación</option>
+                                        </select>
+                                    </div>
+                                </div>
+								<br>
+								@csrf
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                        <label>Subtotal: </label>
+                                        <span class="subtotal">0</span>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label>IGV: </label>
+                                        <span class="igv">0</span>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <label>Total: </label>
+                                        <span class="total">0</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <label>Precio</label>
-                                    <input class="form-control" id="precio1" type="number" name="precio" step="0.01" value="0.000" required>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <label>Tipo</label>
-                                    <select class="form-control" id="tipoitem" name="tipoitem">
-                                        <option value="1">Bien</option>
-                                        <option value="0">Servicio</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <label>Descuento 0-100%</label>
-                                    <input class="form-control" id="descuento2" name="descuento" placeholder="Ejm. 50%" type="number" value="0" required>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <label>IGV</label>
-                                    <select class="form-control" id="igvs" name="igv">
-                                        <option value="1">Gravado</option>
-                                        <option value="2">Inafecto</option>
-                                        <option value="3">Exonerado</option>
-                                    </select>
-                                </div>
-                            </div>
-                            @csrf
-                            <br>
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <label>Subtotal: </label>
-                                    <spam class="subtotal">0</spam>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <label>IGV: </label>
-                                    <spam class="igv">0</spam>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                    <label>Total: </label>
-                                    <spam class="total">0</spam>
-                                </div>
-                            </div>
-                        </div>
                         </div>
                     </form>
                     `,
@@ -563,46 +560,104 @@
                             if(!this.$content.find('form').valid()){
                                 toastr.error('Ingrese los datos correctamente')
                                 return false
-                            }
-                            var formData = this.$content.find('form').serialize()
-                            $.confirm({
-                                title: 'Agregando',
-                                content: function(){
-                                    var self = this
-                                    return $.ajax({
-                                        url: '{{ route("agregaItem") }}',
-                                        data: formData,
-                                        method: 'POST',
-                                        dataType: 'JSON'
-                                    }).done(function(response){
-                                        if(response.status == 200){
-                                            var d = response.data
-                                            tabla_items.fnAddData([
-                                                d.id.substring(0,5),
-                                                d.name,
-                                                d.price,
-                                                d.quantity,
-                                                d.attributes.tipo_igv == "1" ? (parseFloat(d.price) * parseInt(d.quantity) * 0.18).toFixed(2) : 0.0,
-                                                (parseFloat(d.price)*parseInt(d.quantity)),
-                                                `<div class="btn-group">
-                                                    <button class="btn btn-danger eliminar" type="button" data-id="${d.id}" title="Eliminar">
-                                                        <i class="fa fa-trash"></i>
-                                                    </button>
-                                                </div>`
-                                            ])
-                                        }
-                                        console.log(response)
-                                    }).fail(function(){
-                                        toastr.error('Error consulte con su administrador')
-                                        self.close()
-                                    })
-                                }
-                            })
+							}
+							var formData = this.$content.find('form').serialize()
+							$.confirm({
+								title: 'Agregando',
+								content: function() {
+									var self = this
+									return $.ajax({
+										url: ' {{ route("agregarItem") }}',
+										data: formData,
+										method: 'POST',
+										dataType: 'JSON'
+									}).done(function(response) {
+										if (response.status == 200) {
+											var d = response.data
+											tabla_items.fnAddData([
+												d.id.substring(0, 5),
+												d.name,
+												d.price,
+												d.quantity,
+												d.attributes.tipo_igv == "1" ? (parseFloat(d.price) * parseInt(d.quantity) * 0.18).toFixed(2) : 0.00,
+												(parseFloat(d.price) * parseInt(d.quantity)),
+												`<div class="btn-group">
+													<button class="btn btn-danger eliminar" type="button" data-id="${d.id}" title="Eliminar">
+														<i class="fa fa-trash"></i>
+													</button>
+												</div>`
+											])
+											cargaFuncionalidades()
+										}
+										self.close()
+										toastr.success(response.message)
+										console.log(response)
+									}).fail(function() {
+										toastr.error(
+											'Error consulte con su administrador'
+											)
+										self.close()
+									})
+								}
+							})
                         },
                         cancelar: function(){}
                     }
                 })
             })
+			$('#id_moneda').on('change',function(){
+				switch ($(this).val()) {
+					case '1':
+						$('label.moneda').html('S/&nbsp;')
+						break;
+
+					case '2':
+						$('label.moneda').html('$&nbsp;')
+						break;
+					
+					case '3':
+						$('label.moneda').html('€&nbsp;')
+						break;
+				
+					default:
+						$('label.moneda').html('S/&nbsp;')
+						break;
+				}
+			})
+			$('#generarventa').on('submit',function(e){
+				e.preventDefault()
+				if($('#id_cliente').val() == '0'){
+					$.alert('Seleccione un cliente valido')
+					return false
+				}
+				$.confirm({
+					title: 'Atención',
+					content: 'Esta seguro de los datos ingresados?',
+					buttons: {
+						si: {
+							btnClass: 'btn-primary',
+							action: function(){
+								$.confirm({
+									title: 'Resultado',
+									content: function(){
+										return $.ajax({
+											url: '{{ route('generarventa') }}',
+											method: 'POST',
+											data: $('#generarventa').serialize(),
+											dataType: 'JSON'
+										}).done(function(response){
+											console.log(response)
+										}).fail(function(){
+											toastr.error('Error consulte con su administrador')
+										})
+									}
+								})
+							}
+						},
+						no: function(){}
+					}
+				})
+			})
    		})
    	</script>
 @endsection
