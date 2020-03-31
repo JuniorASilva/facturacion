@@ -11,6 +11,9 @@ class Venta extends Model
 
     public $timestamps = false;
 
+    protected function getComprobante($num_serie,$num_documento){
+        return $this->where('num_serie',$num_serie)->where('num_documento',$num_documento)->first();
+    }
 
     public function newVenta($data = array()){
         if(count($data) == 0)

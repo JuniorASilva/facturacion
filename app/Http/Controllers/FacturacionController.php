@@ -214,7 +214,7 @@ class FacturacionController extends Controller
         $facturacion = new \App\Extras\Facturacion();
         $cliente = explode(' - ',$request->input('cliente')); 
 		$facturacion->setCliente([
-			'tipo_doc_cliente'	=> $request->input('cod_doc') == '03' ?  1 : 6,
+			'tipo_doc_cliente'	=> $request->input('tipo_doc') == '03' ?  1 : 6,
 			'nro_identificacion'=> $cliente[0],
 			'nombres'			=> $cliente[1]
         ]);
@@ -225,7 +225,25 @@ class FacturacionController extends Controller
         
 
         return response()->json(['status'=>200,'data'=>[
-            'resumen'       => $res
+            'resumen'       => $res,
+            'comprobante'   => [
+                'num_serie'         => $result[0]->num_serie,
+                'num_documento'     => $result[0]->num_documento
+            ],
+            'respuesta'     => [
+                'status'            => $facturacion->getStatusSend(),
+                'mensaje'           => $facturacion->getMensajeRespuesta()
+            ]
         ],'message'=>'Registro satisfactorio']);
     }
+
+    public function cargaXml(Request $request, $comprobante){
+        $c = explode('-',$comprobante);
+        $registroComprobante = Venta::getComprobante($c[0],$c[1]);
+        $location = config('app.empresa.ruc').'-'.$registroComprobante->cod_doc.'-'.$comprobante;
+        $xml = file_get_contents(app_path().'/../files/'.$location.'.xml');
+        return \Response::make($xml, '200')->header('Content-Type', 'text/xml');
+    }
+
+    public function cargarCDR(Request $request, $comprobante){}
 }

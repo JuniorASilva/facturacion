@@ -61,6 +61,20 @@ class Facturacion
      */
     private $domXml;
 
+    /**
+     * Status de envio a sunat
+     *
+     * @var int
+     */
+    private $statusSend;
+
+    /**
+     * Mensaje de respuesta de envio a sunat
+     *
+     * @var String
+     */
+    private $mensajeRespuesta;
+
     public function __construct(){
         $this->manejador = new See();
         $this->cliente = new Client();
@@ -164,6 +178,16 @@ class Facturacion
     public function end(){
         $xml = $this->manejador->getXmlSigned($this->comprobante);
         file_put_contents(app_path().'/../files/'.$this->comprobante->getName().'.xml', $xml);
+        $result = $this->manejador->send($this->comprobante);
+        if (!$result->isSuccess()) {
+            ddd($result);
+            $this->statusSend = 500;
+            $this->mensajeRespuesta = $result->getError();
+        }else{
+            $this->statusSend = 200;
+            $this->mensajeRespuesta = '';
+            file_put_contents(app_path().'/../files/'.'R-'.$this->comprobante->getName().'.zip', $result->getCdrZip());
+        }      
 
         $this->domXml = new \DOMDocument();
         $this->domXml->loadXML($xml);
@@ -201,5 +225,27 @@ class Facturacion
             'SignatureValue'    => $signatureValue[0]->nodeValue
         );
         return $datos;
+    }
+
+    public function createPdf(){
+        
+    }
+
+    /**
+     * Retorna el estado
+     *
+     * @return void
+     */
+    public function getStatusSend(){
+        return $this->statusSend;
+    }
+
+    /**
+     * Retorna el mensaje de resputa
+     *
+     * @return void
+     */
+    public function getMensajeRespuesta(){
+        return $this->mensajeRespuesta;
     }
 }

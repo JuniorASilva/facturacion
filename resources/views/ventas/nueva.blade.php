@@ -624,6 +624,9 @@
 						break;
 				}
 			})
+
+
+			
 			$('#generarventa').on('submit',function(e){
 				e.preventDefault()
 				if($('#id_cliente').val() == '0'){
@@ -637,19 +640,59 @@
 						si: {
 							btnClass: 'btn-primary',
 							action: function(){
+								var self = this
 								$.confirm({
 									title: 'Resultado',
 									content: function(){
+										var self2 = this
 										return $.ajax({
 											url: '{{ route('generarventa') }}',
 											method: 'POST',
 											data: $('#generarventa').serialize(),
 											dataType: 'JSON'
 										}).done(function(response){
+											if(response.status == 200){
+												self2.setContentAppend(`Comprobante Generado ${response.data.comprobante.num_serie}-${response.data.comprobante.num_documento} satisfactoriamente
+												<input type="hidden" class="num_serie" id="num_serie" value="${response.data.comprobante.num_serie}">
+												<input type="hidden" class="num_documento" id="num_documento" value="${response.data.comprobante.num_documento}">`)
+											}
+											else{
+												toastr.error(response.message)
+												self.close()
+											}
 											console.log(response)
 										}).fail(function(){
 											toastr.error('Error consulte con su administrador')
 										})
+									},
+									buttons: {
+										imprimir: {
+											btnClass: 'btn-primary',
+											action: function(){
+												return false
+											}
+										},
+										xml: {
+											btnClass: 'btn-success',
+											action: function(){
+												window.open('{{ route("ventas") }}/carga-xml/'+$('#num_serie').val()+'-'+$('#num_documento').val(),'_blank')
+												return false
+											}
+										},
+										respuesta: {
+											btnClass: 'btn-success',
+											action: function(){
+												window.open('{{ route("ventas") }}/carga-xml/'+$('#num_serie').val()+'-'+$('#num_documento').val(),'_blank')
+												return false
+											}
+										},
+										nuevo: {
+											text: 'Generar nuevo',
+											btnClass: 'btn-warning',
+											action: function(){
+												return false
+											}
+										}
 									}
 								})
 							}
