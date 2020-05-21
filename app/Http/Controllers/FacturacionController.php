@@ -261,18 +261,21 @@ class FacturacionController extends Controller
         $facturacion = new \App\Services\Facturacion();
         $cliente = explode(' - ', $request->input('cliente'));
         $facturacion->setCliente([
-            'tipo_doc_cliente'  => $request->input('cod_doc') == '03' ? 1 : 6,
+            'tipo_doc_cliente'   => $request->input('cod_doc') == '03' ? 1 : 6,
             'nro_identificacion' => $cliente[0],
-            'nombres'           => $cliente[1]
+            'nombres'            => $cliente[1]
         ]);
         $facturacion->setInvoice($data_invoice);
         $facturacion->setItems($items);
-        $facturacion->end();
-        ddd($result, $items);
+        $res = $facturacion->end();
 
-        $option = 'ventas';
-        $comprobante = $result[0];
-        //return view('ventas.vista', compact('topn'));
+        return response()->json(['status' => 200, 'data' => [
+            'resumen'       => $res,
+            'comprobante'   => [
+                'num_serie'         => $result[0]->num_serie,
+                'num_documento'     => $result[0]->num_documento
+            ],
+        ], 'message' => 'Registro satisfactorio']);
     }
 
     public function quitaItem(Request $request)
@@ -281,5 +284,14 @@ class FacturacionController extends Controller
         if (Cart::remove($request->input('idItem')))
             return response()->json(['status' => 200, 'data' => [], 'message' => 'Item Eliminado']);
         return response()->json(['status' => 202, 'data' => [], 'message' => 'Datos no encontrados']);
+    }
+
+    public function cargaXml(Request $request, $comprobante)
+    {
+        $c = explode('-', $comprobante);
+        $registroComprobante = Venta::getComprobante($c[0], $c[1]);
+        $location = config('app.empresa.ruc') . '-' . $registroComprobante->cod_doc . '-' . $comprobante;
+        $xml = file_get_contents(app_path() . '/../files/' . $location . '.xml');
+        return \Response::make($xml, 200)->header('Content-Type', 'text/xml');
     }
 }

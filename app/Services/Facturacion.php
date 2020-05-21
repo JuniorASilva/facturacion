@@ -45,6 +45,12 @@ class Facturacion
     */
     public $manejador;
 
+    /**
+     * Instancia DOM del xml
+     *
+     * @var DOMDocument
+     */
+    private $domXml;
 
     public function __construct()
     {
@@ -121,16 +127,16 @@ class Facturacion
             $sale = new SaleDetail();
             $sale->setCodProducto('P001')
                 ->setUnidad('NIU')
-                ->setCantidad($items['quantity'])
-                ->setDescripcion($items['name'])
-                ->setMtoBaseIgv($items['quantity'] * ($items['price'] - $items['price'] * 0.18))
+                ->setCantidad($item['quantity'])
+                ->setDescripcion($item['name'])
+                ->setMtoBaseIgv($item['quantity'] * ($item['price'] - $item['price'] * 0.18))
                 ->setPorcentajeIgv(18.00) // 18%
-                ->setIgv($items['price'] * 0.18)
-                ->setTipAfeIgv($items['attributes']['tipo_igv'] * 10)
-                ->setTotalImpuestos($items['price'] * 0.18)
-                ->setMtoValorVenta($items['quantity'] * ($items['price'] - $items['price'] * 0.18))
-                ->setMtoValorUnitario($items['price'] - $items['price'] * 0.18)
-                ->setMtoPrecioUnitario($items['price']);
+                ->setIgv($item['price'] * 0.18)
+                ->setTipAfeIgv($item['attributes']['tipo_igv'] * 10)
+                ->setTotalImpuestos($item['price'] * 0.18)
+                ->setMtoValorVenta($item['quantity'] * ($item['price'] - $item['price'] * 0.18))
+                ->setMtoValorUnitario($item['price'] - $item['price'] * 0.18)
+                ->setMtoPrecioUnitario($item['price']);
             array_push($sales, $sale);
         }
         $this->comprobante->setDetails($sales);
@@ -145,6 +151,14 @@ class Facturacion
     {
         $xml = $this->manejador->getXmlSigned($this->comprobante);
         file_put_contents(app_path() . '/../files/' . $this->comprobante->getName() . '.xml', $xml);
+        $result = $this->manejador->send($this->comprobante);
+        if (!$result->isSuccess()) {
+            var_dump('asd');
+        }
+
+        $this->domXml = new \DOMDocument();
+        $this->domXml->loadXML($xml);
+        return $this->getResumenFirma();
     }
     private function cargaCertificado()
     {
@@ -158,5 +172,25 @@ class Facturacion
             file_put_contents(app_path() . '/../files/certificado.pem', $pem);
         }
         $this->manejador->setCertificate(file_get_contents(app_path() . '/../files/certificado.pem'));
+    }
+
+    /**
+     * Retorno de datos resumen del xml
+     *
+     * @return array
+     */
+    public function getResumenFirma()
+    {
+        $digestValue = $this->domXml->getElementsByTagName('DigestValue');
+        $signatureValue = $this->domXml->getElementsByTagName('SignatureValue');
+        $datos = array(
+            'DigestValue'       => $digestValue[0]->nodeValue,
+            'SignatureValue'    => $signatureValue[0]->nodeValue
+        );
+        return $datos;
+    }
+
+    public function createPdf()
+    {
     }
 }
